@@ -1,15 +1,15 @@
-# /vendor
-# /node_modules
-# # /public/hot
-# # /public/storage
+/vendor
+/node_modules
+# /public/hot
+# /public/storage
 # /storage/*.key
 # /storage/framework/sessions
 # /storage/framework/views
 # /storage/framework/cache
-# /.env
-# /.env.*.backup
-# /.vagrant
-# Homestead.json
-# Homestead.yaml
-# npm-debug.log
-# yarn-error.log
+/.env
+/.env.*.backup
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
