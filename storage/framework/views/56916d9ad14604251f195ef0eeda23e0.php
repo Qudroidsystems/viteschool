@@ -72,18 +72,10 @@
                             <li><a href="courses-single.html" class="page-scroll">Course Details</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown"><a href="#blog" class="page-scroll" data-toggle="dropdown" class="dropdown-toggle">Blog <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="blog.html" class="page-scroll"> Blog </a></li>
-                            <li><a href="blog-single.html" class="page-scroll"> Blog Single </a></li>
-                        </ul>
+                    <li class="dropdown"><a href="#blog" class="page-scroll" data-toggle="dropdown" class="dropdown-toggle">School Portal </a>
+                       
                     </li>
-                    <li class="dropdown"><a href="#news" class="page-scroll" data-toggle="dropdown" class="dropdown-toggle">Event <b class="caret"></b></a>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="event-single.html" class="page-scroll">Event Detail</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#contacts" class="page-scroll">Contact</a></li>
+                   
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
