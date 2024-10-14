@@ -79,7 +79,7 @@
                             <li><a href="courses-single.html" class="page-scroll">Course Details</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown"><a href="{{ route('login') }}" class="page-scroll" data-toggle="dropdown" class="dropdown-toggle">School Portal </a>
+                    <li ><a href="{{ route('login') }}" class="page-scroll" >School Portal </a>
                        
                     </li>
                    
