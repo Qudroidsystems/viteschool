@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('parentregistration', function (Blueprint $table) {
+        Schema::table('parentRegistration', function (Blueprint $table) {
             $table->string('mother_occupation')->nullable();
             $table->string('mother_office_address')->nullable();
         });
