@@ -256,6 +256,18 @@
                                                      Settings
                                                     </span>
                                                 </a>
+
+
+                                                <a class="menu-link  <?php echo e(request()->is('student*')
+                                                    ? ' active' : ''); ?>"  href="<?php echo e(route('student.index')); ?>" >
+                                                    <span  class="menu-bullet" >
+                                                        <span class="bullet bullet-dot">
+                                                            </span>
+                                                        </span>
+                                                        <span  class="menu-title" >
+                                                            All Students
+                                                        </span>
+                                                </a>
                                                 <!--end:Menu link-->
                                         </div>
                                             <!--end:Menu item-->
@@ -610,7 +622,7 @@
                             <div  class="menu-item" >
                                 <!--begin:Menu link-->
                                 <a class="menu-link  <?php echo e(request()->is('myresultroom*')
-                                    ? ' active' : ''); ?>"  href="<?php echo e(route('myresultroom.index')); ?>" >
+                                    ? ' active' : ''); ?>"  href="<?php echo e(route('myresultroom.term')); ?>" >
                                     <span  class="menu-bullet" >
                                         <span class="bullet bullet-dot">
                                             </span>

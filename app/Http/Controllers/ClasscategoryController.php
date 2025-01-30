@@ -54,13 +54,13 @@ class ClasscategoryController extends Controller
         $classcategories =  classcategory::where('category',$request->category)
         ->exists();
 
-if($classcategories){
-return redirect()->back()->with('danger', 'Record already exists');
-}else{
+            if($classcategories){
+            return redirect()->back()->with('danger', 'Record already exists');
+            }else{
 
-$input = $request->all();
-Classcategory::create($input);
-return redirect()->back()->with('success', 'Record has been successfully created!');
+            $input = $request->all();
+            Classcategory::create($input);
+            return redirect()->back()->with('success', 'Record has been successfully created!');
 
 }
     }
@@ -110,9 +110,10 @@ return redirect()->back()->with('success', 'Record has been successfully created
     public function updateclasscategory(Request $request)
     {
         $this->Validate($request, [
-            'category' => 'required|numeric',
+           // 'category' => 'required|numeric',
             'ca1score' => 'required|numeric',
             'ca2score' => 'required|numeric',
+            'ca3score' => 'required|numeric',
             'examscore' => 'required|numeric',
 
         ]

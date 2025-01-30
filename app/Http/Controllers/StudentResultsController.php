@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Broadsheet;
-use App\Models\Promotionstatus;
+use App\Models\PromotionStatus;
 use App\Models\Schoolarm;
 use App\Models\Schoolclass;
 use App\Models\Schoolsession;
 use App\Models\Schoolterm;
 use App\Models\Staffclasssetting;
 use App\Models\Studentclass;
-use App\Models\studentpersonalityprofile;
+use App\Models\Studentpersonalityprofile;
 use Illuminate\Http\Request;
 
 class StudentResultsController extends Controller
@@ -179,7 +179,7 @@ class StudentResultsController extends Controller
             ->leftJoin('schoolterm', 'schoolterm.id', '=', 'subjectteacher.termid')
             ->leftJoin('schoolsession', 'schoolsession.id', '=', 'subjectteacher.sessionid')
             ->orderBy('subject', 'ASC')
-            ->get(['broadsheet.id as bid', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.exam as exam', 'studentpicture.picture as picture',
+            ->get(['broadsheet.id as bid', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.ca3 as ca3','broadsheet.exam as exam', 'studentpicture.picture as picture',
                 'broadsheet.total  as total', 'broadsheet.grade as grade', 'schoolterm.term as term', 'schoolsession.session as session',
                 'subject.subject as subject', 'subject.subject_code as subjectcode', 'schoolclass.schoolclass as schoolclass', 'schoolclass.arm as arm',
                 'broadsheet.subjectpositionclass as position', 'broadsheet.remark as remark', 'broadsheet.cmin as cmin', 'broadsheet.cmax as cmax',

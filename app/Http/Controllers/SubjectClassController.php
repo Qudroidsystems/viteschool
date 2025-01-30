@@ -9,7 +9,7 @@ use App\Models\Schoolclass;
 use App\Models\Subjectclass;
 USE App\Models\Broadsheet;
 use App\Models\SubjectRegistrationStatus;
-use App\Models\Subjectteacher;
+use App\Models\SubjectTeacher;
 
 
 class SubjectClassController extends Controller
@@ -36,21 +36,28 @@ class SubjectClassController extends Controller
         $subjectteacher = Subjectteacher::leftJoin('subject', 'subject.id','=','subjectteacher.subjectid')
         ->leftJoin('users', 'users.id','=','subjectteacher.staffid')
         ->leftJoin('staffbioinfo', 'staffbioinfo.userid','=','users.id')
+        ->leftJoin('schoolterm', 'schoolterm.id','=','subjectteacher.termid')
+        ->leftJoin('schoolsession', 'schoolsession.id','=','subjectteacher.sessionid')
         ->get(['subject.id as subjectid','subject.subject as subject', 'subject.subject_code as subjectcode',
-        'subjectteacher.id as id','subjectteacher.staffid as subtid','subjectteacher.subjectid as subid'
-        ,'users.name as teachername','staffbioinfo.title as title'])
+        'subjectteacher.id as id','subjectteacher.staffid as subtid','subjectteacher.subjectid as subid',
+        'schoolterm.term as termname','schoolsession.session as sessionname',
+        'users.name as teachername','staffbioinfo.title as title'])
          ->sortBy('sdesc');
+
 
 
         $subjectclasses = Subjectclass::leftJoin('schoolclass', 'subjectclass.schoolclassid','=','schoolclass.id')
                                       ->leftJoin('subjectteacher', 'subjectteacher.id','=','subjectclass.subjectteacherid')
                                       ->leftJoin('subject', 'subject.id','=','subjectteacher.subjectid')
+                                      ->leftJoin('schoolterm', 'schoolterm.id','=','subjectteacher.termid')
+                                      ->leftJoin('schoolsession', 'schoolsession.id','=','subjectteacher.sessionid')
                                       ->leftJoin('users', 'users.id','=','subjectteacher.staffid')
                                       ->leftJoin('schoolarm', 'schoolarm.id','=','schoolclass.arm')
                                       ->leftJoin('staffpicture', 'staffpicture.staffId','=','subjectteacher.staffid')
                                       ->get(['subjectclass.id as scid','schoolclass.schoolclass as sclass', 'schoolclass.arm as sarm','schoolarm.arm as schoolarm',
                                       'subjectteacher.staffid as subtid','subjectteacher.subjectid as subid','subject.subject_code as subjectcode',
                                       'subject.subject as subjectname','schoolclass.description as sdesc','users.name as teachername',
+                                      'schoolterm.term as termname','schoolsession.session as sessionname',
                                       'subjectclass.updated_at as updated_at','users.avatar as picture','schoolclass.id as did',
                                       'subject.id as subjectid','subjectteacher.id as subteacherid'])
                                        ->sortBy('sdesc');
@@ -93,7 +100,7 @@ class SubjectClassController extends Controller
     public function store(Request $request)
     {
         //
-        $subjectclass = new Subjectclass();
+
         $validator = Validator::make($request->all(), [
             'schoolclassid' => 'required',
             'subjectid' => 'required',
@@ -101,45 +108,51 @@ class SubjectClassController extends Controller
         ],
         ['subjectid.required'=>'Select Subject Teacher!',
         'schoolclassid.required'=>'Select a class Please!',
-        ]
-    );
+        ]);
 
         if ($validator->fails()) {
 
            return redirect()->back()->withErrors($validator)
                                     ->withInput();
 
-        } else{
-        $subjectclass->schoolclassid = $request->schoolclassid;
-        $subjectclass->subjectid = "none";
-        $subjectclass->subjectteacherid = $request->subjectid;
-
-        //check if the record exists...
-
-        $subjectclasscheck = Subjectclass::where('schoolclassid',$request->schoolclassid)
-                                               ->where('subjectid','none')
-                                               ->where('subjectteacherid',$request->subjectid)
-                                                ->exists();
-        if ($subjectclasscheck){
-
-
-            return redirect()->route('subjectclass.index')
-                              ->with('danger', 'Ooops! Record already exist!');
-          }else{
-             $subjectclass->save();
-            if($subjectclass != null){
-
-           return redirect()->route('subjectclass.index')
-                             ->with('success', 'Subject has been assigned to the class Successfully!');
-
-         }else{
-
-            redirect()->route('subjectclass.index')
-                       ->with('status', 'Something went wrong!');
-         }
         }
+        else{
 
-    }
+
+
+                       // for ($i=1; $i < 4 ; $i++) {
+                                //check if the record exists...
+                                $subjectclasscheck = Subjectclass::where('schoolclassid',$request->schoolclassid)
+                                                                    ->where('subjectid','none')
+                                                                    ->where('subjectteacherid',$request->subjectid)
+                                                                    ->exists();
+
+                                if ($subjectclasscheck){
+                                        return redirect()->route('subjectclass.index')
+                                                    ->with('danger', 'Ooops! Record already exist!');
+                                }
+                                else{
+
+                                        $subjectclass = new Subjectclass();
+                                        $subjectclass->schoolclassid = $request->schoolclassid;
+                                        $subjectclass->subjectid = "none";
+                                        $subjectclass->subjectteacherid = $request->subjectid;
+                                        $subjectclass->save();
+                                        if($subjectclass != null){
+
+                                            return redirect()->route('subjectclass.index')
+                                                        ->with('success', 'Subject has been assigned to the class Successfully!');
+
+                                        }else{
+
+                                            return redirect()->route('subjectclass.index')
+                                                        ->with('status', 'Something went wrong!');
+                                            }
+                                }
+
+                        //  }
+
+             }
     }
     /**
      * Display the specified resource.

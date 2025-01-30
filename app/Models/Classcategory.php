@@ -15,6 +15,7 @@ class Classcategory extends Model
        'category',
        'ca1score',
        'ca2score',
+       'ca3score',
        'examscore',
     ];
 }

@@ -28,11 +28,11 @@
             </div>
         @endif
         @if (\Session::has('danger'))
-        <div class="alert alert-danger alert-dismissible">
-         <button type="button" class="close" data-dismiss="alert"></button>
-             <p>{{ \Session::get('danger') }}</p>
-         </div>
-     @endif
+            <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert"></button>
+                <p>{{ \Session::get('danger') }}</p>
+            </div>
+        @endif
 
 
     </div>

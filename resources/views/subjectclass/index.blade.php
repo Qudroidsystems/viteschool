@@ -74,7 +74,7 @@
 
                     <div id="kt_app_content" class="app-content  flex-column-fluid " >
                         <!--begin::Content container-->
-                        <div id="kt_app_content_container" class="app-container  container-xxl ">
+                        <div id="kt_app_content_container" class="app-container  ">
 
                    <!--begin::Toolbar-->
                         <div class="d-flex flex-wrap flex-stack my-5">
@@ -172,7 +172,7 @@
                                                                                         <option value="" selected>Select Subject </option>
                                                                                         @foreach ($subjectteacher as $subject => $name )
                                                                                          <option value="{{$name->id}}">{{ $name->subject}} &nbsp; &nbsp;&nbsp; {{ $name ->subjectcode}}
-                                                                                            .................................( {{ $name->title }} {{ $name->teachername }})</option>
+                                                                                            ......By {{ $name->title }} {{ $name->teachername }} For <span style="color: green"> {{ $name ->termname }}</span></option>
                                                                                         @endforeach
                                                                                     </select>
                                                                                     <!--end::Input-->
@@ -281,6 +281,8 @@
                     <th class="min-w-125px">Subject</th>
                     <th class="min-w-125px">Class</th>
                     <th class="min-w-125px">Arm</th>
+                    <th class="min-w-125px">Term</th>
+                    <th class="min-w-125px">Session</th>
                     <th class="min-w-125px">Date Updated</th>
                     <th class="min-w-100px">Actions</th>
                 </tr>
@@ -327,6 +329,8 @@
                         <td >{{ $sc->subjectname }}</td>
                         <td >{{ $sc->sclass }} </td>
                         <td >{{ $sc->schoolarm }}</td>
+                        <td >{{ $sc->termname }}</td>
+                        <td >{{ $sc->sessionname }}</td>
                         <td >{{ $sc->updated_at }} </td>
                         <td >
                             <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">

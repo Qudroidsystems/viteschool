@@ -1,163 +1,173 @@
 @extends('layouts.master')
 @section('content')
 
-     <!-- Start Page title and tab -->
-     <div class="section-body">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center ">
-                <div class="header-action">
-                    <h1 class="page-title">School</h1>
-                    <ol class="breadcrumb page-breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Student</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Student</li>
-                    </ol>
-                </div>
-                <ul class="nav nav-tabs page-header-tab">
+            <!--begin::Main-->
+            <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
+                <!--begin::Content wrapper-->
+                <div class="d-flex flex-column flex-column-fluid">
 
-                        <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#student"></a></li>
+                <!--begin::Toolbar-->
+                <div id="kt_app_toolbar" class="app-toolbar  py-3 py-lg-6 ">
 
+                            <!--begin::Toolbar container-->
+                        <div id="kt_app_toolbar_container" class="app-container  container-xxl d-flex flex-stack ">
 
-
-                    <li class="nav-item"><a class="nav-link" id="Library-tab-Boot" data-toggle="tab" href="#student-add"> </a></li>
-
-
-                        <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#classsubject"></a></li>
+                            <!--begin::Page title-->
+                            <div  class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
+                                <!--begin::Title-->
+                                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
+                               Student Picture Upload
+                                        </h1>
+                                <!--end::Title-->
 
 
-                    @can('add-student-image')
-                    <li class="nav-item"><a class="nav-link" id="Library-tab-Boot" data-toggle="tab" href="#student-add">Upload Image </a></li>
-                    @endcan
+                                    <!--begin::Breadcrumb-->
+                                    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                                                        <!--begin::Item-->
+                                                        <li class="breadcrumb-item text-muted">
+                                                            <a href="{{ route('student.index') }}" class="text-muted text-hover-primary">Student  </a>
+                                                                        </li>
+                                                            <!--end::Item-->
+                                                                <!--begin::Item-->
+                                                <li class="breadcrumb-item">
+                                                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                                                </li>
+                                                <!--end::Item-->
 
-                        <li class="nav-item"><a class="nav-link " data-toggle="tab" href="#classsubject"></a></li>
+                                                        <!--begin::Item-->
+                                                                <li class="breadcrumb-item text-muted">Student Picture Upload</li>
+                                                            <!--end::Item-->
 
-
-
-                    <li class="nav-item"><a class="nav-link" id="Library-tab-Boot" data-toggle="tab" href="#student-add"> </a></li>
-
-                </ul>
-            </div>
-        </div>
-        @if (\Session::has('status'))
-           <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert"></button>
-                <p>{{ \Session::get('status') }}</p>
-            </div>
-        @endif
-        @if (\Session::has('success'))
-           <div class="alert alert-success alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert"></button>
-                <p>{{ \Session::get('success') }}</p>
-            </div>
-        @endif
-        @if (\Session::has('danger'))
-        <div class="alert alert-danger alert-dismissible">
-         <button type="button" class="close" data-dismiss="alert"></button>
-             <p>{{ \Session::get('danger') }}</p>
-         </div>
-     @endif
-
-     @if (count($errors) > 0)
-     <div class="alert alert-success alert-dismissible">
-         <button type="button" class="close" data-dismiss="alert"></button>
-         <strong>Opps!</strong> Something went wrong, please check where you  add data .<br><br>
-         <ul>
-             @foreach ($errors->all() as $error)
-                 <li>{{ $error }}</li>
-             @endforeach
-         </ul>
-     </div>
- @endif
-    </div>
-    <div class="section-body mt-4">
-        <div class="container-fluid">
-            <div class="tab-content">
+                                                </ul>
+                                    <!--end::Breadcrumb-->
+                                </div>
+                            <!--end::Page title-->
+                                @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
 
 
-                <a class="btn btn-primary" href="{{ route('student.index') }}"> Back </a>
-                <div class="tab-pane active" id="student">
-                    <div class="card">
-                        <div class="card-body">
-                            <form action="{{ route('studentImageUpload.store') }}" method="POST" enctype="multipart/form-data">
 
-                                @csrf
-                                    <input type="hidden" name="id" value=" {{ $picture->studentid }}">
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label">Profile Picture</label>
-                                    <div class="col-md-9">
-                                        <input  type="file" name="image" class="dropify">
 
+                                @if (\Session::has('status'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                {{ \Session::get('status') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                @endif
+                                @if (\Session::has('success'))
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ \Session::get('success') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                                @endif
+
+                                <!--begin::Actions-->
+<div class="d-flex align-items-center gap-2 gap-lg-3">
+
+
+<!--begin::Secondary button-->
+
+
+<!--begin::Primary button-->
+    <a href="{{ route('student.index') }}" class="btn btn-sm fw-bold btn-primary" >
+    << Back        </a>
+<!--end::Primary button-->
+</div>
+<!--end::Actions-->
+                            </div>
+                            <!--end::Toolbar container-->
+                        </div>
+                    <!--end::Toolbar-->
+
+
+        <div id="kt_app_content" class="app-content  flex-column-fluid " >
+            <!--begin::Content container-->
+
+        <!--begin::Content container-->
+        <div id="kt_app_content_container" class="app-container  container-xxl ">
+           <form id="kt_ecommerce_add_category_form" class="form d-flex flex-column flex-lg-row"
+                  action="{{ route('studentImageUpload.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="id" value=" {{ $picture->studentid }}">
+                                <!--begin::Main column-->
+                                <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+                                    <!--begin::General options-->
+                            <div class="card card-flush py-4">
+                                <!--begin::Card header-->
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <h2>Student Picture Upload</h2>
                                     </div>
                                 </div>
+                                <!--end::Card header-->
 
-                                <div class="form-group row">
-                                    <label class="col-md-3 col-form-label"></label>
-                                    <div class="col-md-7">
-                                        <button type="submit" class="btn btn-primary">Upload picture</button>
+                                <!--begin::Card body-->
+                                <div class="card-body pt-0">
 
+                                    <div class="row mb-6">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">Profile Picture Upload</label>
+                                        <!--end::Label-->
+
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8">
+                                            <!--begin::Row-->
+                                            <div class="row">
+                                                <!--begin::Col-->
+                                                <div class="col-lg-6 fv-row">
+                                                    <input type="file" name="image" class="dropify form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Batch Title"  required />
+                                                </div>
+                                                <!--end::Col-->
+                                            </div>
+                                            <!--end::Row-->
+                                        </div>
+                                        <!--end::Col-->
                                     </div>
-                                 </div>
-                            </form>
-
-
-                        </div>
-                    </div>
-                </div>
+                                    <!--end::Input group-->
 
 
 
 
+                                                </div>
+                                                <!--end::Card header-->
 
-            </div>
+                                                <div class="d-flex justify-content-end">
+                                                    <!--begin::Button-->
+                                                    <a href="products.html" id="kt_ecommerce_add_product_cancel" class="btn btn-light me-5">
+                                                    Cancel
+                                                </a>
+                                                <!--end::Button-->
+
+                                                <!--begin::Button-->
+                                                <button type="submit" id="kt_ecommerce_add_category_submit" class="btn btn-primary">
+                                                    <span class="indicator-label">
+                                                        Proceed
+                                                    </span>
+                                                    <span class="indicator-progress">
+                                                        Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                </button>
+                                                <!--end::Button-->
+                                            </div>
+                                            </div>
+                                            <!--end::General options-->
+
+                                                </div>
+                                                <!--end::Main column-->
+                </form>
+ </div>
+
+            <!--end::Content container-->
         </div>
-    </div>
+                <!--end::Content-->
 
 
-    <script>
-
-        function check(id){
-
-            var id = id;
-            var spinner = $('#loader');
-
-          Swal.fire({
-          title: 'Are you sure?',
-          text: "Deleting this record will affect other associated records (e.g Any Record where this Class Subject is featured)",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            spinner.show();
-            $.ajax({
-
-                url: 'ajaxsubclass/'+id,
-                async: false,
-                type: "DELETE",
-                cache: false,
-                data:{
-                    _token:'{{ csrf_token() }}',
-                   id: id
-                },
-                dataType: 'JSON',
-
-            }).done(function(resp) {
-          spinner.hide();
-
-            });
-            Swal.fire(
-              'Deleted!',
-              'This Record is now  Deleted. You can Check Other Records to make neccessary Editing!',
-              'success'
-            )
-
-            var myobj = document.getElementById("sid"+id);
-             myobj.remove();
-
-          }
-        })
-
-        }
-        </script>
-    @endsection
+@endsection

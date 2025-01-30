@@ -28,8 +28,8 @@ use App\Http\Controllers\ParentController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SchoolArmController;
-use App\Http\Controllers\SchoolBIllController;
-use App\Http\Controllers\SchoolBIllTermSessionController;
+use App\Http\Controllers\SchoolBillController;
+use App\Http\Controllers\SchoolBillTermSessionController;
 use App\Http\Controllers\SchoolClassController;
 use App\Http\Controllers\SchoolHouseController;
 use App\Http\Controllers\SchoolPaymentController;
@@ -140,6 +140,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('studentImageUpload', StudentImageUploadController::class);
     Route::resource('myclass', MyClassController::class);
     Route::resource('mysubject', MySubjectController::class);
+
+    Route::get('term_results', [MyresultroomController::class, 'term'])->name('myresultroom.term');
+  
     Route::resource('myresultroom', MyresultroomController::class);
     Route::resource('studentresults', StudentResultsController::class);
     Route::resource('subjectscoresheet', MyScoreSheetController::class);

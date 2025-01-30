@@ -48,13 +48,34 @@ class SubjectTeacherController extends Controller
         ->get(['users.id as userid','users.name as name','users.avatar as avatar']);
 
 
-        $subjectteachers = SubjectTeacher::leftJoin('users', 'users.id','=','subjectteacher.staffid')
-        ->leftJoin('subject', 'subject.id','=','subjectteacher.subjectid')
-        ->leftJoin('schoolterm', 'schoolterm.id','=','subjectteacher.termid')
-        ->leftJoin('schoolsession', 'schoolsession.id','=','subjectteacher.sessionid')
-        ->get(['subjectteacher.id as id','users.id as userid','users.name as staffname','users.avatar as avatar','subject.subject as subjectname',
-        'subject.subject_code as subjectcode',
-        'schoolterm.term as termname','schoolsession.session as sessionname','subjectteacher.updated_at as date']);
+        // $subjectteachers = SubjectTeacher::leftJoin('users', 'users.id','=','subjectteacher.staffid')
+        // ->leftJoin('subject', 'subject.id','=','subjectteacher.subjectid')
+        // ->leftJoin('schoolterm', 'schoolterm.id','=','subjectteacher.termid')
+        // ->leftJoin('schoolsession', 'schoolsession.id','=','subjectteacher.sessionid')
+        // ->get(['subjectteacher.id as id','users.id as userid','users.name as staffname','users.avatar as avatar','subject.subject as subjectname',
+        // 'subject.subject_code as subjectcode',
+        // 'schoolterm.term as termname','schoolsession.session as sessionname','subjectteacher.updated_at as date']);
+
+
+        $subjectteachers = SubjectTeacher::leftJoin('users', 'users.id', '=', 'subjectteacher.staffid')
+            ->leftJoin('subject', 'subject.id', '=', 'subjectteacher.subjectid')
+           //->leftJoin('schoolterm', 'schoolterm.id', '=', 'subjectteacher.termid')
+            ->leftJoin('schoolsession', 'schoolsession.id', '=', 'subjectteacher.sessionid')
+            ->selectRaw('subjectteacher.subjectid, subjectteacher.sessionid,
+                        GROUP_CONCAT(DISTINCT users.id) as userids,
+                        GROUP_CONCAT(DISTINCT users.name SEPARATOR ", ") as staffnames,
+                        GROUP_CONCAT(DISTINCT users.avatar SEPARATOR ", ") as avatars,
+                        subject.subject as subjectname, subject.subject_code as subjectcode,
+                        schoolsession.session as sessionname,
+                        COUNT(subjectteacher.id) as id,
+                        MAX(subjectteacher.updated_at) as date')
+            ->groupBy('subjectteacher.subjectid',
+                        'subjectteacher.sessionid',
+                        'subject.subject',
+                        'subject.subject_code',
+                        'schoolsession.session')
+            ->get();
+
 
     return view('subjectteacher.index')->with('subjectteacher',$subjectteachers)
                     ->with('success', 'Welcome To Subject Teacher Management Account')
@@ -95,51 +116,57 @@ class SubjectTeacherController extends Controller
     public function store(Request $request)
     {
         //
+        echo $request->termid;
 
-        $subt = new SubjectTeacher();
-        $validator = Validator::make($request->all(), [
-            'staffid' => 'required',
-            'subjectid' => 'required',
-            'termid' => 'required',
-            'sessionid'=>'required',
-        ],
-        ['staffid.required'=>'Select Subject Teacher!',
-        'subjectid.required'=>'Select a subject Please!',
-        'termid.required'=>'Select School Term',
-        'session.required'=>'Select School Session!',
-        ]
-    );
-    if ($validator->fails()) {
+            $validator = Validator::make($request->all(), [
+                'staffid' => 'required',
+                'subjectid' => 'required',
+                'termid' => 'required',
+                'sessionid'=>'required',
+            ],
+            ['staffid.required'=>'Select a Subject Teacher!',
+            'subjectid.required'=>'Select a subject !',
+            'termid.required'=>'Select School Term',
+            'session.required'=>'Select School Session!',
+            ]
+                );
+                if ($validator->fails()) {
 
-        return redirect()->back()->withErrors($validator)
-                                 ->withInput();
+                    return redirect()->back()->withErrors($validator)
+                                            ->withInput();
 
-     }
-
-     $subjectteachercheck = Subjectteacher::where('staffid',$request->staffid)
-                                        ->where('subjectid',$request->subjectid)
-                                        ->where('termid',$request->termid)
-                                        ->where('sessionid',$request->sessionid)
-                                        ->exists();
-        if ($subjectteachercheck){
-
-            return redirect()->back()->with('danger', 'Ooops! Record already exist!');
-          }else{
-
-            $input = $request->all();
-
-            Subjectteacher::create($input);
+                }
 
 
-            if($subt != null){
 
-           return redirect()->back()->with('success', 'Subject Teacher has been created Successfully!');
+            for ($i = 1; $i < 4; $i++) {
+                // Check if the record already exists for this staff, subject, term, and session
+                $subjectteachercheck = Subjectteacher::where('staffid', $request->staffid)
+                    ->where('subjectid', $request->subjectid)
+                    ->where('termid', $i) // Include the term in the check
+                    ->where('sessionid', $request->sessionid)
+                    ->exists();
 
-         }else{
+                if ($subjectteachercheck) {
+                    // Return an error if the record already exists for any term
+                    return redirect()->back()->with('danger', "Ooops! Record already exists for term ID: $i!");
+                }
 
-            return redirect()->back()->with('status', 'Something went wrong!');
-         }
-        }
+                // Create a new SubjectTeacher instance if the record doesn't exist
+                $subt = new SubjectTeacher();
+                $subt->staffid = $request->staffid;
+                $subt->subjectid = $request->subjectid;
+                $subt->termid = $i; // Current term ID from the loop
+                $subt->sessionid = $request->sessionid;
+                $subt->save();
+
+
+
+            }
+
+            // Return a success message
+            return redirect()->back()->with('success', 'Subject Teacher has been created successfully!');
+
 
     }
 

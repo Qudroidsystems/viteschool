@@ -15,6 +15,13 @@ var KTUsersUpdatePermissions = function () {
             form,
             {
                 fields: {
+                    'update_category': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Class Category is required'
+                            }
+                        }
+                    },
                     'update_ca1score': {
                         validators: {
                             notEmpty: {
@@ -26,6 +33,13 @@ var KTUsersUpdatePermissions = function () {
                         validators: {
                             notEmpty: {
                                 message: 'CA 2 Score  is required'
+                            }
+                        }
+                    },
+                    'update_ca3score': {
+                        validators: {
+                            notEmpty: {
+                                message: 'CA 3 Score  is required'
                             }
                         }
                     },
@@ -199,36 +213,43 @@ KTUtil.onDOMContentLoaded(function () {
 });
 
 function check() {
-
-
     var txtFirsttextValue= 0;
     var txtSecondtextValue = 0;
+    var txtThirdtextValue = 0;
     var txtExamtextValue = 0;
     var result = 0;
     var total = 0;
 
         var txtFirsttextValue = document.getElementById('update_ca1score').value;
         var txtSecondtextValue = document.getElementById('update_ca2score').value;
+        var txtThirdtextValue = document.getElementById('update_ca3score').value;
         var txtExamtextValue = document.getElementById('update_examscore').value;
 
-        if(isNaN(txtFirsttextValue) || txtExamtextValue == ""){
+        if(isNaN(txtFirsttextValue)){
             alert("First CA  is not a digit please");
             return false;
         }
 
-        if(isNaN(txtSecondtextValue) ||txtSecondtextValue== "" ){
+        if(isNaN(txtSecondtextValue) ){
             alert("Second CA is not a digit please");
             return false;
         }
 
-        if(isNaN(txtExamtextValue) || txtExamtextValue == ""){
+        if(isNaN(txtThirdtextValue) ){
+            alert("Third CA is not a digit please");
+            return false;
+        }
+
+        if(isNaN(txtExamtextValue)){
             alert("Exam score is not a digit please");
             return false;
         }
 
         var result = parseFloat(txtFirsttextValue) +
                      parseFloat(txtSecondtextValue) +
+                     parseFloat(txtThirdtextValue) +
                      parseFloat(txtExamtextValue) ;
+
         total = parseFloat(result);
 
         if (!isNaN(result)) {
@@ -252,10 +273,12 @@ $(function () {
     $(".sel-house").click(function () {
       //FINDING ELEMENTS OF ROWS AND STORING THEM IN VARIABLES
     var id = $(this).parents("tr").find("#tid").val();
+    var cat = $.trim($(this).parents("tr").find(".classcategory").text());
     var a = $.trim($(this).parents("tr").find(".ca1score").text());
     var b = $.trim($(this).parents("tr").find(".ca2score").text());
+    var b2 = $.trim($(this).parents("tr").find(".ca3score").text());
     var c = $.trim($(this).parents("tr").find(".examscore").text());
- 
+
 
 
 
@@ -269,12 +292,18 @@ $(function () {
         +'<input type="hidden"  name="id" value="'+id+'" />'
 
 
+        +'<div class="fv-row mb-7">'
+
+        +'<label class="required fw-semibold fs-6 mb-2">Class Category</label>'
+
+        +'<input type="text" name="category" id="update_category" value="'+cat+'" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="check()"  required  />'
+
+        +'</div>'
+
 
         +'<div class="fv-row mb-7">'
 
         +'<label class="required fw-semibold fs-6 mb-2">CA 1 Score</label>'
-
-
 
         +'<input type="text" name="ca1score" id="update_ca1score" value="'+a+'" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="check()"  required  />'
 
@@ -286,19 +315,20 @@ $(function () {
         +' <div class="fv-row mb-7">'
 
         +'<label class="required fw-semibold fs-6 mb-2">CA 2 Score</label>'
-
-
-
         +'<input type="text" name="ca2score" id="update_ca2score" value="'+b+'" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="check()" required   />'
 
         +'</div>'
 
+
         +' <div class="fv-row mb-7">'
 
+        +'<label class="required fw-semibold fs-6 mb-2">CA 3 Score</label>'
+        +'<input type="text" name="ca3score" id="update_ca3score" value="'+b2+'" class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="check()" required   />'
+        +'</div>'
+
+
+        +' <div class="fv-row mb-7">'
         +'<label class="required fw-semibold fs-6 mb-2">Exam Score</label>'
-
-
-
         +'<input type="text" name="examscore" id="update_examscore" value="'+c+'" class="form-control form-control-solid mb-3 mb-lg-0"  onkeyup="check()" required   />'
 
         +'</div>'

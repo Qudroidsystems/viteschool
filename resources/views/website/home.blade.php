@@ -63,7 +63,7 @@
             <div class="navbar-header page-scroll">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse"> <span class="sr-only">Toggle navigation</span> <span class="xs-menu-bar"></span> <span class="xs-menu-bar"></span> <span class="xs-menu-bar"></span> </button>
                 <h1 id="logo">
-                    <a class="navbar-brand page-scroll" href="#page-top"><img alt="" class="ls-bg" src="{{asset('website/images/logo.png')}}"></a>
+                    {{-- <a class="navbar-brand page-scroll" href="#page-top"><img alt="" class="ls-bg" src="{{asset('website/images/logo.png')}}"></a> --}}
                 </h1>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -72,17 +72,17 @@
                     <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
                     <li><a href="#page-top" class="page-scroll">Home</a></li>
                     <li><a href="#about" class="page-scroll">About</a></li>
-                    <li><a href="#team" class="page-scroll">Professor</a></li>
+                    {{-- <li><a href="#team" class="page-scroll">Professor</a></li> --}}
                     <li><a href="#gallery" class="page-scroll">Gallery</a></li>
-                    <li class="dropdown"><a href="#course" class="page-scroll" data-toggle="dropdown" class="dropdown-toggle">Course <b class="caret"></b></a>
+                    {{-- <li class="dropdown"><a href="#course" class="page-scroll" data-toggle="dropdown" class="dropdown-toggle">Course <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a href="courses-single.html" class="page-scroll">Course Details</a></li>
                         </ul>
-                    </li>
+                    </li> --}}
                     <li ><a href="{{ route('login') }}" class="page-scroll" >School Portal </a>
-                       
+
                     </li>
-                   
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -97,16 +97,16 @@
             <section class="section padding-off">
                 <div id="layerslider-container">
                     <div id="layerslider">
-                        <div class="ls-slide" style="slidedirection: left; durationin: 1500; durationout: 1500; easingin: easeInOutQuint; timeshift: -500;"> <img alt="" class="ls-bg" src="{{ asset('website/images/layerslider/slider-1.jpg')}}">
+                        <div class="ls-slide" style="slidedirection: left; durationin: 1500; durationout: 1500; easingin: easeInOutQuint; timeshift: -500;"> <img alt="" class="ls-bg" src="{{ asset('website/images/layerslider/trinity_bg1.jpg')}}">
                             <h1 class="ls-s2 align-center" style="top: 43%; left: 130px; slidedirection : top; slideoutdirection : fade; scaleout : 0.75; durationin : 2000; durationout : 1000; easingin : easeInOutQuint; easingout : easeInOutQuint;">
-                                Welcome To Trinity comprehensive 
+                                Trinity comprehensive
                             </h1>
                             <h1 class="ls-s2 align-center" style="top: 57%; left: 380px; slidedirection : bottom; slideoutdirection : fade; scaleout : 0.75; durationin : 2000; durationout : 1000; easingin : easeInOutQuint; easingout : easeInOutQuint;">
-                               International School
+                               Int'l School
                             </h1>
                         </div>
                         <!--/ .ls-layer-->
-                        <div class="ls-slide" style="slidedirection: right; durationin: 1500; durationout: 1500; easingin: easeInOutQuint; timeshift: -500;"> <img alt="" class="ls-bg" src="{{ asset('website/images/layerslider/slider-2.jpg')}}">
+                        <div class="ls-slide" style="slidedirection: right; durationin: 1500; durationout: 1500; easingin: easeInOutQuint; timeshift: -500;"> <img alt="" class="ls-bg" src="{{ asset('website/images/layerslider/trinity_bg2.jpg')}}">
                             <h1 class="ls-s2 align-center" style="top: 43%; left: 180px; slidedirection : top; slideoutdirection : fade; scaleout : 0.75; durationin : 2000; durationout : 1000; easingin : easeInOutQuint; easingout : easeInOutQuint;">
                                 We really love
                             </h1>
@@ -115,7 +115,7 @@
                             </h1>
                         </div>
                         <!--/ .ls-layer-->
-                        <div class="ls-slide" style="slidedirection: right; durationin: 1500; durationout: 1500; easingin: easeInOutQuint; timeshift: -500;"> <img alt="" class="ls-bg" src="{{ asset('website/images/layerslider/slider-3.jpg')}}">
+                        <div class="ls-slide" style="slidedirection: right; durationin: 1500; durationout: 1500; easingin: easeInOutQuint; timeshift: -500;"> <img alt="" class="ls-bg" src="{{ asset('website/images/layerslider/trinity_bg3.jpg')}}">
                             <h1 class="ls-s2 align-center" style="top: 43%; left: 360px; slidedirection : top; slideoutdirection : fade; scaleout : 0.75; durationin : 2000; durationout : 1000; easingin : easeInOutQuint; easingout : easeInOutQuint;">
                                 and do
                             </h1>
@@ -140,7 +140,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <hgroup class="slogan align-center opacity ">
-                                <h1>Welcome <span>ICRA University</span> </h1>
+                                <h1>Welcome <span>TCI School, Ondo</span> </h1>
                                 <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2>
                             </hgroup>
                         </div>
@@ -148,7 +148,7 @@
                     <!--/ .row-->
                     <div class="row">
                         <div class="col-md-7 opacity ">
-                            <p> <img src="{{ asset('website/images/temp/university.jpg')}}" alt="" /> </p>
+                            <p> <img src="{{ asset('website/images/temp/trinity_bg3.jpg')}}" alt="" /> </p>
                         </div>
                         <!--/ .col-md-6-->
                         <div class="col-md-5">
@@ -208,7 +208,7 @@
         <!--  end About   -->
 
         <!--  Professor   -->
-        <section id="team" class="page">
+        {{-- <section id="team" class="page">
             <section class="section bg-gray-color">
                 <div class="container">
                     <div class="row">
@@ -338,11 +338,11 @@
                 <!--/ .container-->
             </section>
             <!--/ .section-->
-        </section>
+        </section> --}}
         <!--  end Professor   -->
 
         <!--  Gallery   -->
-        <section id="gallery" class="page">
+        {{-- <section id="gallery" class="page">
             <section class="section padding-bottom-off">
                 <div class="container">
                     <div class="row">
@@ -530,11 +530,11 @@
                 <!--/ .portfolio-items-->
             </section>
             <!--/ .section-->
-        </section>
+        </section> --}}
         <!--  end Gallery   -->
 
         <!--  Course   -->
-        <section id="course" class="page course-wrap">
+        {{-- <section id="course" class="page course-wrap">
             <section class="section course-header">
                 <div class="container">
                     <div class="row">
@@ -1312,11 +1312,11 @@
                 </div>
             </section>
             <!--/ .section-->
-        </section>
+        </section> --}}
         <!--  end Course   -->
 
         <!--  Blog   -->
-        <section id="blog" class="page">
+        {{-- <section id="blog" class="page">
             <section class="section bg-gray-color">
                 <div class="container">
                     <div class="row">
@@ -1486,11 +1486,11 @@
                 <!--/ .container-->
             </section>
             <!--/ .section-->
-        </section>
+        </section> --}}
         <!-- end Blog   -->
 
         <!--  News & Event   -->
-        <section id="news" class="page news_wrap">
+        {{-- <section id="news" class="page news_wrap">
             <section class="section border bg-gray-color">
                 <div class="container">
                     <div class="row">
@@ -1647,7 +1647,7 @@
                 <!--/ .container-->
             </section>
             <!--/ .section-->
-        </section>
+        </section> --}}
         <!-- end News & Event   -->
 
         <!--  Contact   -->
@@ -1728,7 +1728,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-4">
-                            <div class="copyright"> Copyright © 2017. <a target="_blank" href="http://zwebtheme.com/">zwebtheme</a>. All rights reserved </div>
+                            <div class="copyright"> Copyright © 2025. <a target="_blank" href="http://trinitycomprehensiveintlschoolondo.ng/">Trinity Comprehensive International School Ondo.ng</a>. All rights reserved </div>
                             <!--/ .cppyright-->
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4 ">
@@ -1748,7 +1748,7 @@
                             <!--/ .widget-->
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4 text-right">
-                            <div class="developed"> Developed by <a target="_blank" href="http://zwebtheme.com/">zwebtheme</a> </div>
+                            <div class="developed"> Developed by <a target="_blank" href="https://qudroidsystems.com/">Qudroid Systems</a> </div>
                             <!--/ .developed-->
                         </div>
                     </div>

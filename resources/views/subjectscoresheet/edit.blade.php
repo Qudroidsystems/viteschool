@@ -276,7 +276,7 @@
                         <!--begin::Input group-->
                         <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">CA 1 ({{ $b->ca1 }}%)</label>
+                            <label class="required fw-semibold fs-6 mb-2">CA 1 ({{ $b->cat_ca1 }}%)</label>
                             <!--end::Label-->
 
                             <!--begin::Input-->
@@ -288,7 +288,7 @@
                           <!--begin::Input group-->
                           <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">CA 2 ({{ $b->ca2 }}%)</label>
+                            <label class="required fw-semibold fs-6 mb-2">CA 2 ({{ $b->cat_ca2 }}%)</label>
                             <!--end::Label-->
 
                             <!--begin::Input-->
@@ -297,10 +297,22 @@
                         </div>
                         <!--end::Input group-->
 
+                           <!--begin::Input group-->
+                           <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">CA 3 ({{ $b->cat_ca3 }}%)</label>
+                            <!--end::Label-->
+
+                            <!--begin::Input-->
+                            <input type="text" id="ca3" name="ca3" min="0" step="any" onkeyup="sum();" value="{{ $ca3 }}" class="form-control form-control-solid mb-3 mb-lg-0"  />
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+
                           <!--begin::Input group-->
                           <div class="fv-row mb-7">
                             <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">Exam ({{ $b->exam }}%)</label>
+                            <label class="required fw-semibold fs-6 mb-2">Exam ({{ $b->cat_exam }}%)</label>
                             <!--end::Label-->
 
                             <!--begin::Input-->
@@ -310,7 +322,7 @@
                         <!--end::Input group-->
 
 
-                           <!--begin::Input group-->
+                           {{-- <!--begin::Input group-->
                            <div class="fv-row mb-7">
                             <!--begin::Label-->
                             <label class="required fw-semibold fs-6 mb-2">Total</label>
@@ -334,7 +346,7 @@
                             <input type="text" id="grade" name="grade" onkeyup="sum();" value="{{ $grade }}" readonly class="form-control form-control-solid mb-3 mb-lg-0"  />
                             <!--end::Input-->
                         </div>
-                        <!--end::Input group-->
+                        <!--end::Input group--> --}}
 
 
 
@@ -446,8 +458,13 @@
 
                     <th class="min-w-125px" style="color: green">CA 1</th>
                     <th class="min-w-125px" style="color: green">CA 2</th>
+                    <th class="min-w-125px" style="color: green">CA 3</th>
+                    <th class="min-w-125px" style="color: green">CA Total</th>
+                    <th class="min-w-125px" style="color: green">CA Avg</th>
                     <th class="min-w-125px" style="color: green">Exam</th>
-                    <th class="min-w-125px" style="color: green">Total</th>
+                    <th class="min-w-125px" style="color: green">Avg</th>
+                    <th class="min-w-125px" style="color: green">BF</th>
+                    <th class="min-w-125px" style="color: green">CUM</th>
                     <th class="min-w-125px" style="color: green">Grade</th>
                     <th class="min-w-125px" style="color: green">Position</th>
                     <th class="min-w-125px" style="color: green">Action</th>
@@ -462,14 +479,19 @@
                             </div>
                         </td> --}}
 
-                        <td > <b>{{ $ca1 }}</b></td>
+                        <td ><b>{{ $ca1 }}</b></td>
                         <td ><b>{{ $ca2}}</b></td>
+                        <td ><b>{{ $ca3}}</b></td>
+                        <td ><b>{{ ($ca1 + $ca2 + $ca3 ) }}</b></td>
+                        <td ><b>{{ $tca}}</b></td>
                         <td ><b>{{ $exam }}</b></td>
                         @if ($b->total <= 29)
                         <td style="color:red;">{{ $b->total }}</td>
                         @else
                         <td>{{ $b->total }}</td>
                         @endif
+                        <td ><b>{{ $bf}}</b></td>
+                        <td ><b>{{ $cum }}</b></td>
                        @if ($b->grade == "F")
                        <td style="color:red;">{{ $b->grade}}</td>
                        @else
@@ -512,24 +534,26 @@ function validateForm()
             var grade = "";
             var txtFirsttextValue= 0;
             var txtSecondtextValue = 0;
+            var txtThirdtextValue = 0;
             var txtExamtextValue = 0;
             var result = 0;
             var total = 0;
 
             var txtFirsttextValue = document.getElementById('ca1').value;
             var txtSecondtextValue = document.getElementById('ca2').value;
+            var txtThirdtextValue = document.getElementById('ca3').value;
             var txtExamtextValue = document.getElementById('exam').value;
 
-            if(txtFirsttextValue > {{  $b->ca1  }} || txtFirsttextValue == ""){
-                alert('First CA  scores cannot be more than'+ {{  $b->ca1  }} +' marks or empty');
+            if(txtFirsttextValue > {{  $b->cat_ca1  }} || txtFirsttextValue == ""){
+                alert('First CA  scores cannot be more than'+ {{  $b->cat_ca1  }} +' marks or empty');
                 return false;
             }
             if(isNaN(txtFirsttextValue)){
                 alert("First CA  is not a digit please");
                 return false;
             }
-            if(txtSecondtextValue > {{  $b->ca2  }} || txtSecondtextValue == ""){
-            alert('Second CA scores cannot be more than '+ {{  $b->ca2  }} +' marks or empty');
+            if(txtSecondtextValue > {{  $b->cat_ca2  }} || txtSecondtextValue == ""){
+            alert('Second CA scores cannot be more than '+ {{  $b->cat_ca2  }} +' marks or empty');
                 return false;
             }
             if(isNaN(txtSecondtextValue) ){
@@ -537,8 +561,18 @@ function validateForm()
                 return false;
             }
 
-            if(txtExamtextValue > {{  $b->exam  }} || txtExamtextValue == "" ){
-                alert('Exam scores cannot be more than '+{{  $b->exam }} +' marks or empty');
+            if(txtthirdtextValue > {{  $b->cat_ca3  }} || txtThirdtextValue == ""){
+            alert('third CA scores cannot be more than '+ {{  $b->cat_ca3  }} +' marks or empty');
+                return false;
+            }
+            if(isNaN(txtThirdtextValue) ){
+                alert("third CA is not a digit please");
+                return false;
+            }
+
+
+            if(txtExamtextValue > {{  $b->cat_exam  }} || txtExamtextValue == "" ){
+                alert('Exam scores cannot be more than '+{{  $b->cat_exam }} +' marks or empty');
                 return false;
             }
             if(isNaN(txtExamtextValue)){
@@ -556,23 +590,26 @@ function sum() {
             var grade = "";
             var txtFirsttextValue= 0;
             var txtSecondtextValue = 0;
+            var txtthirdtextValue = 0;
             var txtExamtextValue = 0;
             var result = 0;
             var total = 0;
 
             var txtFirsttextValue = document.getElementById('ca1').value;
             var txtSecondtextValue = document.getElementById('ca2').value;
+            var txtThirdtextValue = document.getElementById('ca3').value;
             var txtExamtextValue = document.getElementById('exam').value;
-            if(txtFirsttextValue > {{  $b->ca1  }} || txtFirsttextValue == ""){
-                alert('First CA  scores cannot be more than ' + {{  $b->ca1  }} +' marks or empty');
+
+            if(txtFirsttextValue > {{  $b->cat_ca1  }} || txtFirsttextValue == ""){
+                alert('First CA  scores cannot be more than ' + {{  $b->cat_ca1  }} +' marks or empty');
                 return false;
             }
             if(isNaN(txtFirsttextValue)){
                 alert("First CA  is not a digit please");
                 return false;
             }
-            if(txtSecondtextValue > {{  $b->ca2  }} || txtSecondtextValue == ""){
-                alert('Second CA scores cannot be more than '+ {{  $b->ca2  }} +' marks or empty');
+            if(txtSecondtextValue > {{  $b->cat_ca2  }} || txtSecondtextValue == ""){
+                alert('Second CA scores cannot be more than '+ {{  $b->cat_ca2  }} +' marks or empty');
                 return false;
             }
             if(isNaN(txtSecondtextValue) ){
@@ -580,8 +617,18 @@ function sum() {
                 return false;
             }
 
-            if(txtExamtextValue > {{  $b->exam  }} || txtExamtextValue == "" ){
-                alert('Exam scores cannot be more than '+ {{  $b->exam  }} +' marks or empty');
+            if(txtThirdtextValue > {{  $b->cat_ca3  }} || txtThirdtextValue == ""){
+                alert('Third CA scores cannot be more than '+ {{  $b->cat_ca2  }} +' marks or empty');
+                return false;
+            }
+            if(isNaN(txtThirdtextValue) ){
+                alert("third CA is not a digit please");
+                return false;
+            }
+
+
+            if(txtExamtextValue > {{  $b->cat_exam  }} || txtExamtextValue == "" ){
+                alert('Exam scores cannot be more than '+ {{  $b->cat_exam  }} +' marks or empty');
                 return false;
             }
             if(isNaN(txtExamtextValue)){
@@ -589,37 +636,43 @@ function sum() {
                 return false;
             }
 
-            var result = parseFloat(txtFirsttextValue) +
+            var ca_avg = (parseFloat(txtFirsttextValue) +
                          parseFloat(txtSecondtextValue) +
-                         parseFloat(txtExamtextValue) ;
-            total = parseFloat(result);
+                         parseFloat(txtThirdtextValue)) / 3
+
+             var result = (ca_avg + parseFloat(txtExamtextValue)) / 2;
+                 total = parseFloat(result);
 
             if (!isNaN(result)) {
                 //document.getElementById('total').value = txtFirsttextValue;
                 document.getElementById('total').value = total;
                // total = document.getElementById('total').value
                 if (total >=70){
-                grade = "A";
-                document.getElementById('grade').style.color = "green";
-                document.getElementById('grade').value = grade;
-                document.getElementById('remark').value = "EXCELLENT";
+                    grade = "A";
+                    document.getElementById('grade').style.color = "green";
+                    document.getElementById('grade').value = grade;
+                    document.getElementById('remark').value = "EXCELLENT";
                 }
                 else if(total >= 60 && total <= 69){
-                grade = "B";
-                document.getElementById('grade').style.color = "green";
-                document.getElementById('grade').value = grade;
-                document.getElementById('remark').value = "VERY GOOD";
-                }else if(total >= 40 && total <= 59){
+                    grade = "B";
+                    document.getElementById('grade').style.color = "green";
+                    document.getElementById('grade').value = grade;
+                    document.getElementById('remark').value = "VERY GOOD";
+                }
+                else if(total >= 40 && total <= 59){
                     grade = "C";
                     document.getElementById('grade').style.color = "blue";
                     document.getElementById('grade').value = grade;
                     document.getElementById('remark').value = "GOOD";
-                } if(total >= 30 && total <=39){
+                }
+                else if(total >= 30 && total <=39){
                    document.getElementById('grade').style.color = "red";
                     grade = "D";
                     document.getElementById('grade').value = grade;
                     document.getElementById('remark').value = "FAILY GOOD";
-                } if(total <= 29){
+                }
+
+                 if(total <= 29){
                     document.getElementById('grade').style.color = "red";
                     grade = "F";
                     document.getElementById('grade').value = grade;

@@ -12,6 +12,5 @@ class Schoolterm extends Model
 
     protected $fillable = [
         'term',
-
     ];
 }

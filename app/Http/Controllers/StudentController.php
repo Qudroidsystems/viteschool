@@ -137,8 +137,10 @@ class StudentController extends Controller
         }
         $batchchk = StudentBatchModel::where('title', $request->title)->exists();
         if ($batchchk) {
-            return redirect()->back()->with('success', 'Title  is already choose,  Please choosen another Title for this Batch Upload');
+            return redirect()->back()->with('success', 'Title  is already choosen,  Please choosen another Title for this Batch Upload');
         } else {
+
+           //echo  $request->schoolclassid;
 
             $batch = new StudentBatchModel();
             $batch->title = $request->title;
@@ -147,7 +149,7 @@ class StudentController extends Controller
             $batch->session = $request->sessionid;
             $batch->status = '';
             $batch->save();
-            Session::put('sclassid', $request->schoolclassid);
+           Session::put('sclassid', $request->schoolclassid);
             Session::put('tid', $request->termid);
             Session::put('sid', $request->sessionid);
             Session::put('batchid', $batch->id);
@@ -231,7 +233,7 @@ class StudentController extends Controller
         $studenthouse = new Studenthouse();
         $studentpersonalityprofile = new Studentpersonalityprofile();
         $broadsheet = new Broadsheet();
-        
+
 
 
         $studentcheck = Student::where('admissionNo', $request->admissionNo)

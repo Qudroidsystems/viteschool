@@ -74,7 +74,7 @@
 
                     <div id="kt_app_content" class="app-content  flex-column-fluid " >
                         <!--begin::Content container-->
-                        <div id="kt_app_content_container" class="app-container  container-xxl ">
+                        <div id="kt_app_content_container" class="app-container  ">
 
                    <!--begin::Toolbar-->
                         <div class="d-flex flex-wrap flex-stack my-5">
@@ -183,7 +183,7 @@
 
 
                                                                 <!--begin::Input group-->
-                                                                  <div class="mb-7">
+                                                                  {{-- <div class="mb-7">
                                                                     <!--begin::Label-->
                                                                     <label class="required fw-semibold fs-6 mb-5">Select Term</label>
                                                                     <!--end::Label-->
@@ -199,7 +199,9 @@
                                                                                     <!--end::Input-->
                                                                             </div>
                                                                             <!--end::Input row-->
-                                                                        </div>
+                                                                        </div> --}}
+
+                                                                        <input type="hidden" name ="termid" id="termid" class="form-control form-control-solid mb-3 mb-lg-0" value="0"  >
                                                                         <!--end::Input group-->
 
 
@@ -292,15 +294,15 @@
                                                              <!--begin::Input row-->
                                                              <div class="fv-row mb-7">
                                                                 <!--begin::Label-->
-                                                                <label class="required fw-semibold fs-6 mb-5">Select Housemaster</label>
+                                                                <label class="required fw-semibold fs-6 mb-5">Select subject Teacher</label>
                                                                 <!--end::Label-->
                                                                 <!--begin::Input-->
-                                                                <select name ="update_housemasterid" id="update_housemasterid" class="sel-housemaster form-control form-control-solid mb-3 mb-lg-0"  >
+                                                                <select name ="update_subjectteacherid" id="update_subjectteacherid" class="sel-teacher form-control form-control-solid mb-3 mb-lg-0"  >
 
 
                                                                 </select>
                                                                 <!--end::Input-->
-                                                                <div id="prev_housemaster">
+                                                                <div id="prev_teacher">
 
                                                                 </div>
                                                             </div>
@@ -327,7 +329,7 @@
 
 
                                                              <!--begin::Input row-->
-                                                             <div class="fv-row mb-7">
+                                                             {{-- <div class="fv-row mb-7">
                                                                 <!--begin::Label-->
                                                                 <label class="required fw-semibold fs-6 mb-5">Select Term</label>
                                                                 <!--end::Label-->
@@ -338,7 +340,8 @@
                                                                 <div id="prev_term">
 
                                                                 </div>
-                                                            </div>
+                                                            </div> --}}
+                                                            <input name ="update_termid" id="update_termid" class="sel-term form-control form-control-solid mb-3 mb-lg-0" type="hidden"  >
                                                             <!--end::Input row-->
 
                                                                 <!--begin::Input row-->
@@ -494,7 +497,7 @@
                         </td>
                         <td class="subject">{{ $sc->subjectname }}</td>
                         <td class="subjectcode">{{ $sc->subjectcode }} </td>
-                        <td class="termid">{{ $sc->termname }}</td>
+                        <td class="termid"> All Terms  </td>
                         <td class="sessionid">{{ $sc->sessionname }}</td>
                         <td >{{ $sc->date }} </td>
                         <td >

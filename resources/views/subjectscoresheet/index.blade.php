@@ -66,7 +66,7 @@
 
 
     <!--begin::Content container-->
-    <div id="kt_app_content_container" class="app-container  container-xxl ">
+    <div id="kt_app_content_container" class="app-container ">
 
 
          <!--begin::Navbar-->
@@ -76,6 +76,7 @@
     <div class="d-flex flex-wrap flex-sm-nowrap">
 
         <?php
+        use App\Models\Broadsheet;
         foreach($broadsheets as $b){
             $b->subject;
             $b->subjectcode;
@@ -371,7 +372,12 @@
                     <th class="min-w-125px" style="color: green">Name</th>
                     <th class="min-w-125px" style="color: green">CA 1</th>
                     <th class="min-w-125px" style="color: green">CA 2</th>
+                    <th class="min-w-125px" style="color: green">CA 3</th>
+                    <th class="min-w-125px" style="color: green">Total CA </th>
+                    <th class="min-w-125px" style="color: green">CA Avg</th>
                     <th class="min-w-125px" style="color: green">Exam</th>
+                    <th class="min-w-125px" style="color: green">BF</th>
+                    <th class="min-w-125px" style="color: green">CUM</th>
                     <th class="min-w-125px" style="color: green">Total</th>
                     <th class="min-w-125px" style="color: green">Grade</th>
                     <th class="min-w-125px" style="color: green">Position</th>
@@ -418,12 +424,81 @@
                         </td>
                         <td > <b>{{ $broadsheet->ca1 }}</b></td>
                         <td ><b>{{ $broadsheet->ca2}}</b></td>
+                        <td ><b>{{ $broadsheet->ca3}}</b></td>
+                        <td ><b>{{ $broadsheet->tca}}</b></td>
+                        <td ><b>{{ ($broadsheet->ca1 + $broadsheet->ca2 + $broadsheet->ca3) / 3 }}</b></td>
                         <td ><b>{{ $broadsheet->exam }}</b></td>
+
+                        <td >
+                                    @php
+                                            $bf = 0;
+                                            $term = "";
+                                            $schoolclassid_1 = 0;
+                                            $schoolclassid_2 = 0;
+                                            $schoolclassid_3 = 0;
+
+
+
+                                            if (\Session::get('termid') == 1) {
+                                            // echo "first term";
+                                             $bf = 0;
+                                            // echo  $broadsheet->studentId;
+                                             $term_bf =  Broadsheet::where('subjectclassid', \Session::get('subjectclassid'))
+                                                                    ->where('broadsheet.termid', 1)
+                                                                    ->where('broadsheet.session', \Session::get('sessionid'))
+                                                                    ->where('broadsheet.studentId', $broadsheet->studentId)
+                                                                    ->get();
+
+                                                                    foreach ($term_bf as $key => $value) {
+                                                                      //  echo $term =  $value->termid;
+                                                                        echo   $bf = $value->bf;
+                                                                        echo $schoolclassid_1 = $value->schoolclassid;
+                                                                    }
+                                            }elseif (\Session::get('termid') == 2) {
+                                              // echo "second term";
+
+                                               $term_bf =  Broadsheet::where('subjectclassid', \Session::get('subjectclassid'))
+                                                                    ->where('broadsheet.termid', 1)
+                                                                    ->where('broadsheet.session', \Session::get('sessionid'))
+                                                                    ->where('broadsheet.studentId', $broadsheet->studentId)
+                                                                    ->get();
+                                                                    foreach ($term_bf as $key => $value) {
+                                                                        echo $term =  $value->termid;
+                                                                        //echo   $bf = $value->bf;
+                                                                        echo $schoolclassid_2 = $value->schoolclassid;
+                                                                    }
+                                            }elseif (\Session::get('termid') == 4) {
+                                               //echo "third term";
+                                               //echo  $broadsheet->studentId;
+                                               echo Session::get('subjectclassid');
+                                               $term_bf =  Broadsheet::where('subjectclassid', \Session::get('subjectclassid'))
+                                                                    ->where('broadsheet.termid', 2)
+                                                                    ->where('broadsheet.session', \Session::get('sessionid'))
+                                                                    ->where('broadsheet.studentId', $broadsheet->studentId)
+                                                                    ->get();
+                                                                    foreach ($term_bf as $key => $value) {
+                                                                        //echo $term =  $value->termid;
+                                                                        echo   $bf =  $value->bf;
+                                                                        echo $schoolclassid_3 = $value->schoolclassid;
+                                                                    }
+                                            }
+
+
+
+
+                                    @endphp
+
+                                {{-- <b>{{ $broadsheet->bf }}</b> --}}
+
+                        </td>
+
+                        <td ><b>{{ $broadsheet->cum }}</b></td>
                         @if ($broadsheet->total <= 29)
                         <td style="color:red;">{{ $broadsheet->total }}</td>
                         @else
                         <td>{{ $broadsheet->total }}</td>
                         @endif
+
                        @if ($broadsheet->grade == "F")
                        <td style="color:red;">{{ $broadsheet->grade}}</td>
                        @else

@@ -9,9 +9,7 @@
                 <div class="d-flex flex-column flex-column-fluid">
 
 <!--begin::Toolbar-->
-<div id="kt_app_toolbar" class="app-toolbar  py-3 py-lg-6 "
-
-         >
+<div id="kt_app_toolbar" class="app-toolbar  py-3 py-lg-6 ">
 
             <!--begin::Toolbar container-->
         <div id="kt_app_toolbar_container" class="app-container  container-xxl d-flex flex-stack ">
@@ -69,7 +67,7 @@
 
 
         <!--begin::Content container-->
-        <div id="kt_app_content_container" class="app-container  container-xxl ">
+        <div id="kt_app_content_container" class="app-container  ">
 
             <?php
 
@@ -463,7 +461,7 @@
 
                           <!--begin::Actions-->
                           <div class="d-flex align-items-center py-2">
-                            <button class="btn btn-sm btn-light btn-primary" disabled
+                            {{-- <button class="btn btn-sm btn-light btn-primary" disabled
                                  data-student_id="{{ $s->id }}"
                                  data-amount="{{ number_format($sc->amount) }}"
                                  data-amount_actual="{{ $sc->amount }}"
@@ -474,7 +472,7 @@
                                  data-term_id="{{ $s->termid }}"
                                  data-session_id="{{ $s->sessionid }}"
                                  data-bs-toggle="modal"
-                                 data-bs-target="#kt_modal_new_card" >Make Payment</button>
+                                 data-bs-target="#kt_modal_new_card" >Make Payment</button> --}}
                         </div>
                         <!--end::Actions-->
                         @else
@@ -733,13 +731,13 @@
                                                     <form id="kt_modal_new_card_form" class="form" action="{{ route('schoolpayment.store') }}" method="POST">
                                                             @csrf
 
-                                                                <input type="hidden" id="actual_amount"    name="actualAmount">
-                                                                <input type="hidden" id="balance2"         name="balance2" >
-                                                                <input type="hidden" id="student_id"       name="student_id" >
-                                                                <input type="hidden" id="class_id"         name="class_id" >
-                                                                <input type="hidden" id="term_id"          name="term_id" >
-                                                                <input type="hidden" id="session_id"       name="session_id" >
-                                                                <input type="hidden" id="school_bill_id"   name="school_bill_id">
+                                                                <input type="hidden"   id="actual_amount"    name="actualAmount">
+                                                                <input type="hidden"   id="balance2"         name="balance2" >
+                                                                <input type="hidden"   id="student_id"       name="student_id" >
+                                                                <input type="hidden"   id="class_id"         name="class_id" >
+                                                                <input type="hidden"   id="term_id"          name="term_id" >
+                                                                <input type="hidden"   id="session_id"       name="session_id" >
+                                                                <input type="hidden"   id="school_bill_id"   name="school_bill_id">
                                                                 <input type="hidden"   id="last_amount_paid" name="last_amount_paid">
                                                                 <input type="hidden"   id="outstanding"      name="outstanding">
 
@@ -774,7 +772,7 @@
                                                                     <select name="payment_method2" data-control="select2" data-placeholder="Select an option" data-hide-search="true" class="form-select form-select-solid form-select-lg fw-semibold fs-6 text-gray-700">
                                                                         <option value="">Select Payment Method</option>
                                                                         <option value="Bank Deposit"> Bank Deposit</option>
-                                                                        <option value="School POS"> School POS</option>
+                                                                        <option value="School POS"> School POS/Cash</option>
                                                                     </select>
 
                                                                 </div>

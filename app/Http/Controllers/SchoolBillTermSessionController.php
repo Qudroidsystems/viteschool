@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SchoolTerm;
+use App\Models\Schoolterm;
 use App\Models\Schoolclass;
 use Illuminate\Http\Request;
 use App\Models\Schoolsession;

@@ -30,13 +30,13 @@ var KTUsersAddUser = function () {
                         }
                     },
 
-                    'termid': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Term is required'
-                            }
-                        }
-                    },
+                    // 'termid': {
+                    //     validators: {
+                    //         notEmpty: {
+                    //             message: 'Term is required'
+                    //         }
+                    //     }
+                    // },
                     'sessionid': {
                         validators: {
                             notEmpty: {

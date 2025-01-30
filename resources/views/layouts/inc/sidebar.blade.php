@@ -259,6 +259,18 @@
                                                      Settings
                                                     </span>
                                                 </a>
+
+
+                                                <a class="menu-link  {{ request()->is('student*')
+                                                    ? ' active' : '' }}"  href="{{ route('student.index') }}" >
+                                                    <span  class="menu-bullet" >
+                                                        <span class="bullet bullet-dot">
+                                                            </span>
+                                                        </span>
+                                                        <span  class="menu-title" >
+                                                            All Students
+                                                        </span>
+                                                </a>
                                                 <!--end:Menu link-->
                                         </div>
                                             <!--end:Menu item-->
@@ -667,7 +679,7 @@
                             <div  class="menu-item" >
                                 <!--begin:Menu link-->
                                 <a class="menu-link  {{ request()->is('myresultroom*')
-                                    ? ' active' : '' }}"  href="{{ route('myresultroom.index') }}" >
+                                    ? ' active' : '' }}"  href="{{ route('myresultroom.term') }}" >
                                     <span  class="menu-bullet" >
                                         <span class="bullet bullet-dot">
                                             </span>

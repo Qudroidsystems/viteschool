@@ -385,10 +385,10 @@ class SchoolPaymentController extends Controller
         //check data deleted or not
         if ($deletePayment1 && $deletePayment2) {
             $success = true;
-            $message = 'Arm has been removed';
+            $message = 'Record Deleted';
         } else {
             $success = true;
-            $message = 'Arm not found';
+            $message = 'Record not found';
         }
 
         //  return response

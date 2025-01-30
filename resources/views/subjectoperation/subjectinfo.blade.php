@@ -9,9 +9,7 @@
                 <div class="d-flex flex-column flex-column-fluid">
 
 <!--begin::Toolbar-->
-<div id="kt_app_toolbar" class="app-toolbar  py-3 py-lg-6 "
-
-         >
+<div id="kt_app_toolbar" class="app-toolbar  py-3 py-lg-6 " >
 
             <!--begin::Toolbar container-->
         <div id="kt_app_toolbar_container" class="app-container  container-xxl d-flex flex-stack ">
@@ -35,29 +33,35 @@
         <!--end::Breadcrumb-->
     </div>
 <!--end::Page title-->
-@if ($errors->any())
-<div class="alert alert-danger">
-    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <strong>Whoops!</strong> There were some problems with your input.<br><br>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
-@if (\Session::has('status'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-{{ \Session::get('status') }}
-<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
-@if (\Session::has('success'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-{{ \Session::get('success') }}
-<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-@endif
+        @if (\Session::has('status'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ \Session::get('status') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if (\Session::has('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ \Session::get('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
+        @if (\Session::has('danger'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ \Session::get('danger') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        @endif
 
         </div>
         <!--end::Toolbar container-->
@@ -69,7 +73,7 @@
 
 
         <!--begin::Content container-->
-        <div id="kt_app_content_container" class="app-container  container-xxl ">
+        <div id="kt_app_content_container" class="app-container ">
 
             <?php
             $subsegstatus="";
@@ -145,7 +149,7 @@
                 </div>
                 <!--end::Title-->
 
-                <!--begin::Stats-->
+                {{-- <!--begin::Stats-->
                 <div class="d-flex flex-wrap flex-stack">
                     <!--begin::Wrapper-->
                     <div class="d-flex flex-column flex-grow-1 pe-8">
@@ -204,7 +208,7 @@
 
 
                 </div>
-                <!--end::Stats-->
+                <!--end::Stats--> --}}
             </div>
             <!--end::Info-->
         </div>
@@ -257,7 +261,10 @@
        @endif
     <!--begin::Content-->
 
-    <?php use App\Models\SubjectRegistrationStatus;?>
+    <?php
+     use App\Models\SubjectRegistrationStatus;
+     use App\Models\StudentSubjectRecord;
+     ?>
     <div id="kt_account_settings_profile_details" class="collapse show">
 
   <!--begin::Card body-->
@@ -266,20 +273,22 @@
 <!--end::Card toolbar-->
     <!--begin::Table-->
             <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0" id="kt_roles_view_table">
-                <thead>
-                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                        <th class="w-10px pe-2">
-                            <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                                <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_roles_view_table .form-check-input" value="1" />
-                            </div>
-                        </th>
-                        <th class="min-w-125px" style="color: green">SN</th>
-                        <th class="min-w-125px" style="color: green">Subject Teacher</th>
-                        <th class="min-w-125px" style="color: green">Subject </th>
-                        <th class="min-w-125px" style="color: green">Subject Code</th>
-                        <th class="min-w-100px" style="color: green">Registration Status</th>
-                    </tr>
-                </thead>
+                    <thead>
+                        <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
+                            <th class="w-10px pe-2">
+                                <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
+                                    <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_roles_view_table .form-check-input" value="1" />
+                                </div>
+                            </th>
+                            <th class="min-w-125px" style="color: green">SN</th>
+                            <th class="min-w-125px" style="color: green">Subject Teacher</th>
+                            <th class="min-w-125px" style="color: green">Subject </th>
+                            <th class="min-w-125px" style="color: green">Subject Code</th>
+                            <th class="min-w-125px" style="color: green">Term</th>
+                            <th class="min-w-125px" style="color: green">Session</th>
+                            <th class="min-w-100px" style="color: green">Registration Status</th>
+                        </tr>
+                    </thead>
                 <tbody class="fw-semibold text-gray-600">
                     @php
                       $i = 0
@@ -319,25 +328,31 @@
                             </td>
                             <td >{{ $sc->subject }}</td>
                             <td >{{ $sc->subjectcode }} </td>
+                            <td >{{ $sc->term }} </td>
+                            <td >{{ $sc->session }} </td>
                             <td >
                                 <?php
-                                                              $subRegStatuschk = SubjectRegistrationStatus::where('studentid',$student)
+                                                            // $subRegStatuschk = SubjectRegistrationStatus::where('studentid',)
 
-                                                                ->where('sessionid',$sc->sessionid)
-                                                                ->where('termid',$sc->termid)
-                                                                ->where('subjectclassid',$sc->subjectclassid)
-                                                                ->where('staffid',$sc->staffid)
-                                                                ->where('Status',1)
-                                                                ->exists();
+                                                            // ->where('sessionid',$sc->sessionid)
+                                                            // ->where('termid',$sc->termid)
+                                                            // ->where('subjectclassid',$sc->subjectclassid)
+                                                            // ->where('staffid',$sc->staffid)
+                                                            // ->where('Status',1)
+                                                            // ->exists();
 
+                                                            $subRegStatuschk = StudentSubjectRecord::where('student_subject_register_record.studentId', $student)
+                                                                                ->where('session',$sc->sessionid)
+                                                                                ->where('subjectclassid',$sc->subjectclassid)
+                                                                                ->where('staffid',$sc->staffid)
+                                                                                ->exists();
 
-                                                               $subRegStatus = SubjectRegistrationStatus::where('studentid',$student)
-
+                                                            $subRegStatus = SubjectRegistrationStatus::where('studentid',$student)
                                                                             ->where('sessionid',$sc->sessionid)
-                                                                            ->where('termid',$sc->termid)
+                                                                           // ->where('termid',$sc->termid)
                                                                             ->where('subjectclassid',$sc->subjectclassid)
                                                                              ->where('staffid',$sc->staffid)
-                                                                            ->where('Status',1)
+                                                                            //->where('Status',1)
                                                                             ->get();
 
                                                                             foreach ($subRegStatus as $value) {
@@ -346,51 +361,50 @@
                                                                                 $broadsheetid = $value->broadsheetid;
                                                                                 $subregstatus = $value->Status;
 
-                                                                               // echo $subregid;
+                                                                                //echo $subregstatus;
                                                                             }
-
-
                                                                  ?>
                                                                         @if ($subRegStatuschk)
 
-                                                                        @if ($subregstatus == 1)
-                                                                        @can('subject_operation-delete')
+                                                                                    @if ($subRegStatuschk)
+                                                                                            @can('subject_operation-delete')
 
-                                                                        <button  class="btn button-success">Registered</button>
-                                                                        {!! Form::open(['method' => 'DELETE','route' => ['subjectoperation.destroy', $broadsheetid],'style'=>'display:inline']) !!}
-                                                                        <button type="submit" class="btn btn-icon btn-active-light-primary w-30px h-30px" data-toggle="tooltip" title="Unregister Subject">
-                                                                            <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i></button>
-                                                                        {!! Form::close() !!}
-                                                                        @endcan
-                                                                        @else
+                                                                                            <button  class="btn button-success">Registered</button>
+                                                                                            {!! Form::open(['method' => 'DELETE','route' => ['subjectoperation.destroy', $broadsheetid],'style'=>'display:inline']) !!}
+                                                                                               <input type="hidden" value="{{ $sc->subjectclassid }}" name="subjectclassid">
+                                                                                            <button type="submit" class="btn btn-icon btn-active-light-primary w-30px h-30px" data-toggle="tooltip" title="Unregister Subject">
+                                                                                                <i class="ki-duotone ki-trash fs-3"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i></button>
+                                                                                            {!! Form::close() !!}
+                                                                                            @endcan
+                                                                                    @else
 
-                                                                        <form  role="form" id="inline-validation" class="form-horizontal form-stripe" action="{{ route('subjectoperation.store') }}" method="POST">
-                                                                        @csrf
+                                                                                            <form  role="form" id="inline-validation" class="form-horizontal form-stripe" action="{{ route('subjectoperation.store') }}" method="POST">
+                                                                                            @csrf
 
-                                                                        <input type="hidden" class="form-control"  name="studentid" value="{{ $student }}">
-                                                                        <input type="hidden" class="form-control"  name="subjectclassid" value="{{ $sc->subjectclassid }}">
-                                                                        <input type="hidden" class="form-control"  name="staffid" value="{{ $sc->staffid }}">
-                                                                        <input type="hidden" class="form-control"  name="termid" value="{{ $sc->termid }}">
-                                                                        <input type="hidden" class="form-control"  name="sessionid" value="{{ $sc->sessionid }}">
-                                                                        <button type="submit" class="btn btn-warning " data-toggle="tooltip" title="Register {{ $sc->subject }} {{ $sc->subjectcode }} Subject">Not Registered</button>
+                                                                                            <input type="hidden" class="form-control"  name="studentid" value="{{ $student }}">
+                                                                                            <input type="hidden" class="form-control"  name="subjectclassid" value="{{ $sc->subjectclassid }}">
+                                                                                            <input type="hidden" class="form-control"  name="staffid" value="{{ $sc->staffid }}">
+                                                                                            <input type="hidden" class="form-control"  name="termid" value="{{ $sc->termid }}">
+                                                                                            <input type="hidden" class="form-control"  name="sessionid" value="{{ $sc->sessionid }}">
+                                                                                            <button type="submit" class="btn btn-warning " data-toggle="tooltip" title="Register {{ $sc->subject }} {{ $sc->subjectcode }} Subject">Not Registered</button>
 
-                                                                        </form>
+                                                                                            </form>
 
-                                                                        @endif
+                                                                                    @endif
 
-                                                                        @else
+                                                                                    @else
 
-                                                                        <form  role="form" id="inline-validation" class="form-horizontal form-stripe" action="{{ route('subjectoperation.store') }}" method="POST">
-                                                                        @csrf
+                                                                                    <form  role="form" id="inline-validation" class="form-horizontal form-stripe" action="{{ route('subjectoperation.store') }}" method="POST">
+                                                                                           @csrf
 
-                                                                        <input type="hidden" class="form-control"  name="studentid" value="{{ $student }}">
-                                                                        <input type="hidden" class="form-control"  name="subjectclassid" value="{{ $sc->subjectclassid }}">
-                                                                        <input type="hidden" class="form-control"  name="staffid" value="{{ $sc->staffid }}">
-                                                                        <input type="hidden" class="form-control"  name="termid" value="{{ $sc->termid }}">
-                                                                        <input type="hidden" class="form-control"  name="sessionid" value="{{ $sc->sessionid }}">
-                                                                        <button type="submit" class="btn btn-warning " data-toggle="tooltip" title="Register {{ $sc->subject }}  {{ $sc->subjectcode }} Subject">Not Registered</button>
+                                                                                            <input type="hidden" class="form-control"  name="studentid" value="{{ $student }}">
+                                                                                            <input type="hidden" class="form-control"  name="subjectclassid" value="{{ $sc->subjectclassid }}">
+                                                                                            <input type="hidden" class="form-control"  name="staffid" value="{{ $sc->staffid }}">
+                                                                                            <input type="hidden" class="form-control"  name="termid" value="{{ $sc->termid }}">
+                                                                                            <input type="hidden" class="form-control"  name="sessionid" value="{{ $sc->sessionid }}">
+                                                                                            <button type="submit" class="btn btn-warning " data-toggle="tooltip" title="Register {{ $sc->subject }}  {{ $sc->subjectcode }} Subject">Not Registered</button>
 
-                                                                        </form>
+                                                                                    </form>
                                                                         @endif
                             </td>
 

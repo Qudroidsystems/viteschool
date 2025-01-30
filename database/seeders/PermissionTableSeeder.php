@@ -160,7 +160,6 @@ class PermissionTableSeeder extends Seeder
                 if($word == "class_operation")
                 Permission::create(['name' => $permission,'title'=>"Class Operation Management"]);
 
-
                 if($word == "myclass")
                 Permission::create(['name' => $permission,'title'=>"User Class Management"]);
 
@@ -196,7 +195,6 @@ class PermissionTableSeeder extends Seeder
 
                 if($word == "student_bulk")
                 Permission::create(['name' => $permission,'title'=>"Student Management"]);
-
 
                 if($word == "subject_class")
                 Permission::create(['name' => $permission,'title'=>"Subject Class Management"]);

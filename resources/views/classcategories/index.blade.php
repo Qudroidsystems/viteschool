@@ -146,7 +146,7 @@
                                                                     <!--end::Label-->
 
                                                                     <!--begin::Input-->
-                                                                    <input type="text" name="category" id="category" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="House Name ..."  />
+                                                                    <input type="text" name="category" id="category" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Class Category"  />
                                                                     <!--end::Input-->
                                                                 </div>
                                                                 <!--end::Input group-->
@@ -176,6 +176,20 @@
                                                                 </div>
                                                             <!--end::Input group-->
 
+
+                                                                 <!--begin::Input group-->
+                                                                 <div class="fv-row mb-7">
+                                                                    <!--begin::Label-->
+                                                                    <label class="required fw-semibold fs-6 mb-2">CA 3 Score (%)</label>
+                                                                    <!--end::Label-->
+
+                                                                    <!--begin::Input-->
+                                                                    <input type="text" name="ca3score" id="ca3score"  class="form-control form-control-solid mb-3 mb-lg-0" onkeyup="addcheck()" placeholder="scores (%)"  />
+                                                                    <!--end::Input-->
+                                                                </div>
+                                                            <!--end::Input group-->
+
+
                                                              <!--begin::Input group-->
                                                              <div class="fv-row mb-7">
                                                                 <!--begin::Label-->
@@ -199,14 +213,6 @@
                                                             <!--end::Input-->
                                                         </div>
                                                     <!--end::Input group-->
-
-
-
-
-
-
-
-
 
 
 
@@ -361,6 +367,7 @@
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Class Category</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">CA 1 Score</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Ca 2 Score</th>
+                    <th class="min-w-125px" style="color: rgb(51, 35, 200)">Ca 3 Score</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Exam Score</th>
 
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Date Updated</th>
@@ -382,6 +389,7 @@
                         <td class="classcategory">{{ $sc->category }} </td>
                         <td class="ca1score">{{ $sc->ca1score }}</td>
                         <td class="ca2score">{{ $sc->ca2score }}</td>
+                        <td class="ca3score">{{ $sc->ca3score }}</td>
                         <td class="examscore">{{ $sc->examscore }}</td>
 
                         <td >{{ $sc->updated_at }} </td>

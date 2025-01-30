@@ -74,7 +74,7 @@
 
                     <div id="kt_app_content" class="app-content  flex-column-fluid " >
                         <!--begin::Content container-->
-                        <div id="kt_app_content_container" class="app-container  container-xxl ">
+                        <div id="kt_app_content_container" class="app-container ">
 
                    <!--begin::Toolbar-->
                         <div class="d-flex flex-wrap flex-stack my-5">
@@ -155,6 +155,7 @@
                 <?php
                 use App\Models\Broadsheet;
 
+
                 ?>
 
              <!--begin::Table-->
@@ -169,7 +170,6 @@
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">SN</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Class</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Arm</th>
-
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Subject</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Subject Code</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Term</th>
@@ -195,18 +195,18 @@
                         <td >{{ $subject->subjectcode }} </td>
                         <td>{{ $subject->term }}</td>
                         <td>{{ $subject->session }}</td>
-                        <td >
+                        <td>
                             <?php
 
-                            $broadsheetchk = Broadsheet::where('staffid',$subject->userid)
-                             ->where('subjectclassid',$subject->subclassid)
-                             ->where('termid',$subject->termid)
-                             ->where('session',$subject->sessionid)->exists();
+                                $broadsheetchk = Broadsheet::where('staffid',$subject->userid)
+                                ->where('subjectclassid',$subject->subjectclassid)
+                                ->where('termid',$subject->termid)
+                                ->where('session',$subject->sessionid)->exists();
+                            ?>
 
-                                   ?>
                              @if ($broadsheetchk)
 
-                             <a href="subjectscoresheet/{{ $subject->schoolclassid }}/{{ $subject->subclassid }}/{{ $subject->userid }}/{{ $subject->termid }}/{{ $subject->sessionid }}" class="btn btn-success" data-toggle="tooltip" title="Open Score Sheet for {{ $subject->subject }}  {{ $subject->subjectcode }} " >Open Score Sheet</a>
+                             <a href="subjectscoresheet/{{ $subject->schoolclassid }}/{{ $subject->subjectclassid }}/{{ $subject->userid }}/{{ $subject->termid }}/{{ $subject->sessionid }}" class="btn btn-success" data-toggle="tooltip" title="Open Score Sheet for {{ $subject->subject }}  {{ $subject->subjectcode }} " >Open Score Sheet</a>
 
                              @else
                              <a href="#" class="btn btn-warning" data-toggle="tooltip" title=" {{ $subject->subject }}  {{ $subject->subjectcode }} has not been registered by any student yet ">No Scoresheet yet</a>

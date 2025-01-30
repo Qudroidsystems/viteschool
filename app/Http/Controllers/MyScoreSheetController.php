@@ -19,7 +19,7 @@ class MyScoreSheetController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -32,7 +32,7 @@ class MyScoreSheetController extends Controller
 
         $current = 'Current';
 
-        // echo $schoolclassid;
+       // echo $schoolclassid;
         $Broadsheets = Broadsheet::where('subjectclassid', $subjectclassid)
             ->where('broadsheet.staffid', $staffid)
             ->where('broadsheet.termid', $termid)
@@ -48,12 +48,12 @@ class MyScoreSheetController extends Controller
             ->where('schoolsession.status', '=', $current)
             ->leftJoin('studentRegistration', 'studentRegistration.id', '=', 'broadsheet.studentId')
             ->leftJoin('studentpicture', 'studentpicture.studentid', '=', 'studentRegistration.id')
-            ->get(['broadsheet.id as id', 'studentRegistration.admissionNO as admissionno', 'studentRegistration.firstname as fname', 'studentRegistration.lastname as lname',
+            ->get(['broadsheet.id as id', 'studentRegistration.admissionNO as admissionno','broadsheet.studentId as studentId', 'studentRegistration.firstname as fname', 'studentRegistration.lastname as lname',
                 'subject.subject as subject', 'subject.subject_code as subjectcode', 'schoolclass.schoolclass as schoolclass', 'schoolarm.arm as arm',
                 'schoolterm.term as term', 'schoolsession.session as session', 'subjectclass.id as subjectclid', 'broadsheet.staffid as staffid',
                 'broadsheet.termid as termid', 'broadsheet.session as sessionid', 'classcategories.ca2score as ca2',
                 'classcategories.ca1score as ca1', 'classcategories.examscore as exam',
-                'studentpicture.picture as picture', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.exam as exam', 'broadsheet.total  as total', 'broadsheet.grade as grade',
+                'studentpicture.picture as picture', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.ca3 as ca3', 'broadsheet.exam as exam', 'broadsheet.total  as total', 'broadsheet.grade as grade',
                 'broadsheet.subjectpositionclass as position', 'broadsheet.remark as remark'])->sortBy('admissionno');
 
         if ($Broadsheets) {
@@ -262,11 +262,12 @@ class MyScoreSheetController extends Controller
             ->where('schoolsession.status', '=', $current)
             ->get(['broadsheet.id as bid', 'studentRegistration.admissionNO as admissionno', 'studentRegistration.tittle as title',
                 'studentRegistration.firstname as fname', 'studentRegistration.lastname as lname',
-                'studentpicture.picture as picture', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.exam as exam',
+                'studentpicture.picture as picture', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.ca3 as ca3', 'broadsheet.exam as exam',
+                'broadsheet.bf as bf','broadsheet.cum as cum',
                 'broadsheet.total  as total', 'broadsheet.grade as grade', 'schoolterm.term as term', 'schoolsession.session as session',
                 'subject.subject as subject', 'subject.subject_code as subjectcode', 'schoolclass.schoolclass as schoolclass',
                 'schoolarm.arm as arm', 'broadsheet.subjectpositionclass as position', 'broadsheet.remark as remark',
-                'classcategories.ca2score as ca2', 'classcategories.ca1score as ca1', 'classcategories.examscore as exam', ])->sortBy('fname');
+                'classcategories.ca2score as cat_ca2', 'classcategories.ca1score as cat_ca1', 'classcategories.ca3score as cat_ca3','classcategories.examscore as cat_exam', ])->sortBy('fname');
 
         if ($Broadsheets) {
             $Broadsheet = Broadsheet::find($id);
@@ -277,10 +278,15 @@ class MyScoreSheetController extends Controller
             $sessionid = $Broadsheet->session;
             $ca1 = $Broadsheet->ca1;
             $ca2 = $Broadsheet->ca2;
+            $ca3 = $Broadsheet->ca3;
+            $tca = $Broadsheet->tca;
             $exam = $Broadsheet->exam;
+            $bf = $Broadsheet->bf;
+            $cum = $Broadsheet->cum;
             $total = $Broadsheet->total;
             $remark = $Broadsheet->remark;
             $grade = $Broadsheet->grade;
+
         } else {
             echo 'oppss..';
         }
@@ -314,7 +320,11 @@ class MyScoreSheetController extends Controller
             ->with('studentid', $studentid)
             ->with('ca1', $ca1)
             ->with('ca2', $ca2)
+            ->with('ca3', $ca3)
+            ->with('tca', $tca)
             ->with('exam', $exam)
+            ->with('bf', $bf)
+            ->with('cum', $cum)
             ->with('total', $total)
             ->with('grade', $grade)
             ->with('remark', $remark);
@@ -322,20 +332,54 @@ class MyScoreSheetController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
 
-        $Broadsheet = Broadsheet::find($id);
-        $Broadsheet->update($request->all());
-        $this->subjectscoresheet(Session::get('schoolclassid'), Session::get('subjectclassid'), Session::get('staffid'), Session::get('termid'), Session::get('sessionid'));
 
-        return redirect()->back()->with('success', 'Score Editted  Successfully!!');
+        $Broadsheet = Broadsheet::find($id);
+        $bf = 0;
+        $term = "";
+        $term_bf =  Broadsheet::where('broadsheet.id', $id)
+        // ->where('subjectclassid', Session::get('subjectclassid'))
+        // ->where('broadsheet.termid', Session::get('termid'))
+        // ->where('broadsheet.session', Session::get('sessionid'))
+        //->select('bf')
+        // ->select('termid')
+        ->get();
+
+        foreach ($term_bf as $key => $value) {
+            $term =  $value->termid;
+            $bf = $value->bf;
+        }
+
+        if ($term == 1){
+             $bf = 0;
+        }elseif ($term == 2) {
+            # code...
+        }elseif ($term == 3) {
+            # code...
+        }
+
+        //  // Update specific fields from the request
+        // $broadsheet->ca1 = $request->ca1;
+        // $broadsheet->ca2 = $request->ca2;
+        // $broadsheet->ca3 = $request->ca3;
+        // $broadsheet->exam = $request->exam;
+
+        // // Save the updated model
+        // $broadsheet->save();
+
+        // $Broadsheet->update($request->all());
+        // $this->subjectscoresheet(Session::get('schoolclassid'), Session::get('subjectclassid'), Session::get('staffid'), Session::get('termid'), Session::get('sessionid'));
+
+        // return redirect()->back()->with('success', 'Score Editted  Successfully!!');
 
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -448,7 +492,7 @@ class MyScoreSheetController extends Controller
                 'subject.subject as subject', 'subject.subject_code as subjectcode', 'schoolclass.schoolclass as schoolclass', 'schoolarm.arm as arm',
                 'schoolterm.term as term', 'schoolsession.session as session', 'subjectclass.id as subjectclid', 'broadsheet.staffid as staffid',
                 'broadsheet.termid as termid', 'broadsheet.session as sessionid',
-                'studentpicture.picture as picture', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.exam as exam',
+                'studentpicture.picture as picture', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.ca3 as ca3', 'broadsheet.exam as exam',
                 'broadsheet.total  as total', 'broadsheet.grade as grade',
                 'broadsheet.subjectpositionclass as position', 'broadsheet.remark as remark'])->sortBy('admissionno');
 

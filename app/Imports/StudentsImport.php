@@ -2,16 +2,12 @@
 
 namespace App\Imports;
 
-
 use App\Models\Student;
-use App\Models\Schoolterm;
-use App\Models\Schoolclass;
+use Illuminate\Support\Str;
 use App\Models\Studentclass;
 use App\Models\Studenthouse;
-use App\Models\Schoolsession;
 use App\Models\Studentpicture;
-use App\Models\Promotionstatus;
-use Illuminate\Validation\Rule;
+use App\Models\PromotionStatus;
 use App\Models\StudentBatchModel;
 use App\Models\ParentRegistration;
 use Illuminate\Support\Facades\Auth;
@@ -22,56 +18,68 @@ use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithStartRow;
-use Maatwebsite\Excel\Concerns\SkipsFailures;
-use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Maatwebsite\Excel\Concerns\WithProgressBar;
 use Maatwebsite\Excel\Concerns\WithUpsertColumns;
 
-class StudentsImport implements ToModel, WithUpserts, WithUpsertColumns, WithStartRow, WithValidation,
-WithProgressBar
+class StudentsImport implements ToModel, WithProgressBar, WithStartRow, WithUpsertColumns, WithUpserts, WithValidation
 {
-
     use Importable;
 
+    public $id = 0;
 
-       public $id=0;
-       public $_sclassid=0;
-       public $_teremid=0;
-       public $_sessionid=0;
-       public $_batchid=0;
+    public $_sclassid = 0;
 
+    public $_teremid = 0;
 
+    public $_sessionid = 0;
 
-
+    public $_batchid = 0;
 
     public function model(array $row)
     {
-        $current = "Current";
-        $schoolclassid =  Session::get('sclassid');
+        $current = 'Current';
+        $schoolclassid = Session::get('sclassid');
         $termid = Session::get('tid');
         $sessionid = Session::get('sid');
         $batchid = Session::get('batchid');
 
         $admissionno = $row[0];
         $surname = $row[1];
-        $othername = $row[2];
-        $gender = $row[3];
-        $homeaddress = $row[4];
-        $dob = $row[5];
-        $age = $row[6];
-        $placeofbirth = $row[7];
-        $nationality = $row[8];
-        $state = $row[9];
-        $local = $row[10];
-        $religion = $row[11];
-        $lastschool = $row[12];
-        $lastclass = $row[13];
+        $firstname = $row[2];
+        $othername = $row[3];
+        $gender = $row[4];
+        $homeaddress = $row[5];
+        $dob = $row[6];
+        $age = $row[7];
+        $placeofbirth = $row[8];
+        $nationality = $row[9];
+        $state = $row[10];
+        $local = $row[11];
+        $religion = $row[12];
+        $lastschool = $row[13];
+        $lastclass = $row[14];
+
+       
+        $father_title = Str::limit($row[18], 3, '');
+        $father = Str::substr($row[18], 3);
+        $father_phone = $row[19];
+        $office_address = $row[19];
+        $father_occupation = $row[20];
+        $mother_title = Str::limit($row[23], 3, '');
+        $mother = Str::substr($row[23], 3);
+        $mother_phone = $row[24];
+        $mother_occupation = $row[25];
+        $mother_office_address = $row[26];
+        $parent_address = $row[27];
+        $parent_religion = $row[28];
+
+
 
 
         $studentbiodata = new Student();
         $studentclass = new Studentclass();
-        $promotion = new Promotionstatus();
+        $promotion = new PromotionStatus();
         $parent = new ParentRegistration();
         $studenthouse = new Studenthouse();
         $picture = new Studentpicture();
@@ -79,13 +87,13 @@ WithProgressBar
 
         //populating student biodata
         $studentbiodata->admissionNo = $admissionno;
-        $studentbiodata->tittle ="";
-        $studentbiodata->firstname = $othername;
+        $studentbiodata->tittle = '';
+        $studentbiodata->firstname = $firstname;
         $studentbiodata->lastname = $surname;
-        $studentbiodata->othername = "";
+        $studentbiodata->othername = $othername;
         $studentbiodata->gender = $gender;
         $studentbiodata->home_address = "$homeaddress";
-        $studentbiodata->home_address2 = "";
+        $studentbiodata->home_address2 = '';
         $studentbiodata->dateofbirth = $dob;
         $studentbiodata->age = $age;
         $studentbiodata->placeofbirth = $placeofbirth;
@@ -95,33 +103,34 @@ WithProgressBar
         $studentbiodata->local = "$local";
         $studentbiodata->last_school = $lastschool;
         $studentbiodata->last_class = $lastclass;
-        $studentbiodata->registeredBy= Auth::user()->id;
+        $studentbiodata->registeredBy = Auth::user()->id;
         $studentbiodata->batchid = $batchid;
-        $studentbiodata->save();
-        $studentId = $studentbiodata->id;
+        $studentbiodata->statusId = $studentStatus->id; // Assign statusId
 
+        $studentbiodata->save(); // ✅ Save first
 
+        $studentId = $studentbiodata->id; // ✅ Retrieve ID after saving
 
-        // student parent
+        // Student Parent
 
         $parent->studentId = $studentId;
-        $parent->father_title ="";
-        $parent->mother_title ="";
-        $parent->father  ="";
-        $parent->mother ="";
-        $parent->father_phone ="";
-        $parent->mother_phone ="";
-        $parent->parent_address ="";
-        $parent->office_address ="";
-        $parent->father_occupation ="";
-        $parent->religion ="";
+        $parent->father_title = $father_title;
+        $parent->father = $father;
+        $parent->father_phone = $father_phone;
+        $parent->office_address = $office_address;
+        $parent->father_occupation = $father_occupation;
+        $parent->mother_title = $mother_title;
+        $parent->mother = $mother;
+        $parent->mother_phone = $mother_phone;
+        $parent->mother_occupation = $mother_occupation;
+        $parent->mother_office_address = $mother_office_address;
+        $parent->parent_address = $parent_address;
+        $parent->religion = $parent_religion;
         $parent->save();
-
 
         //for student picture...
         $picture->studentid = $studentId;
         $picture->save();
-
 
         //registering school class and arm for the student
         $studentclass->studentId = $studentId;
@@ -130,33 +139,31 @@ WithProgressBar
         $studentclass->sessionid = $sessionid;
         $studentclass->save();
 
-         //for class history...
-         $promotion->studentId = $studentId;
-         $promotion->schoolclassid = $schoolclassid;
-         $promotion->termid = $termid;
-         $promotion->sessionid = $sessionid;
-         $promotion->promotionStatus = "PROMOTED";
-         $promotion->classstatus = "CURRENT";
-         $promotion->save();
+        //for class history...
+        $promotion->studentId = $studentId;
+        $promotion->schoolclassid = $schoolclassid;
+        $promotion->termid = $termid;
+        $promotion->sessionid = $sessionid;
+        $promotion->promotionStatus = 'PROMOTED';
+        $promotion->classstatus = 'CURRENT';
+        $promotion->save();
 
-          //for student house...
-          $studenthouse->studentid = $studentId;
-          $studenthouse->termid = $termid;
-          $studenthouse->sessionid = $sessionid;
-          $studenthouse->save();
+        //for student house...
+        $studenthouse->studentid = $studentId;
+        $studenthouse->termid = $termid;
+        $studenthouse->sessionid = $sessionid;
+        $studenthouse->save();
 
-          //for student personality profile...
-          $studentpersonalityprofile->studentid = $studentId;
-          $studentpersonalityprofile->schoolclassid = $schoolclassid;
-          $studentpersonalityprofile->termid = $termid;
-          $studentpersonalityprofile->sessionid = $sessionid;
-          $studentpersonalityprofile->save();
+        //for student personality profile...
+        $studentpersonalityprofile->studentid = $studentId;
+        $studentpersonalityprofile->schoolclassid = $schoolclassid;
+        $studentpersonalityprofile->termid = $termid;
+        $studentpersonalityprofile->sessionid = $sessionid;
+        $studentpersonalityprofile->save();
 
-      //return $this->studentsimportsheet($schoolclassid,$termid,$sessionid);
+        //return $this->studentsimportsheet($schoolclassid,$termid,$sessionid);
 
     }
-
-
 
     public function rules(): array
     {
@@ -165,34 +172,34 @@ WithProgressBar
         global $_sessionid;
         global $_batchid;
 
-        $_sclassid =  Session::get('sclassid');
+        $_sclassid = Session::get('sclassid');
         $_termid = Session::get('tid');
         $_sessionid = Session::get('sid');
         $_batchid = Session::get('batchid');
 
-
         return [
 
-            '14'=> function($attribute, $value,$onFailure) use(&$_sclassid) {
-                if($value != $_sclassid){
-                   $onFailure('This data does not match the selected School Class');
+            '15' => function ($attribute, $value, $onFailure) use (&$_sclassid) {
+                if ($value != $_sclassid) {
+                    $onFailure('This data does not match the selected School Class');
                 }
-                },
+            },
 
-            '15'=> function($attribute, $value,$onFailure) use(&$_termid) {
-                    if($value != $_termid){
+            '16' => function ($attribute, $value, $onFailure) use (&$_termid) {
+                if ($value != $_termid) {
                     $onFailure('This data does not match the selected School Term');
-                    }
-                },
+                }
+            },
 
-            '16'=> function($attribute, $value,$onFailure) use(&$_sessionid) {
-                    if($value != $_sessionid){
+            '17' => function ($attribute, $value, $onFailure) use (&$_sessionid) {
+                if ($value != $_sessionid) {
                     $onFailure('This data does not match the selected School Session');
-                    }
-                },
+                }
+            },
 
         ];
     }
+
     public function customValidationMessages()
     {
         return [
@@ -206,11 +213,12 @@ WithProgressBar
     public function customValidationAttributes()
     {
         return [
-            '14' =>  'schoolclassid',
-            '15' =>  'termid',
-            '16' =>  'sessionsid',
-            ];
+            '14' => 'schoolclassid',
+            '15' => 'termid',
+            '16' => 'sessionsid',
+        ];
     }
+
     public function startRow(): int
     {
         return 2;
@@ -223,10 +231,11 @@ WithProgressBar
 
     public function upsertColumns()
     {
-        return ['ca1', 'ca2','exam'];
+        return ['ca1', 'ca2', 'exam'];
     }
 
-    public function onFailure(Failure $failure){
+    public function onFailure(Failure $failure)
+    {
 
     }
 
@@ -235,6 +244,5 @@ WithProgressBar
     //     // Handle the exception how you'd like.
     //     StudentBatchModel::where("id",Session::get('batchid'))->update(["Status" => "Failed"]);
     // }
-
 
 }

@@ -37,6 +37,14 @@ var KTUsersAddUser = function () {
                             }
                         }
                     },
+                    'ca3score': {
+                        validators: {
+                            notEmpty: {
+                                message: 'CA 3 Score is required'
+                            }
+                        }
+                    },
+
                     'examscore': {
                         validators: {
                             notEmpty: {
@@ -202,12 +210,14 @@ function addcheck() {
 
     var txtFirsttextValue= 0;
     var txtSecondtextValue = 0;
+    var txtThirdtextValue = 0;
     var txtExamtextValue = 0;
     var result = 0;
     var total = 0;
 
         var txtFirsttextValue = document.getElementById('ca1score').value;
         var txtSecondtextValue = document.getElementById('ca2score').value;
+        var txtThirdtextValue = document.getElementById('ca3score').value;
         var txtExamtextValue = document.getElementById('examscore').value;
 
         if(isNaN(txtFirsttextValue)){
@@ -220,6 +230,11 @@ function addcheck() {
             return false;
         }
 
+        if(isNaN(txtThirdtextValue) ){
+            alert("Third CA is not a digit please");
+            return false;
+        }
+
         if(isNaN(txtExamtextValue)){
             alert("Exam score is not a digit please");
             return false;
@@ -227,6 +242,7 @@ function addcheck() {
 
         var result = parseFloat(txtFirsttextValue) +
                      parseFloat(txtSecondtextValue) +
+                     parseFloat(txtThirdtextValue) +
                      parseFloat(txtExamtextValue) ;
         total = parseFloat(result);
 
@@ -238,9 +254,6 @@ function addcheck() {
                 alert("Score should not be more or less than 100%");
                 return false;
             }
-
-
-
 
         }
 }

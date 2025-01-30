@@ -40,10 +40,11 @@ class ScoresheetImport implements ToModel, WithStartRow, WithUpsertColumns, With
             [
                 'ca1' => $row[3],
                 'ca2' => $row[4],
-                'exam' => $row[5],
-                'total' => $row[3] + $row[4] + $row[5],
-                'grade' => $this->grade($row[3] + $row[4] + $row[5]),
-                'remark' => $this->remark($row[3] + $row[4] + $row[5]),
+                'ca3' => $row[5],
+                'exam' => $row[6],
+                'total' => ((($row[3] + $row[4] + $row[5])/3) +  row[6]) / 2,
+                'grade' => $this->grade(((($row[3] + $row[4] + $row[5])/3) +  row[6]) / 2),
+                'remark' => $this->remark(((($row[3] + $row[4] + $row[5])/3) +  row[6]) / 2),
             ]);
 
         return $this->subjectscoresheetpos($schoolclassid, $subjectclassid, $staffid, $termid, $sessionid);
@@ -161,6 +162,31 @@ class ScoresheetImport implements ToModel, WithStartRow, WithUpsertColumns, With
             '5' => function ($attribute, $value, $onFailure) use (&$id) {
                 $id = Session::get('subjectclassid');
 
+                $ca3score = 0;
+
+                $classcategory = Subjectclass::where('subjectclass.id', $id)
+                    ->leftJoin('schoolclass', 'schoolclass.id', '=', 'subjectclass.schoolclassid')
+                    ->leftJoin('classcategories', 'classcategories.id', '=', 'schoolclass.classcategoryid')
+                    ->get(['classcategories.ca3score as ca3']);
+
+                foreach ($classcategory as $key => $val) {
+                    $ca3score = $val->ca3;
+                }
+
+                if ($value > $ca3score) {
+                    $onFailure('Maximum score for CA3 which is '.'('.$ca3score.')'.' is exceeded');
+                }
+                if (! is_numeric($value)) {
+                    $onFailure('Score entered is not a number');
+                }
+                if (is_null($value) || $value == '') {
+                    $onFailure('Field cannot be empty');
+                }
+            },
+
+            '6' => function ($attribute, $value, $onFailure) use (&$id) {
+                $id = Session::get('subjectclassid');
+
                 $examscore = 0;
                 $classcategory = Subjectclass::where('subjectclass.id', $id)
                     ->leftJoin('schoolclass', 'schoolclass.id', '=', 'subjectclass.schoolclassid')
@@ -191,14 +217,18 @@ class ScoresheetImport implements ToModel, WithStartRow, WithUpsertColumns, With
             '3.in' => 'Custom message for :attribute.',
             '4.in' => 'Custom message for :attribute.',
             '5.in' => 'Custom message for :attribute.',
+            '6.in' => 'Custom message for :attribute.',
         ];
     }
 
     public function customValidationAttributes()
     {
-        return ['3' => 'CA1',
+        return
+           [
+            '3' => 'CA1',
             '4' => 'CA2',
-            '5' => 'EXAM',
+            '5' => 'CA3',
+            '6' => 'EXAM',
         ];
     }
 
@@ -214,7 +244,7 @@ class ScoresheetImport implements ToModel, WithStartRow, WithUpsertColumns, With
 
     public function upsertColumns()
     {
-        return ['ca1', 'ca2', 'exam'];
+        return ['ca1', 'ca2','ca3','exam'];
     }
 
     public function onFailure(Failure $failure)
@@ -271,7 +301,7 @@ class ScoresheetImport implements ToModel, WithStartRow, WithUpsertColumns, With
                 'subjectclass.id as subjectclid', 'broadsheet.staffid as staffid',
                 'broadsheet.termid as termid', 'broadsheet.session as sessionid',
                 'classcategories.ca2score as ca2score', 'classcategories.ca1score as ca1score',
-                'classcategories.examscore as examscore', 'studentpicture.picture as picture', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2',
+                'classcategories.examscore as examscore', 'studentpicture.picture as picture', 'broadsheet.ca1 as ca1', 'broadsheet.ca2 as ca2', 'broadsheet.ca3 as ca3',
                 'broadsheet.exam as exam', 'broadsheet.total  as total', 'broadsheet.grade as grade',
                 'broadsheet.subjectpositionclass as position', 'broadsheet.remark as remark'])
             ->sortBy('admissionno');
@@ -421,15 +451,15 @@ class ScoresheetImport implements ToModel, WithStartRow, WithUpsertColumns, With
 
         } else {
 
-            echo 'ERROR 112O';
+            echo 'ERROR 1122';
         }
 
     }
 
-    public function scorescheck($ca1, $ca2, $exam)
+    public function scorescheck($ca1, $ca2,$ca3, $exam)
     {
 
-        $allscores = [$ca1, $ca1, $exam];
+        $allscores = [$ca1, $ca1, $ca3, $exam];
 
         return $allscores;
     }
