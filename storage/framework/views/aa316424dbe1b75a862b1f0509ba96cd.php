@@ -75,7 +75,7 @@
 
                     <div id="kt_app_content" class="app-content  flex-column-fluid " >
                         <!--begin::Content container-->
-                        <div id="kt_app_content_container" class="app-container  container-xxl ">
+                        <div id="kt_app_content_container" class="app-container ">
 
                    <!--begin::Toolbar-->
                         <div class="d-flex flex-wrap flex-stack my-5">

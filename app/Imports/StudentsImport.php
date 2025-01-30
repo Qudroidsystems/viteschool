@@ -6,6 +6,7 @@ use App\Models\Student;
 use Illuminate\Support\Str;
 use App\Models\Studentclass;
 use App\Models\Studenthouse;
+use App\Models\StudentStatus;
 use App\Models\Studentpicture;
 use App\Models\PromotionStatus;
 use App\Models\StudentBatchModel;
@@ -60,19 +61,19 @@ class StudentsImport implements ToModel, WithProgressBar, WithStartRow, WithUpse
         $lastschool = $row[13];
         $lastclass = $row[14];
 
-       
+
         $father_title = Str::limit($row[18], 3, '');
         $father = Str::substr($row[18], 3);
         $father_phone = $row[19];
-        $office_address = $row[19];
-        $father_occupation = $row[20];
-        $mother_title = Str::limit($row[23], 3, '');
-        $mother = Str::substr($row[23], 3);
-        $mother_phone = $row[24];
-        $mother_occupation = $row[25];
-        $mother_office_address = $row[26];
-        $parent_address = $row[27];
-        $parent_religion = $row[28];
+        $office_address = $row[20];
+        $father_occupation = $row[21];
+        $mother_title = Str::limit($row[22], 3, '');
+        $mother = Str::substr($row[22], 3);
+        $mother_phone = $row[23];
+        $mother_occupation = $row[24];
+        $mother_office_address = $row[25];
+        $parent_address = $row[26];
+        $parent_religion = $row[27];
 
 
 
@@ -84,6 +85,8 @@ class StudentsImport implements ToModel, WithProgressBar, WithStartRow, WithUpse
         $studenthouse = new Studenthouse();
         $picture = new Studentpicture();
         $studentpersonalityprofile = new Studentpersonalityprofile();
+        $studentStatus = StudentStatus::where('status', 'old')->first(); // Example query
+
 
         //populating student biodata
         $studentbiodata->admissionNo = $admissionno;
@@ -105,7 +108,7 @@ class StudentsImport implements ToModel, WithProgressBar, WithStartRow, WithUpse
         $studentbiodata->last_class = $lastclass;
         $studentbiodata->registeredBy = Auth::user()->id;
         $studentbiodata->batchid = $batchid;
-        $studentbiodata->statusId = $studentStatus->id; // Assign statusId
+        $studentbiodata->statusId = $studentStatus ? $studentStatus->statusId : 1; // Assign statusId
 
         $studentbiodata->save(); // ✅ Save first
 

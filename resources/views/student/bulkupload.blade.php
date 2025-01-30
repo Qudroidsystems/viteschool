@@ -54,7 +54,7 @@
                                 @endif
 
 
-                               
+
 
                                 @if (\Session::has('status'))
                                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -92,7 +92,7 @@
             <!--begin::Content container-->
 
         <!--begin::Content container-->
-        <div id="kt_app_content_container" class="app-container  container-xxl ">
+        <div id="kt_app_content_container" class="app-container  ">
            <form id="kt_ecommerce_add_category_form" class="form d-flex flex-column flex-lg-row" action="{{ route('student.bulkuploadsave') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
