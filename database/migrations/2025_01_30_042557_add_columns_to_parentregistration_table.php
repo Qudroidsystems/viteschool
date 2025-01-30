@@ -23,8 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('parentRegistration', function (Blueprint $table) {
-            $table->string('mother_occupation'); // Drop the column if the migration is rolled back
-            $table->string('mother_office_address');
+            $table->dropColumn('mother_occupation'); // Drop the column if the migration is rolled back
+            $table->dropColumn('mother_office_address');
         });
     }
 };

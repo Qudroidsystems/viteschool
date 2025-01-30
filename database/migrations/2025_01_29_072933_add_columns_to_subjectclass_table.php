@@ -23,8 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('subjectclass', function (Blueprint $table) {
-            $table->string('termid'); // Drop the column if the migration is rolled back
-            $table->string('termid');
+            $table->dropColumn('termid'); // Drop the column if the migration is rolled back
+            $table->dropColumn('sessionid');
         });
     }
 };
