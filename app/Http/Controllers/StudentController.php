@@ -149,7 +149,8 @@ class StudentController extends Controller
             $batch->session = $request->sessionid;
             $batch->status = '';
             $batch->save();
-           Session::put('sclassid', $request->schoolclassid);
+
+            Session::put('sclassid', $request->schoolclassid);
             Session::put('tid', $request->termid);
             Session::put('sid', $request->sessionid);
             Session::put('batchid', $batch->id);
