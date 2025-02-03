@@ -666,6 +666,8 @@
             <!--end::Input group-->
 
 
+
+
         </div>
         <!--end::Card body-->
 
@@ -773,6 +775,41 @@
                     <!--end::Col-->
                 </div>
                 <!--end::Input group-->
+                 <!--begin::Input group-->
+             <div class="row mb-6">
+                <!--begin::Label-->
+                <label class="col-lg-4 col-form-label required fw-semibold fs-6">
+                   Student Status
+                </label>
+                <!--end::Label-->
+
+                <!--begin::Col-->
+                <div class="col-lg-8 fv-row">
+                    <!--begin::Options-->
+                    <div class="d-flex align-items-center mt-3">
+                        <!--begin::Option-->
+                        <label class="form-check form-check-custom form-check-inline form-check-solid me-5">
+                            <input class="form-check-input" name="statusId"  type="radio" value="1" required />
+                            <span class="fw-semibold ps-2 fs-6">
+                               Old student
+                            </span>
+                        </label>
+                        <!--end::Option-->
+
+                        <!--begin::Option-->
+                        <label class="form-check form-check-custom form-check-inline form-check-solid">
+                            <input class="form-check-input" name="statusId"  type="radio" value="2" required />
+                            <span class="fw-semibold ps-2 fs-6">
+                               New Student
+                            </span>
+                        </label>
+                        <!--end::Option-->
+                    </div>
+                    <!--end::Options-->
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Input group-->
 
 
                     <div class="d-flex">

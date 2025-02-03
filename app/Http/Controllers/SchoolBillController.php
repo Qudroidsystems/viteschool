@@ -22,7 +22,11 @@ class SchoolBillController extends Controller
      */
     public function index()
     {
-        $schoolbills = SchoolBillModel::all();
+        $schoolbills = SchoolBillModel::leftJoin('student_status','student_status.id','=','school_bill.id')
+        ->get(['school_bill.id as id','school_bill.title as title',
+             'school_bill.description as description','school_bill.bill_amount as bill_amount',
+             'student_status.id as statusId','school_bill.updated_at as updated_at']);
+
         return view('schoolbill.index')->with('schoolbills',$schoolbills);
     }
 
@@ -44,6 +48,7 @@ class SchoolBillController extends Controller
             'title' => 'required|min:1|unique:school_bill',
             'bill_amount' => 'required|min:1|unique:school_bill',
             'description' =>'required',
+            'statusId' =>'required',
         ] );
 
         if ($validator->fails()) {
@@ -67,6 +72,7 @@ class SchoolBillController extends Controller
             $sbill->title = $request->title;
             $sbill->bill_amount = $number ;
             $sbill->description = $request->description;
+            $sbill->statusId = $request->statusId;
             $sbill->save();
             if($sbill != null){
                 return redirect()->back()->with('status', 'School Bill created Successfully!');

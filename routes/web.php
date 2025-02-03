@@ -142,7 +142,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('mysubject', MySubjectController::class);
 
     Route::get('term_results', [MyresultroomController::class, 'term'])->name('myresultroom.term');
-  
+
     Route::resource('myresultroom', MyresultroomController::class);
     Route::resource('studentresults', StudentResultsController::class);
     Route::resource('subjectscoresheet', MyScoreSheetController::class);
@@ -169,7 +169,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     //house routes
     Route::post('houseid', [SchoolHouseController::class, 'updatehouse'])->name('schoolhouse.updatehouse');
-    Route::get('/houseid/{houseid}', [SchoolHouseControll::class, 'deleteherouse'])->name('schoolhouse.deletehouse');
+    Route::get('/houseid/{houseid}', [SchoolHouseController::class, 'deleteherouse'])->name('schoolhouse.deletehouse');
     Route::resource('studenthouse', StudentHouseController::class);
 
     //Route::resource('studentpersonalityprofile',StudentpersonalityprofileController::class);

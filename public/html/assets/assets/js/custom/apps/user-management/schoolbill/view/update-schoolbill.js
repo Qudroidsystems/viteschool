@@ -36,6 +36,13 @@ var KTUsersUpdatePermissions = function () {
                             }
                         }
                     },
+                    'statusId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Description is required'
+                            }
+                        }
+                    },
 
                 },
 
@@ -208,6 +215,7 @@ $(function () {
         var a = $.trim($(this).parents("tr").find(".title").text());
         var b = $.trim($(this).parents("tr").find(".bill_amount").text());
         var c = $.trim($(this).parents("tr").find(".description").text());
+        var d = $.trim($(this).parents("tr").find(".studentStatus").text());
 
         function removeCharacter(position) {
            let originalString = b;
@@ -252,7 +260,7 @@ $(function () {
           +'<label class="required fw-semibold fs-6 mb-2">Remark</label>'
 
           +'<input type="text" name="description" id="description" value="'+c+'" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Description ..." required  />'
-
+  +'<input type="text" name="studentStatus" id="studentStatus" value="'+c+'" class="form-control form-control-solid mb-3 mb-lg-0"   />'
           +'</div>'
            +'</div>';
         //CLEARING THE PREFILLED DATA

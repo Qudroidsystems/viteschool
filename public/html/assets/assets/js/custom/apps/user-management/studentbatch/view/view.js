@@ -54,7 +54,7 @@ var KTUsersViewRole = function () {
                 // Get customer name
                 const userName = parent.querySelectorAll('td')[2].innerText;
                 var userURL = $(this).data('url');
-                //alert(userURL);
+                alert(userURL);
 
 
                 // SweetAlert2 pop up --- official docs reference: https://sweetalert2.github.io/

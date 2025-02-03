@@ -29,7 +29,8 @@ class Student extends Model
         'local',
         'last_school',
         'last_class',
-        'registeredBy'
+        'registeredBy',
+        'statusId',
 
     ];
 }

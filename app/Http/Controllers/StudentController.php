@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Imports\StudentsImport;
 use App\Models\Broadsheet;
 use App\Models\ParentRegistration;
-use App\Models\Promotionstatus;
+use App\Models\PromotionStatus;
 use App\Models\Schoolclass;
 use App\Models\Schoolsession;
 use App\Models\Schoolterm;
@@ -209,6 +209,7 @@ class StudentController extends Controller
             'schoolclassid' => 'required',
             'termid' => 'required',
             'sessionid' => 'required',
+            'statusId' => 'required',
 
         ],
             ['schoolclassid.required' => 'Select Class Please!',
@@ -265,6 +266,7 @@ class StudentController extends Controller
             $studentbiodata->last_school = $request->last_school;
             $studentbiodata->last_class = $request->last_class;
             $studentbiodata->registeredBy = $request->registeredBy;
+            $studentbiodata->statusId = $request->statusId;
             $studentbiodata->save();
             $studentId = $studentbiodata->id;
 
@@ -516,7 +518,7 @@ class StudentController extends Controller
 
             Studentclass::where('studentId', $s)->delete();
             Studenthouse::where('studentid', $s)->delete();
-            Promotionstatus::where('studentId', $s)->delete();
+            PromotionStatus::where('studentId', $s)->delete();
             ParentRegistration::where('studentId', $s)->delete();
             Studentpicture::where('studentid', $s)->delete();
             Broadsheet::where('studentId', $s)->delete();

@@ -36,6 +36,14 @@ var KTUsersAddUser = function () {
                             }
                         }
                     },
+                    'statusId': {
+                        validators: {
+                            notEmpty: {
+                                message: 'Bill status is required'
+                            }
+                        }
+                    },
+
 
 
                 },

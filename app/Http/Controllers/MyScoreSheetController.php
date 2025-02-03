@@ -311,8 +311,8 @@ class MyScoreSheetController extends Controller
             ->join('subjectclass', function ($join) {
                 $join->on('schoolclass.id', '=', 'subjectclass.schoolclassid');
             })
-            ->where('termid', $termid)
-            ->where('sessionid', $sessionid)
+            ->where('promotionStatus.termid', $termid)
+            ->where('promotionStatus.sessionid', $sessionid)
             ->update(['subjectstotalscores' => $search]);
 
         return view('subjectscoresheet.edit')->with('broadsheets', $Broadsheets)
@@ -363,6 +363,7 @@ class MyScoreSheetController extends Controller
             # code...
         }
 
+        echo $term;
         //  // Update specific fields from the request
         // $broadsheet->ca1 = $request->ca1;
         // $broadsheet->ca2 = $request->ca2;

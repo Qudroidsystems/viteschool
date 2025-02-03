@@ -179,6 +179,41 @@
                                                                 <!--end::Input group-->
 
 
+                                                                <!--begin::Input group-->
+                                                                <div class="row mb-6">
+                                                                    <!--begin::Label-->
+                                                                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">
+                                                                    This Bill is for
+                                                                    </label>
+                                                                    <!--end::Label-->
+
+                                                                    <!--begin::Col-->
+                                                                    <div class="col-lg-8 fv-row">
+                                                                        <!--begin::Options-->
+                                                                        <div class="d-flex align-items-center mt-3">
+                                                                            <!--begin::Option-->
+                                                                            <label class="form-check form-check-custom form-check-inline form-check-solid me-5">
+                                                                                <input class="form-check-input" name="statusId"  type="radio" value="1" required />
+                                                                                <span class="fw-semibold ps-2 fs-6">
+                                                                                Old students
+                                                                                </span>
+                                                                            </label>
+                                                                            <!--end::Option-->
+
+                                                                            <!--begin::Option-->
+                                                                            <label class="form-check form-check-custom form-check-inline form-check-solid">
+                                                                                <input class="form-check-input" name="statusId"  type="radio" value="2" required />
+                                                                                <span class="fw-semibold ps-2 fs-6">
+                                                                                New Students
+                                                                                </span>
+                                                                            </label>
+                                                                            <!--end::Option-->
+                                                                        </div>
+                                                                        <!--end::Options-->
+                                                                    </div>
+                                                                    <!--end::Col-->
+                                                                </div>
+                                                                <!--end::Input group-->
 
 
 
@@ -331,6 +366,7 @@
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">School Bill</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Bill Amount</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Remark</th>
+                    <th class="min-w-125px" style="color: rgb(51, 35, 200)">Student Status</th>
                     <th class="min-w-125px" style="color: rgb(51, 35, 200)">Date Updated</th>
                     <th class="min-w-100px" style="color: rgb(51, 35, 200)">Actions</th>
                 </tr>
@@ -360,6 +396,14 @@
                         </td>
                         <td class="description">
                             {{  $bill->description }}
+                        </td>
+                        <td class="studentStatus">
+                            @if( $bill->statusId ==1)
+                               Old Students
+                            @else
+                                New Students
+                            @endif
+
                         </td>
                         <td>
                             {{  $bill->updated_at }}

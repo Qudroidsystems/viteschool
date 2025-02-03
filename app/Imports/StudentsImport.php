@@ -108,7 +108,7 @@ class StudentsImport implements ToModel, WithProgressBar, WithStartRow, WithUpse
         $studentbiodata->last_class = $lastclass;
         $studentbiodata->registeredBy = Auth::user()->id;
         $studentbiodata->batchid = $batchid;
-        $studentbiodata->statusId = $studentStatus ? $studentStatus->statusId : 1; // Assign statusId
+        $studentbiodata->statusId =  1; // Assign statusId
 
         $studentbiodata->save(); // ✅ Save first
 
