@@ -93,7 +93,7 @@ class StudentsImport implements ToModel, WithProgressBar, WithStartRow, WithUpse
         $studentbiodata->tittle = '';
         $studentbiodata->firstname = $firstname;
         $studentbiodata->lastname = $surname;
-        $studentbiodata->othername = $othername;
+        $studentbiodata->othername = $othername ?? 'Nill';
         $studentbiodata->gender = $gender;
         $studentbiodata->home_address = "$homeaddress";
         $studentbiodata->home_address2 = '';
