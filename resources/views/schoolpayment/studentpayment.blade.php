@@ -340,7 +340,7 @@
                         <div class="card card-dashed h-xl-100 flex-row flex-stack flex-wrap p-6">
                             <!--begin::Info-->
                             @php
-                                $actualAmount1 = $sc->amount;
+                                $actualAmount1 =    $sc->amount;
                                 $paymentFound1 = 0;
                                 $amountPaid1 = 0;
                                 $balance1 = 0;

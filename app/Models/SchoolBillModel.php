@@ -13,5 +13,7 @@ class SchoolBillModel extends Model
     protected $fillable = [
         'title',
         'bill_amount',
+        'description',
+        'statusId',
     ];
 }

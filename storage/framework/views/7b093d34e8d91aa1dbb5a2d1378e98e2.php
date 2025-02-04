@@ -400,11 +400,13 @@
 
                         </td>
                         <td class="studentStatus">
-                            <?php if( $bill->statusId ==1): ?>
-                               Old Students
-                            <?php else: ?>
-                                New Students
-                            <?php endif; ?>
+                                    <?php if($bill->statusId == 1): ?>
+                                         Old Student Bill
+                                    <?php elseif($bill->statusId == 2): ?>
+                                        New Student Bill
+                                    <?php else: ?>
+                                        Unknown Status
+                                    <?php endif; ?>
 
                         </td>
                         <td>

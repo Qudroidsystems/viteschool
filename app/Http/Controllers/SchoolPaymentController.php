@@ -141,7 +141,8 @@ class SchoolPaymentController extends Controller
             ->get(['studentRegistration.id as id', 'studentRegistration.admissionNo as admissionNo', 'studentRegistration.firstname as firstname',
                 'studentRegistration.lastname as lastname', 'studentRegistration.dateofbirth as dateofbirth', 'studentRegistration.gender as gender',
                 'studentRegistration.updated_at as updated_at', 'studentpicture.picture as avatar', 'schoolclass.schoolclass as schoolclass', 'schoolarm.arm as arm',
-                'schoolterm.term as term', 'schoolsession.session as session', 'schoolclass.id as schoolclassid', 'schoolterm.id as termid', 'schoolsession.id as sessionid']);
+                'schoolterm.term as term', 'schoolsession.session as session', 'schoolclass.id as schoolclassid', 'schoolterm.id as termid',
+                'schoolsession.id as sessionid','studentRegistration.statusId as statusId']);
 
         foreach ($student as $value) {
 
@@ -151,35 +152,45 @@ class SchoolPaymentController extends Controller
         }
 
         $student_bill_info = SchoolBillTermSession::where('school_bill_class_term_session.class_id', $schoolclassid)->where('school_bill_class_term_session.termid_id', $termid)
-            ->where('school_bill_class_term_session.session_id', $sessionid)
-            ->leftjoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
-            ->get(['school_bill_class_term_session.id as id', 'school_bill.id as schoolbillid', 'school_bill.title as title', 'school_bill.description as description', 'school_bill.bill_amount as amount']);
+                            ->where('school_bill_class_term_session.session_id', $sessionid)
+                            ->leftjoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
+                            ->leftJoin('student_status', 'student_status.id', '=', 'school_bill.statusId')
+                            ->whereIn('student_status.id', [1])
+                            ->get(['school_bill_class_term_session.id as id', 'school_bill.id as schoolbillid',
+                            'school_bill.title as title',
+                            'school_bill.description as description',
+                            'student_status.id as statusId',
+                            'school_bill.bill_amount as amount']);
 
         $student_bill_info_count = SchoolBillTermSession::where('class_id', $schoolclassid)->where('termid_id', $termid)->where('session_id', $sessionid)
-            ->count();
+                                    ->where('school_bill_class_term_session.session_id', $sessionid)
+                                    ->leftjoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
+                                    ->leftJoin('student_status', 'student_status.id', '=', 'school_bill.statusId')
+                                    ->whereIn('student_status.id', [1])
+                                     ->count();
 
         //student school bill payment record...
         $studentpaymentbill = StudentBillPayment::where('student_id', $id)
-            ->where('student_bill_payment.class_id', $schoolclassid)
-            ->where('student_bill_payment.termid_id', $termid)
-            ->where('student_bill_payment.session_id', $sessionid)
-            ->where('student_bill_payment.delete_status', '1')
-            ->leftjoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
-            ->leftjoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
-            ->leftjoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
-            // ->whereDate('student_bill_payment.created_at', Carbon::today()) // Filter by today's date
-            ->get(['student_bill_payment.id as paymentid', 'student_bill_payment.status as paymentStatus', 'student_bill_payment.payment_method as paymentMethod', 'users.name as recievedBy',
-                'student_bill_payment.created_at as recievedDate', 'school_bill.title as title', 'school_bill.description as description', 'school_bill.bill_amount as billAmount',
-                'student_bill_payment_record.amount_paid as totalAmountPaid', 'student_bill_payment_record.last_payment as lastPayment',
-                'student_bill_payment_record.amount_owed as balance']);  // Get all records, sorted by latest date
+                            ->where('student_bill_payment.class_id', $schoolclassid)
+                            ->where('student_bill_payment.termid_id', $termid)
+                            ->where('student_bill_payment.session_id', $sessionid)
+                            ->where('student_bill_payment.delete_status', '1')
+                            ->leftjoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
+                            ->leftjoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
+                            ->leftjoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
+                            // ->whereDate('student_bill_payment.created_at', Carbon::today()) // Filter by today's date
+                            ->get(['student_bill_payment.id as paymentid', 'student_bill_payment.status as paymentStatus', 'student_bill_payment.payment_method as paymentMethod', 'users.name as recievedBy',
+                                'student_bill_payment.created_at as recievedDate', 'school_bill.title as title', 'school_bill.description as description', 'school_bill.bill_amount as billAmount',
+                                'student_bill_payment_record.amount_paid as totalAmountPaid', 'student_bill_payment_record.last_payment as lastPayment',
+                                'student_bill_payment_record.amount_owed as balance']);  // Get all records, sorted by latest date
 
         //student school bill payment record book...
         $studentpaymentbillbook = StudentBillPaymentBook::where('student_id', $id)
-            ->where('student_bill_payment_book.class_id', $schoolclassid)
-            ->where('student_bill_payment_book.term_id', $termid)
-            ->where('student_bill_payment_book.session_id', $sessionid)
-            ->get();  // Get all records, sorted by latest date
-
+                        ->where('student_bill_payment_book.class_id', $schoolclassid)
+                        ->where('student_bill_payment_book.term_id', $termid)
+                        ->where('student_bill_payment_book.session_id', $sessionid)
+                        ->get();  // Get all records, sorted by latest date
+        
         $schoolclass = Schoolclass::all();
         $schoolterm = Schoolterm::all();
         $schoolsession = Schoolsession::all();

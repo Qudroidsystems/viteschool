@@ -398,11 +398,13 @@
                             {{  $bill->description }}
                         </td>
                         <td class="studentStatus">
-                            @if( $bill->statusId ==1)
-                               Old Students
-                            @else
-                                New Students
-                            @endif
+                                    @if($bill->statusId == 1)
+                                         Old Student Bill
+                                    @elseif($bill->statusId == 2)
+                                        New Student Bill
+                                    @else
+                                        Unknown Status
+                                    @endif
 
                         </td>
                         <td>

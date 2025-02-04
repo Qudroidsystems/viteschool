@@ -22,10 +22,21 @@ class SchoolBillController extends Controller
      */
     public function index()
     {
-        $schoolbills = SchoolBillModel::leftJoin('student_status','student_status.id','=','school_bill.id')
-        ->get(['school_bill.id as id','school_bill.title as title',
-             'school_bill.description as description','school_bill.bill_amount as bill_amount',
-             'student_status.id as statusId','school_bill.updated_at as updated_at']);
+        // $schoolbills = SchoolBillModel::leftJoin('student_status','student_status.id','=','school_bill.id')
+        // ->get(['school_bill.id as id','school_bill.title as title',
+        //      'school_bill.description as description','school_bill.bill_amount as bill_amount',
+        //      'student_status.id as statusId','school_bill.updated_at as updated_at']);
+
+        $schoolbills = SchoolBillModel::leftJoin('student_status', 'student_status.id', '=', 'school_bill.statusId')
+                                        ->whereIn('student_status.id', [1, 2])
+                                        ->get([
+                                            'school_bill.id as id',
+                                            'school_bill.title as title',
+                                            'school_bill.description as description',
+                                            'school_bill.bill_amount as bill_amount',
+                                            'student_status.id as statusId',
+                                            'school_bill.updated_at as updated_at'
+                                        ]);
 
         return view('schoolbill.index')->with('schoolbills',$schoolbills);
     }
