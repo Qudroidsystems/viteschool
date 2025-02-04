@@ -104,7 +104,7 @@ class StudentsImport implements ToModel, WithProgressBar, WithStartRow, WithUpse
         $studentbiodata->nationlity = $nationality;
         $studentbiodata->state = $state;
         $studentbiodata->local = "$local";
-        $studentbiodata->last_school = $lastschool;
+        $studentbiodata->last_school = $lastschool ?? 'Nill';
         $studentbiodata->last_class = $lastclass;
         $studentbiodata->registeredBy = Auth::user()->id;
         $studentbiodata->batchid = $batchid;
