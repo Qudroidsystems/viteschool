@@ -247,7 +247,7 @@
     <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
         <!--begin::Card title-->
         <div class="card-title m-0">
-            <h3 class="fw-bold m-0"><p style="color: rgb(109, 109, 212)"> School Bills FOR &nbsp;&nbsp;{{ $fn }} {{ $ln }} ({{ $ad }}) for {{ $s->term }} | {{ $s->session }} ACADEMIC SESSION</p></h3>
+            <h3 class="fw-bold m-0"><p style="color: rgb(109, 109, 212)"> School Bills FOR &nbsp;&nbsp;{{  ucwords(strtolower($fn)) }} {{ucwords(strtolower($ln)) }} ({{ $ad }}) for {{ $schoolterm }} | {{ $schoolsession }} Academic Session</p></h3>
         </div>
         <!--end::Card title-->
     </div>

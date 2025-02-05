@@ -222,7 +222,7 @@
                                                         <!--begin::Menu item-->
                                                         <div class="menu-item px-3">
 
-                                                            <a  href="{{ route('schoolpayment.show',$sc->id) }}"  data-toggle="tooltip" title=" School Bill Payment for {{ $sc->firstname  }} {{ $sc->lastname }}"  class=" btn btn-light btn-active-primary" >Proceed to Payment</a>
+                                                            <a  href="{{ route('schoolpayment.termsession',$sc->id) }}"  data-toggle="tooltip" title=" School Bill Payment for {{ $sc->firstname  }} {{ $sc->lastname }}"  class=" btn btn-light btn-active-primary" >Proceed to Payment</a>
                                                         </div>
                                                         <!--end::Menu item-->
                                                     @endcan

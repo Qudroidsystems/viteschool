@@ -160,6 +160,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     //schoolpayment routes....
     Route::resource('schoolpayment', SchoolPaymentController::class);
+    Route::get('/termsession/{studentid}', [SchoolPaymentController::class, 'termSession'])->name('schoolpayment.termsession');
+    Route::post('termsessionpayments', [SchoolPaymentController::class, 'termSessionPayments'])->name('schoolpayment.termsessionpayments');
     Route::get('/studentinvoice/{studentid}/{schoolclassid}/{termid}/{sessionid}', [SchoolPaymentController::class, 'invoice'])->name('schoolpayment.invoice');
     Route::get('/deletestudentpayment/{paymentid}/', [SchoolPaymentController::class, 'deletestudentpayment'])->name('schoolpayment.deletestudentpayment');
 
