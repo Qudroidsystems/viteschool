@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\BioModel;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use DB;
 use Hash;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -71,6 +72,16 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
+        BioModel::updateOrCreate(['user_id'=>$user->id],
+                                 ['firstname' =>'',
+                                   'lastname' => '',
+                                   'othernames' => '',
+                                   'phone' => '',
+                                   'address' => '',
+                                   'gender' =>'',
+                                   'maritalstatus' =>'',
+                                    'nationality' =>'',
+                                    'dob' => '']);
 
         $user->assignRole($request->input('roles'));
 
@@ -154,9 +165,21 @@ class UserController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
-        User::find($id)->delete();
-        return redirect()->route('users.index')
-                        ->with('success','User deleted successfully');
+        // User::find($id)->delete();
+        // return redirect()->route('users.index')
+        //                 ->with('success','User deleted successfully');
+
+
+        DB::beginTransaction();
+        try {
+            $user = User::findOrFail($id);
+            $user->delete();
+            DB::commit();
+            return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->route('users.index')->with('error', 'Error deleting user: ' . $e->getMessage());
+        }
     }
 
      // delete user

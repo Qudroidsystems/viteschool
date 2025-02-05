@@ -114,7 +114,7 @@
 
                 <!--begin::Col-->
                 <div class="col-lg-8 fv-row">
-                    <span class="fw-semibold text-gray-800 fs-6">{{ $userbio->address }}</span>
+                    <span class="fw-semibold text-gray-800 fs-6">{{ $userbio->address ?? 'Nill' }}</span>
                 </div>
                 <!--end::Col-->
             </div>

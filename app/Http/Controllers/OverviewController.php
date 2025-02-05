@@ -42,10 +42,7 @@ class OverviewController extends Controller
         $user = User::find($id);
         $userroles = $user->roles->all();
         $userbio = $user->bio;
-        return view('users.overview',
-                          compact('user'),
-                      compact('userroles'))
-                           ->with("userbio",$userbio);
+        return view('users.overview',compact('user'),compact('userroles')) ->with("userbio",$userbio);
 
     }
 
