@@ -147,12 +147,12 @@ School Invoice
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Term</span>
-                <span class="fs-5"><?php echo e($s->term); ?></span>
+                <span class="fs-5"><?php echo e($schooltermId); ?></span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Session</span>
-                <span class="fs-5"><?php echo e($s->session); ?></span>
+                <span class="fs-5"><?php echo e($schoolsessionId); ?></span>
             </div>
         </div>
         <!--end::Order details-->
