@@ -730,7 +730,6 @@
                                                     <!--begin::Form-->
                                                     <form id="kt_modal_new_card_form" class="form" action="{{ route('schoolpayment.store') }}" method="POST">
                                                             @csrf
-
                                                                 <input type="hidden"   id="actual_amount"    name="actualAmount">
                                                                 <input type="hidden"   id="balance2"         name="balance2" >
                                                                 <input type="hidden"   id="student_id"       name="student_id" >

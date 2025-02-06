@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
+
 class SchoolPaymentController extends Controller
 {
     /**
@@ -57,65 +58,68 @@ class SchoolPaymentController extends Controller
      */
     public function store(Request $request)
     {
-        $formatteBillAmount = $request->actualAmount;
-        $formattedPaymentAmount = $request->payment_amount;
-        $formattedlastAmountPaid = $request->last_amount_paid;
 
-        // Step 1: Remove the currency symbol (₦) and commas
-        $plainNumberString = str_replace(['₦', ','], '', $formatteBillAmount);
-        $plainNumberString2 = str_replace(['₦', ','], '', $formattedPaymentAmount);
-        $plainNumberString3 = str_replace(['₦', ','], '', $formattedlastAmountPaid);
-        // Step 2: Convert the string to a number
-        $amount = floatval($plainNumberString);
-        $paymentAmount = floatval($plainNumberString2);
-        $lastPaidamount = floatval($plainNumberString3);
-        $status = '';
-        $balance = $request->balance2;
-        // $balance = 0;
-        $amountPaid = $paymentAmount;
-        $total_payment = $lastPaidamount + $amountPaid;
-        $newBalance = $amount - $total_payment;
+            $formatteBillAmount = $request->actualAmount;
+            $formattedPaymentAmount = $request->payment_amount;
+            $formattedlastAmountPaid = $request->last_amount_paid;
 
-        // echo 'Amount: '.$amount;
-        // echo ' Amount Paid: '.$amountPaid;
-        // echo ' Last Amount Paid: '.$lastPaidamount;
-        // echo ' initial Balance : '.$balance;
-        // echo ' New Balance: '.$newBalance;
-        // echo ' Total amount paid : '.$total_payment;=
+            // Step 1: Remove the currency symbol (₦) and commas
+            $plainNumberString = str_replace(['₦', ','], '', $formatteBillAmount);
+            $plainNumberString2 = str_replace(['₦', ','], '', $formattedPaymentAmount);
+            $plainNumberString3 = str_replace(['₦', ','], '', $formattedlastAmountPaid);
+            // Step 2: Convert the string to a number
+            $amount = floatval($plainNumberString);
+            $paymentAmount = floatval($plainNumberString2);
+            $lastPaidamount = floatval($plainNumberString3);
+            $status = '';
+            $balance = $request->balance2;
+            // $balance = 0;
+            $amountPaid = $paymentAmount;
+            $total_payment = $lastPaidamount + $amountPaid;
+            $newBalance = $amount - $total_payment;
 
-        if ($total_payment < $amount) {
-            $status = 'Uncompleted';
-        } elseif ($total_payment == $amount) {
-            $status = 'Completed';
-        }
+            // echo 'Amount: '.$amount;
+            // echo ' Amount Paid: '.$amountPaid;
+            // echo ' Last Amount Paid: '.$lastPaidamount;
+            // echo ' initial Balance : '.$balance;
+            // echo ' New Balance: '.$newBalance;
+            // echo ' Total amount paid : '.$total_payment;=
 
-        //store student bill payments
-        $studentpaymentbill = StudentBillPayment::create([
-            'student_id' => $request->student_id,
-            'school_bill_id' => $request->school_bill_id,
-            'status' => $status,
-            'payment_method' => $request->payment_method2,
-            'class_id' => $request->class_id,
-            'termid_id' => $request->term_id,
-            'session_id' => $request->session_id,
-            'generated_by' => Auth::user()->id,
-            'delete_status' => '1',
-        ]);
+            if ($total_payment < $amount) {
+                $status = 'Uncompleted';
+            } elseif ($total_payment == $amount) {
+                $status = 'Completed';
+            }
 
-        $studentBillPaymentRecord = StudentBillPaymentRecord::create([
-            'student_bill_payment_id' => $studentpaymentbill->id,
-            'total_bill' => $amount,
-            'amount_paid' => $amountPaid,
-            'last_payment' => $amountPaid,
-            'amount_owed' => $newBalance,
-            'complete_payment' => '',
-            'class_id' => $request->class_id,
-            'termid_id' => $request->term_id,
-            'session_id' => $request->session_id,
-            'generated_by' => Auth::user()->id,
-        ]);
+            //store student bill payments
+            $studentpaymentbill = StudentBillPayment::create([
+                'student_id' => $request->student_id,
+                'school_bill_id' => $request->school_bill_id,
+                'status' => $status,
+                'payment_method' => $request->payment_method2,
+                'class_id' => $request->class_id,
+                'termid_id' => $request->term_id,
+                'session_id' => $request->session_id,
+                'generated_by' => Auth::user()->id,
+                'delete_status' => '1',
+            ]);
 
-        return redirect()->back()->with('status', 'Payment Successful!');
+            $studentBillPaymentRecord = StudentBillPaymentRecord::create([
+                'student_bill_payment_id' => $studentpaymentbill->id,
+                'total_bill' => $amount,
+                'amount_paid' => $amountPaid,
+                'last_payment' => $amountPaid,
+                'amount_owed' => $newBalance,
+                'complete_payment' => '',
+                'class_id' => $request->class_id,
+                'termid_id' => $request->term_id,
+                'session_id' => $request->session_id,
+                'generated_by' => Auth::user()->id,
+            ]);
+
+            return redirect()->back()->with('status', 'Payment Successful!');
+
+
 
     }
 
@@ -185,7 +189,7 @@ class SchoolPaymentController extends Controller
         $student_bill_info = SchoolBillTermSession::where('school_bill_class_term_session.class_id', $schoolclassid)
                             ->where('school_bill_class_term_session.termid_id', $request->termid)
                             ->where('school_bill_class_term_session.session_id', $request->sessionid)
-                            ->leftjoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
+                            ->leftJoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
                             ->leftJoin('student_status', 'student_status.id', '=', 'school_bill.statusId')
                             ->whereIn('student_status.id', [1])
                             ->get(['school_bill_class_term_session.id as id',
@@ -200,20 +204,20 @@ class SchoolPaymentController extends Controller
             $student_bill_info_count = SchoolBillTermSession::where('class_id', $schoolclassid)
             ->where('termid_id', $request->termid)
             ->where('session_id', $request->sessionid)
-            ->join('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
-            ->join('student_status', 'student_status.id', '=', 'school_bill.statusId')
+            ->leftJoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
+            ->leftJoin('student_status', 'student_status.id', '=', 'school_bill.statusId')
             ->where('student_status.id', 1) // Use `where` instead of `whereIn` for a single value
             ->count();
 
              //student school bill payment record...
-            $studentpaymentbill = StudentBillPayment::where('student_id', $request->id)
+            $studentpaymentbill = StudentBillPayment::where('student_id', $request->studentId)
             ->where('student_bill_payment.class_id', $schoolclassid)
             ->where('student_bill_payment.termid_id', $request->termid)
             ->where('student_bill_payment.session_id', $request->sessionid)
             ->where('student_bill_payment.delete_status', '1')
-            ->join('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
-            ->join('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
-            ->join('users', 'users.id', '=', 'student_bill_payment.generated_by')
+            ->leftJoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
+            ->leftJoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
+            ->leftJoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
             ->get([
                 'student_bill_payment.id as paymentid',
                 'student_bill_payment.status as paymentStatus',
@@ -229,12 +233,14 @@ class SchoolPaymentController extends Controller
             ]);
 
 
+
         //student school bill payment record book...
         $studentpaymentbillbook = StudentBillPaymentBook::where('student_id', $request->id)
                             ->where('class_id', $schoolclassid)
                             ->where('term_id', $request->termid)
                             ->where('session_id', $request->sessionid)
                             ->get();
+
 
         $schoolclass = Schoolclass::all();
         $schoolterm = Schoolterm::where('id',$request->termid)
@@ -248,6 +254,8 @@ class SchoolPaymentController extends Controller
         ->first([
             'schoolsession.session as session',
         ]);
+
+
 
 
         return view('schoolpayment.studentpayment')->with('studentdata', $student)
