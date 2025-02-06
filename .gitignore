@@ -2,11 +2,11 @@
 /node_modules
 # /public/hot
 # /public/storage
-# /storage/*.key
-# /storage/framework/sessions
-# /storage/framework/views
-# /storage/framework/cache
-# /.env
+/storage/*.key
+/storage/framework/sessions
+/storage/framework/views
+/storage/framework/cache
+/.env
 /.env.*.backup
 /.vagrant
 Homestead.json
