@@ -452,7 +452,9 @@ class SchoolPaymentController extends Controller
 
         return view('schoolpayment.studentinvoice')->with('studentdata', $student)
             ->with('studentpaymentbill', $studentpaymentbill)
-            ->with('invoiceNumber', $invoiveNumber);
+            ->with('invoiceNumber', $invoiveNumber)
+            ->with('schooltermId', $termid)
+            ->with('schoolsessionId', $sessionid);;
 
     }
 

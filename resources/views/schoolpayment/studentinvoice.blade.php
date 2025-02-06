@@ -148,12 +148,12 @@ School Invoice
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Term</span>
-                <span class="fs-5">{{ $s->term }}</span>
+                <span class="fs-5">{{ $schooltermId }}</span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Session</span>
-                <span class="fs-5">{{ $s->session }}</span>
+                <span class="fs-5">{{ $schoolsessionId }}</span>
             </div>
         </div>
         <!--end::Order details-->
