@@ -477,8 +477,8 @@
                                     data-balance="<?php echo e(number_format($balance)); ?>"
                                     data-school_bill_id="<?php echo e($sc->schoolbillid); ?>"
                                     data-class_id="<?php echo e($s->schoolclassid); ?>"
-                                    data-term_id="<?php echo e($s->termid); ?>"
-                                    data-session_id="<?php echo e($s->sessionid); ?>"
+                                    data-term_id="<?php echo e($schooltermId); ?>"
+                                    data-session_id="<?php echo e($schoolsessionId); ?>"
                                     data-bs-toggle="modal"
                                     data-bs-target="#kt_modal_new_card" >Make Payment</button>
                             </div>
@@ -603,7 +603,7 @@
             class="btn btn-primary"
             style="float: right;"
             data-toggle="tooltip"
-            onclick="confirmAndProceed('<?php echo e(route('schoolpayment.invoice', [ $s->id, 'schoolclassid' => $s->schoolclassid, 'termid' => $s->termid, 'sessionid' => $s->sessionid])); ?>')">
+            onclick="confirmAndProceed('<?php echo e(route('schoolpayment.invoice', [ $s->id, 'schoolclassid' => $s->schoolclassid, 'termid' => $schooltermId, 'sessionid' => $schoolsessionId])); ?>')">
             <i class="fe fe-download mr-2"></i>Generate Invoice
          </a>
          <?php else: ?>

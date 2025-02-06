@@ -486,8 +486,8 @@
                                     data-balance="{{ number_format($balance) }}"
                                     data-school_bill_id="{{ $sc->schoolbillid }}"
                                     data-class_id="{{ $s->schoolclassid }}"
-                                    data-term_id="{{ $s->termid }}"
-                                    data-session_id="{{ $s->sessionid }}"
+                                    data-term_id="{{ $schooltermId }}"
+                                    data-session_id="{{ $schoolsessionId }}"
                                     data-bs-toggle="modal"
                                     data-bs-target="#kt_modal_new_card" >Make Payment</button>
                             </div>
@@ -615,7 +615,7 @@
             class="btn btn-primary"
             style="float: right;"
             data-toggle="tooltip"
-            onclick="confirmAndProceed('{{ route('schoolpayment.invoice', [ $s->id, 'schoolclassid' => $s->schoolclassid, 'termid' => $s->termid, 'sessionid' => $s->sessionid]) }}')">
+            onclick="confirmAndProceed('{{ route('schoolpayment.invoice', [ $s->id, 'schoolclassid' => $s->schoolclassid, 'termid' => $schooltermId, 'sessionid' => $schoolsessionId]) }}')">
             <i class="fe fe-download mr-2"></i>Generate Invoice
          </a>
          @else
