@@ -354,9 +354,9 @@
                                     $paymentFound1 = true;
                                     $amountPaid1 = $paymentBook->amount_paid;
                                     $balance1 = $paymentBook->amount_owed;
-                                     echo  (float)$amountPaid1;
-                                     echo " ";
-                                     echo (float)$actualAmount1;
+                                    //  echo  (float)$amountPaid1;
+                                    //  echo " ";
+                                    //  echo (float)$actualAmount1;
                                 @endphp
                             @endif
                         @endforeach

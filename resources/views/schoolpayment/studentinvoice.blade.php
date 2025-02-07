@@ -73,7 +73,7 @@ School Invoice
 <!--end::Secondary button-->
 
 <!--begin::Primary button-->
-<a href="{{ route('schoolpayment.show',$s->id) }}" class="btn btn-sm fw-bold btn-primary"  >
+<a href="{{ route('schoolpayment.termsession',$sc->id) }}" class="btn btn-sm fw-bold btn-primary"  >
 << Back        </a>
 <!--end::Primary button-->
 </div>
