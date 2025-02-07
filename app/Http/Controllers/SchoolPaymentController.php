@@ -260,6 +260,7 @@ class SchoolPaymentController extends Controller
                             ->where('session_id', $request->sessionid)
                             ->get();
 
+
        // print_r($studentpaymentbillbook);
 
 
@@ -319,10 +320,17 @@ class SchoolPaymentController extends Controller
     public function invoice($studentid, $schoolclassid, $termid, $sessionid)
     {
 
-        // $studentid = $studentid;
-        // $schoolclassid = '';
-        // $termid = '';
-        // $sessionid = '';
+            // $studentid = $studentid;
+            // $schoolclassid = '';
+            // $termid = '';
+            // $sessionid = '';
+            $totalAmountPaid = 0;
+            // Initialize an empty array to store the totalAmountPaid values
+            $totalPaidArray = [];
+
+          //payment status
+          $paymentStatus = '';
+
         $student = Student::where('studentRegistration.id', $studentid)
             ->leftJoin('parentRegistration', 'parentRegistration.id', '=', 'studentRegistration.id')
             ->leftJoin('studentpicture', 'studentpicture.studentid', '=', 'studentRegistration.id')
@@ -358,11 +366,21 @@ class SchoolPaymentController extends Controller
         //     echo $sessionid = $value->sessionid;
         // }
 
-        // Initialize an empty array to store the totalAmountPaid values
-        $totalPaidArray = [];
 
-        //payment status
-        $paymentStatus = '';
+
+        //generate invoice number
+        $invoiceNumber = $this->generateInvoiceNumber();
+        $invoice = StudentBillInvoice::create([
+            'invoice_no' => $invoiceNumber, // Generate unique invoice number
+            'student_id' => $studentid,
+            'school_bill_id' => 'none',
+            'status' => 'NONE', // Default status
+            'payment_method' => 'none',
+            'class_id' => $schoolclassid,
+            'termid_id' => $termid,
+            'session_id' => $sessionid,
+            'generated_by' => auth()->user()->id, // Assuming the authenticated user generates the invoice
+        ]);
 
         //student school bill payment record...
         $studentpaymentbill = StudentBillPayment::where('student_id', $studentid)
@@ -385,7 +403,8 @@ class SchoolPaymentController extends Controller
                 'student_bill_payment_record.last_payment as lastPayment',
                 'student_bill_payment_record.amount_owed as balance']);  // Get all records, sorted by latest date
 
-        $invoiveNumber = $this->generateInvoiceNumber();
+
+
 
         $studentpaymentbill_updating = StudentBillPayment::where('student_id', $studentid)
             ->where('student_bill_payment.class_id', $schoolclassid)
@@ -398,6 +417,7 @@ class SchoolPaymentController extends Controller
         foreach ($studentpaymentbill_updating as $key) {
 
             $key->delete_status = '0';
+            $key->invoiceNo = $invoiceNumber;
             // Save the changes
             $key->save();
         }
@@ -411,27 +431,28 @@ class SchoolPaymentController extends Controller
 
         foreach ($studentpaymentbill_total_bills as $key) {
 
-            // Query to sum the total amount paid for the current student_bill_payment_id and select other fields
-            $relatedData = StudentBillPayment::select(
-                'student_bill_payment.school_bill_id',  // Select the school bill ID
-                'student_bill_payment_record.total_bill AS totalBill',  // Select the school bill ID
-                'student_bill_payment.class_id',  // Select the class ID
-                'student_bill_payment.termid_id',  // Select the term ID
-                'student_bill_payment.session_id',  // Select the session ID
-                DB::raw('SUM(CAST(student_bill_payment_record.amount_paid AS FLOAT)) as totalAmountPaid') // Calculate total sum and cast to float
-            )
-                ->leftJoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
-                ->where('student_bill_payment.student_id', $studentid)
-                ->where('student_bill_payment.school_bill_id', $key->school_bill_id)
-                ->where('student_bill_payment.class_id', $schoolclassid)
-                ->where('student_bill_payment.termid_id', $termid)
-                ->where('student_bill_payment.session_id', $sessionid)
-                ->groupBy('student_bill_payment.school_bill_id',
-                    'student_bill_payment.class_id',
-                    'student_bill_payment.termid_id',
-                    'student_bill_payment.session_id',
-                    'student_bill_payment_record.total_bill')  // Group by the selected fields
-                    ->first();  // Fetch the first (and only) result with the total sum
+
+          // Query to sum the total amount paid for the current student_bill_payment_id and select other fields
+          $relatedData = StudentBillPayment::select(
+            'student_bill_payment.school_bill_id',  // Select the school bill ID
+            'student_bill_payment_record.total_bill AS totalBill',  // Select the school bill ID
+            'student_bill_payment.class_id',  // Select the class ID
+            'student_bill_payment.termid_id',  // Select the term ID
+            'student_bill_payment.session_id',  // Select the session ID
+            DB::raw('SUM(CAST(student_bill_payment_record.amount_paid AS FLOAT)) as totalAmountPaid') )
+            ->leftJoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
+            ->where('student_bill_payment.student_id', $studentid)
+            ->where('student_bill_payment.school_bill_id', $key->school_bill_id)
+            ->where('student_bill_payment.class_id', $schoolclassid)
+            ->where('student_bill_payment.termid_id', $termid)
+            ->where('student_bill_payment.session_id', $sessionid)
+            ->groupBy('student_bill_payment.school_bill_id',
+                'student_bill_payment.class_id',
+                'student_bill_payment.termid_id',
+                'student_bill_payment.session_id',
+                'student_bill_payment_record.total_bill')  // Group by the selected fields
+                ->first();  // Fetch the first (and only) result with the total sum
+
 
             // Check if relatedData has a valid result and totalAmountPaid exists
             if ($relatedData && isset($relatedData->totalAmountPaid)) {
@@ -459,7 +480,10 @@ class SchoolPaymentController extends Controller
                     'generated_by' => Auth::user()->id,
                 ]
             );
+
         }
+
+
 
         $schoolterm = Schoolterm::where('id',$termid)
         ->first([
@@ -475,7 +499,7 @@ class SchoolPaymentController extends Controller
 
         return view('schoolpayment.studentinvoice')->with('studentdata', $student)
             ->with('studentpaymentbill', $studentpaymentbill)
-            ->with('invoiceNumber', $invoiveNumber)
+            ->with('invoiceNumber', $invoiceNumber)
             ->with('schooltermId', $termid)
             ->with('schoolterm', $schoolterm->term)
             ->with('schoolsession', $schoolsession->session)
@@ -501,19 +525,16 @@ class SchoolPaymentController extends Controller
 
     public function generateInvoiceNumber()
     {
-        $date = date('Ymd'); // e.g., 20240906 for September 6, 2024
-        $latestInvoice = StudentBillInvoice::whereDate('created_at', today())->latest()->first();
+        do {
+            $date = date('Ymd');
+            $randomDigits = mt_rand(100, 999);
+            $uniqueId = strtoupper(substr(uniqid(), -4));
+            $invoiceNumber = "TNT-{$date}-{$randomDigits}{$uniqueId}";
+        } while (StudentBillInvoice::where('invoice_no', $invoiceNumber)->exists());
 
-        if (! $latestInvoice) {
-            return 'INV-'.$date.'-001';
-        }
-
-        // Extract the last three digits of the invoice number
-        $lastNumber = (int) substr($latestInvoice->invoice_number, -3);
-        $newNumber = $lastNumber + 1;
-
-        return 'INV-'.$date.'-'.str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+        return $invoiceNumber;
     }
+
 
     public function deletestudentpayment(Request $request)
     {

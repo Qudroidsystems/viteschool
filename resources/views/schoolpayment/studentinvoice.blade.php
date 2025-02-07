@@ -73,7 +73,7 @@ School Invoice
 <!--end::Secondary button-->
 
 <!--begin::Primary button-->
-<a href="{{ route('schoolpayment.termsession',$sc->id) }}" class="btn btn-sm fw-bold btn-primary"  >
+<a href="{{ route('schoolpayment.termsession',$s->id) }}" class="btn btn-sm fw-bold btn-primary"  >
 << Back        </a>
 <!--end::Primary button-->
 </div>
@@ -99,6 +99,7 @@ School Invoice
 <!-- begin::Header-->
 <div class="d-flex justify-content-between flex-column flex-sm-row mb-19">
     <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7">BILLS INVOICE</h4>
+    
 
     <!--end::Logo-->
     <div class="text-sm-end">
@@ -123,6 +124,15 @@ School Invoice
 <div class="pb-12">
     <!--begin::Wrapper-->
     <div class="d-flex flex-column gap-7 gap-md-10">
+        <?php $image = ""; ?>
+        <?php
+        if ($s->avatar  == NULL || !isset($s->avatar ) || $s->avatar =="" ){
+                $image =  'unnamed.png';
+        }else {
+            $image =   $s->avatar;
+        }
+        ?>
+        <img src="{{ Storage::url('images/studentavatar/'.$image)}}" alt="{{ $s->firstname }} {{ $s->lastname }}" class="w-20" height="80px" width="80px" style="border-radius: 10px"/>
             <!--begin::Message-->
         <div class="fw-bold fs-2">
             Dear {{ $fn }} {{ $ln }} <span class="fs-6">({{ $ad }})</span>,<br />

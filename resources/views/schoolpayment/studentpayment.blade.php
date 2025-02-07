@@ -399,31 +399,29 @@
                                         @if ((int)$paymentBook->school_bill_id === (int)$sc->schoolbillid)
 
                                             @php
-
-
-                                        $totalLastPayment = StudentBillPayment::where('student_id', $studentId)
-                                                    ->where('student_bill_payment.class_id', $schoolclassId)
-                                                    ->where('student_bill_payment.termid_id', $schooltermId)
-                                                    ->where('student_bill_payment.session_id', $schoolsessionId)
-                                                    ->where('student_bill_payment.school_bill_id', $sc->schoolbillid)
-                                                    //->where('student_bill_payment.delete_status', 0)
-                                                    ->leftjoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
-                                                    ->leftjoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
-                                                    ->leftjoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
-                                                    // ->whereDate('student_bill_payment.created_at', Carbon::today()) // Filter by today's date
-                                                // ->sum('student_bill_payment_record.last_payment');
-                                                    ->sum(DB::raw('CAST(student_bill_payment_record.amount_paid AS DECIMAL(10, 2))'));
+                                                $totalLastPayment = StudentBillPayment::where('student_id', $studentId)
+                                                            ->where('student_bill_payment.class_id', $schoolclassId)
+                                                            ->where('student_bill_payment.termid_id', $schooltermId)
+                                                            ->where('student_bill_payment.session_id', $schoolsessionId)
+                                                            ->where('student_bill_payment.school_bill_id', $sc->schoolbillid)
+                                                            //->where('student_bill_payment.delete_status', 0)
+                                                            ->leftjoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
+                                                            ->leftjoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
+                                                            ->leftjoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
+                                                            // ->whereDate('student_bill_payment.created_at', Carbon::today()) // Filter by today's date
+                                                        // ->sum('student_bill_payment_record.last_payment');
+                                                            ->sum(DB::raw('CAST(student_bill_payment_record.amount_paid AS DECIMAL(10, 2))'));
 
 
                                                 $paymentFound = true;
-                                               echo  $amountPaid = $totalLastPayment;
+                                                $amountPaid = $totalLastPayment;
 
 
                                                 if((float)$amountPaid == 0){
-                                                    $balance = $sc->amount;
+                                                  // echo  $balance = $sc->amount;
                                                 }
                                                 else{
-                                                    $balance = $paymentBook->amount_owed;
+                                                  $balance = $paymentBook->amount_owed;
                                                 }
 
                                             @endphp
@@ -436,10 +434,10 @@
                                     @else
                                     @php
                                          if((float)$amountPaid == 0){
-                                                $balance = $sc->amount;
+                                              echo   $balance = $sc->amount;
                                             }
                                             else{
-                                                $balance = $paymentBook->amount_owed;
+                                               echo  $balance = $paymentBook->amount_owed;
                                             }
 
                                     @endphp
@@ -773,7 +771,7 @@
 
                                                                     <select name="payment_method2" data-control="select2" data-placeholder="Select an option" data-hide-search="true" class="form-select form-select-solid form-select-lg fw-semibold fs-6 text-gray-700">
                                                                         <option value="">Select Payment Method</option>
-                                                                        <option value="Bank Deposit"> Bank Deposit</option>
+                                                                        <option value="Bank Deposit"> Bank Deposit / Bank Teller </option>
                                                                         <option value="School POS"> School POS/Cash</option>
                                                                     </select>
 
