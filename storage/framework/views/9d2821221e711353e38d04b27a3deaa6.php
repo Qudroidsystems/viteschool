@@ -98,7 +98,7 @@ School Invoice
 <!-- begin::Header-->
 <div class="d-flex justify-content-between flex-column flex-sm-row mb-19">
     <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7">BILLS INVOICE</h4>
-    
+
 
     <!--end::Logo-->
     <div class="text-sm-end">
@@ -131,7 +131,7 @@ School Invoice
             $image =   $s->avatar;
         }
         ?>
-        <img src="<?php echo e(Storage::url('images/studentavatar/'.$image)); ?>" alt="<?php echo e($s->firstname); ?> <?php echo e($s->lastname); ?>" class="w-20" height="80px" width="80px" style="border-radius: 10px"/>
+        <img src="<?php echo e(Storage::url('images/studentavatar/'.$image)); ?>" alt="<?php echo e($s->firstname); ?> <?php echo e($s->lastname); ?>" class="w-20" height="120px" width="120px" style="border-radius: 10px"/>
             <!--begin::Message-->
         <div class="fw-bold fs-2">
             Dear <?php echo e($fn); ?> <?php echo e($ln); ?> <span class="fs-6">(<?php echo e($ad); ?>)</span>,<br />
