@@ -355,7 +355,9 @@
                                     $paymentFound1 = true;
                                     $amountPaid1 = $paymentBook->amount_paid;
                                     $balance1 = $paymentBook->amount_owed;
-                                    // echo  (float)$amountPaid1
+                                     echo  (float)$amountPaid1;
+                                     echo " ";
+                                     echo (float)$actualAmount1;
                                 ?>
                             <?php endif; ?>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -406,7 +408,7 @@
                                                     ->where('student_bill_payment.termid_id', $schooltermId)
                                                     ->where('student_bill_payment.session_id', $schoolsessionId)
                                                     ->where('student_bill_payment.school_bill_id', $sc->schoolbillid)
-                                                // ->where('student_bill_payment.delete_status', '1')
+                                                    //->where('student_bill_payment.delete_status', 0)
                                                     ->leftjoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
                                                     ->leftjoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
                                                     ->leftjoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
@@ -416,7 +418,7 @@
 
 
                                                 $paymentFound = true;
-                                                $amountPaid = $totalLastPayment;
+                                               echo  $amountPaid = $totalLastPayment;
 
 
                                                 if((float)$amountPaid == 0){
@@ -719,7 +721,7 @@
                                                     <!--begin::Form-->
                                                     <form id="kt_modal_new_card_form" class="form" action="<?php echo e(route('schoolpayment.store')); ?>" method="POST">
                                                             <?php echo csrf_field(); ?>
-                                                            
+
                                                                 <input type="hidden"   id="actual_amount"    name="actualAmount">
                                                                 <input type="hidden"   id="balance2"         name="balance2" >
                                                                 <input type="hidden"   id="student_id"       name="student_id" >

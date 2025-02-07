@@ -148,12 +148,12 @@ School Invoice
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Term</span>
-                <span class="fs-5">{{ $schooltermId }}</span>
+                <span class="fs-5">{{ $schoolterm }}</span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Session</span>
-                <span class="fs-5">{{ $schoolsessionId }}</span>
+                <span class="fs-5">{{ $schoolsession }}</span>
             </div>
         </div>
         <!--end::Order details-->
@@ -180,7 +180,7 @@ School Invoice
                         <tr class="border-bottom fs-6 fw-bold fs-5">
                             <th class="min-w-175px fs-5" style="color: rgb(22, 22, 135)">School Bill</th>
                             <th class="min-w-70px text-end pb-2 fs-5" style="color: rgb(22, 22, 135)">Bill Amount</th>
-                            <th class="min-w-80px text-end pb-2 fs-5" style="color: rgb(22, 22, 135)">Paid Today </th>
+                            <th class="min-w-80px text-end pb-2 fs-5" style="color: rgb(22, 22, 135)">Amount Paid </th>
                             <th class="min-w-80px text-end pb-2 fs-5" style="color: rgb(22, 22, 135)">Payment Method</th>
                             <th class="min-w-100px text-end pb-2 fs-5" style="color: rgb(22, 22, 135)">Outstanding</th>
                         </tr>
