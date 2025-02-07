@@ -15,29 +15,14 @@ var KTUsersAddUser = function () {
             form,
             {
                 fields: {
-                    'bill_id': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please Select School Bill'
-                            }
-                        }
-                    },
-                    'class_id': {
-                        validators: {
-                            notEmpty: {
-                                message: 'Please Select School Class'
-                            }
-                        }
-                    },
-
-                    'termid_id': {
+                    'termidid': {
                         validators: {
                             notEmpty: {
                                 message: 'Please Select School Term'
                             }
                         }
                     },
-                    'session_id': {
+                    'sessionid': {
                         validators: {
                             notEmpty: {
                                 message: 'Please Select School Session'
