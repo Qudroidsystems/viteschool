@@ -284,15 +284,34 @@ class StudentController extends Controller
             $parent->religion = '';
             $parent->save();
 
-            //for student class
 
+
+            //student class registration for all the terms
+            //first term
+            $studentclass = new Studentclass();
             $studentclass->studentId = $studentId;
             $studentclass->schoolclassid = $request->schoolclassid;
-            $studentclass->termid = $request->termid;
+            $studentclass->termid = '1';
             $studentclass->sessionid = $request->sessionid;
             $studentclass->save();
 
-            echo $studentId;
+            //second term
+            $studentclass2 = new Studentclass();
+            $studentclass2->studentId = $studentId;
+            $studentclass2->schoolclassid = $request->schoolclassid;
+            $studentclass2->termid = '2';
+            $studentclass2->sessionid = $request->sessionid;
+            $studentclass2->save();
+
+            //third term
+            $studentclass3 = new Studentclass();
+            $studentclass3->studentId = $studentId;
+            $studentclass3->schoolclassid = $request->schoolclassid;
+            $studentclass3->termid = '3';
+            $studentclass3->sessionid = $request->sessionid;
+            $studentclass3->save();
+
+            //echo $studentId;
             //for class history...
             $promotion->studentId = $studentId;
             $promotion->schoolclassid = $request->schoolclassid;

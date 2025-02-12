@@ -138,9 +138,26 @@ class StudentsImport implements ToModel, WithProgressBar, WithStartRow, WithUpse
         //registering school class and arm for the student
         $studentclass->studentId = $studentId;
         $studentclass->schoolclassid = $schoolclassid;
-        $studentclass->termid = $termid;
+        $studentclass->termid = '1';
         $studentclass->sessionid = $sessionid;
         $studentclass->save();
+
+
+        //second term
+        $studentclass2 = new Studentclass();
+        $studentclass2->studentId = $studentId;
+        $studentclass2->schoolclassid = $request->schoolclassid;
+        $studentclass2->termid = '2';
+        $studentclass2->sessionid = $request->sessionid;
+        $studentclass2->save();
+
+        //third term
+        $studentclass3 = new Studentclass();
+        $studentclass3->studentId = $studentId;
+        $studentclass3->schoolclassid = $request->schoolclassid;
+        $studentclass3->termid = '3';
+        $studentclass3->sessionid = $request->sessionid;
+        $studentclass3->save();
 
         //for class history...
         $promotion->studentId = $studentId;
