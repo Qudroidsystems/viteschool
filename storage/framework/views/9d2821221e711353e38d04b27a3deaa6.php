@@ -110,7 +110,7 @@ School Invoice
 
         <!--begin::Text-->
         <div class="text-sm-end fw-semibold fs-4 fs-5 mt-7">
-            <div>Trinity Comprehensive International School</div>
+            <div style="color: rgb(22, 22, 135)">Trinity Comprehensive International School</div>
 
             <div>Ondo City, Ondo state</div>
         </div>
@@ -133,36 +133,41 @@ School Invoice
         ?>
         <img src="<?php echo e(Storage::url('images/studentavatar/'.$image)); ?>" alt="<?php echo e($s->firstname); ?> <?php echo e($s->lastname); ?>" class="w-20" height="120px" width="120px" style="border-radius: 10px"/>
             <!--begin::Message-->
-        <div class="fw-bold fs-2">
+        <div class="fw-bold fs-2" style="color: rgb(22, 22, 135)">
             Dear <?php echo e($fn); ?> <?php echo e($ln); ?> <span class="fs-6">(<?php echo e($ad); ?>)</span>,<br />
             <span class="fs-5 fs-5">Here are your  payment details.</span>
         </div>
         <!--begin::Message-->
 
         <!--begin::Separator-->
-        <div class="separator"></div>
+        <div class="separator" ></div>
         <!--begin::Separator-->
 
         <!--begin::Order details-->
         <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold">
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Invoice ID</span>
-                <span class="fs-5">#<?php echo e($invoiceNumber); ?></span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)">#<?php echo e($invoiceNumber); ?></span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Date-Time</span>
-                <span class="fs-5"><?php echo e(\Carbon\Carbon::now()->format('d F, Y H:i')); ?></span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)"><?php echo e(\Carbon\Carbon::now()->format('d F, Y H:i')); ?></span>
+            </div>
+
+            <div class="flex-root d-flex flex-column">
+                <span class="fs-5" style="color: rgb(22, 22, 135)">Class</span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)"><?php echo e($s->schoolclass); ?> <?php echo e($s->arm); ?></span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Term</span>
-                <span class="fs-5"><?php echo e($schoolterm); ?></span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)"><?php echo e($schoolterm); ?></span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Session</span>
-                <span class="fs-5"><?php echo e($schoolsession); ?></span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)"><?php echo e($schoolsession); ?></span>
             </div>
         </div>
         <!--end::Order details-->

@@ -490,12 +490,12 @@ class SchoolPaymentController extends Controller
             'schoolterm.term as term',
         ]);
 
-
-
         $schoolsession = Schoolsession::where('id',$sessionid)
         ->first([
             'schoolsession.session as session',
         ]);
+
+    
 
         return view('schoolpayment.studentinvoice')->with('studentdata', $student)
             ->with('studentpaymentbill', $studentpaymentbill)

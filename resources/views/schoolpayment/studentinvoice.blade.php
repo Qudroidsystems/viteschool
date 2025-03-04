@@ -111,7 +111,7 @@ School Invoice
 
         <!--begin::Text-->
         <div class="text-sm-end fw-semibold fs-4 fs-5 mt-7">
-            <div>Trinity Comprehensive International School</div>
+            <div style="color: rgb(22, 22, 135)">Trinity Comprehensive International School</div>
 
             <div>Ondo City, Ondo state</div>
         </div>
@@ -134,36 +134,41 @@ School Invoice
         ?>
         <img src="{{ Storage::url('images/studentavatar/'.$image)}}" alt="{{ $s->firstname }} {{ $s->lastname }}" class="w-20" height="120px" width="120px" style="border-radius: 10px"/>
             <!--begin::Message-->
-        <div class="fw-bold fs-2">
+        <div class="fw-bold fs-2" style="color: rgb(22, 22, 135)">
             Dear {{ $fn }} {{ $ln }} <span class="fs-6">({{ $ad }})</span>,<br />
             <span class="fs-5 fs-5">Here are your  payment details.</span>
         </div>
         <!--begin::Message-->
 
         <!--begin::Separator-->
-        <div class="separator"></div>
+        <div class="separator" ></div>
         <!--begin::Separator-->
 
         <!--begin::Order details-->
         <div class="d-flex flex-column flex-sm-row gap-7 gap-md-10 fw-bold">
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Invoice ID</span>
-                <span class="fs-5">#{{ $invoiceNumber }}</span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)">#{{ $invoiceNumber }}</span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Date-Time</span>
-                <span class="fs-5">{{ \Carbon\Carbon::now()->format('d F, Y H:i') }}</span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)">{{ \Carbon\Carbon::now()->format('d F, Y H:i') }}</span>
+            </div>
+
+            <div class="flex-root d-flex flex-column">
+                <span class="fs-5" style="color: rgb(22, 22, 135)">Class</span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)">{{ $s->schoolclass }} {{ $s->arm }}</span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Term</span>
-                <span class="fs-5">{{ $schoolterm }}</span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)">{{ $schoolterm }}</span>
             </div>
 
             <div class="flex-root d-flex flex-column">
                 <span class="fs-5" style="color: rgb(22, 22, 135)">Session</span>
-                <span class="fs-5">{{ $schoolsession }}</span>
+                <span class="fs-5" style="color: rgb(22, 22, 135)">{{ $schoolsession }}</span>
             </div>
         </div>
         <!--end::Order details-->
