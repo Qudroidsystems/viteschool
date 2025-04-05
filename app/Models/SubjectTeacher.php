@@ -19,4 +19,25 @@ class SubjectTeacher extends Model
         'sessionid'
 
     ];
+    
+    public function schoolsession() {
+        return $this->belongsTo(SchoolSession::class, 'sessionid');
+    }
+
+ 
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subjectid');
+    }
+
+    public function schoolterm()
+    {
+        return $this->belongsTo(Schoolterm::class, 'termid');
+    }
+
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'staffid');
+    }
 }

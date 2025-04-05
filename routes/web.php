@@ -48,6 +48,13 @@ use App\Http\Controllers\SubjectOperationController;
 use App\Http\Controllers\SubjectTeacherController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViewStudentController;
+use App\Http\Controllers\ExamController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\CBTController;
+use App\Http\Controllers\ResultController;
+
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -70,7 +77,12 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
+
     Route::resource('users', UserController::class);
+    Route::get('users/add-student', [UserController::class, 'createFromStudentForm'])->name('users.add-student-form');
+    Route::post('users/create-from-student', [UserController::class, 'createFromStudent'])->name('users.createFromStudent');
+    Route::get('/get-students', [UserController::class, 'getStudents'])->name('get.students');
+
     Route::resource('biodata', BiodataController::class);
     Route::get('/overview/{id}', [OverviewController::class, 'show'])->name('user.overview');
     Route::get('/settings/{id}', [BiodataController::class, 'show'])->name('user.settings');
@@ -177,6 +189,7 @@ Route::group(['middleware' => ['auth']], function () {
     //Route::resource('studentpersonalityprofile',StudentpersonalityprofileController::class);
     Route::get('/viewstudent/{id}/{termid}/{sessionid}', [ViewStudentController::class, 'show'])->name('viewstudent');
     Route::get('/subjectscoresheet/{schoolclassid}/{subjectclassid}/{staffid}/{termid}/{sessionid}', [MyScoreSheetController::class, 'subjectscoresheet'])->name('subjectscoresheet');
+
     //Route::resource('viewstudent', viewStudentController::class);
     Route::resource('subjectoperation', SubjectOperationController::class);
     Route::get('/subjectinfo/{id}/{schid}/{sessid}/{termid}', [SubjectOperationController::class, 'subjectinfo'])->name('subjectoperation.subjectinfo');
@@ -202,5 +215,25 @@ Route::group(['middleware' => ['auth']], function () {
     Route::delete('/ajaxclasssettings/{id}', [AjaxclasssettingsController::class, 'delete']);
     Route::get('image-upload', [StaffImageUploadController::class, 'imageUpload'])->name('image.upload');
     Route::post('image-upload', [StaffImageUploadController::class, 'imageUploadPost'])->name('image.upload.post');
+
+
+    //Exams routes...
+    Route::resource('exams', ExamController::class);
+
+    
+    //Questions routes...
+    Route::resource('questions', QuestionController::class);
+    Route::get('/questions/{question}/details', [QuestionController::class, 'showDetails']);
+    Route::post('/{exam}', [QuestionController::class, 'store'])->name('questions.store');
+    Route::get('/{question}/details', [QuestionController::class, 'details'])->name('questions.details');
+    Route::get('/questions/{question}/edit', [QuestionController::class, 'edit'])->name('questions.edit');
+    Route::put('/questions/{question}', [QuestionController::class, 'update'])->name('questions.update');
+    Route::delete('/{question}', [QuestionController::class, 'destroy'])->name('questions.destroy');
+
+    //CBT  routes...
+    Route::resource('cbt', CBTController::class);
+    Route::get('/cbt/{examid}/takecbt', [CBTController::class, 'takeCBT'])->name('cbt.take');
+    Route::post('/cbt/submit', [CBTController::class, 'submit'])->name('cbt.submit');
+
 
 });

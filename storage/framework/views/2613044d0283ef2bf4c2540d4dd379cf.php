@@ -181,6 +181,12 @@ use Spatie\Permission\Models\Role;
     <i class="ki-duotone ki-plus fs-2"></i>        Add User
 </button>
 <!--end::Add user-->
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_student_user">
+    Add Student as User
+</button>
+
+
 </div>
 <!--end::Toolbar-->
 
@@ -336,6 +342,138 @@ use Spatie\Permission\Models\Role;
 <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Add task-->
+
+<!--begin::Modal - Add Student as User-->
+<div class="modal fade" id="kt_modal_add_student_user" tabindex="-1" aria-hidden="true">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog modal-dialog-centered mw-650px">
+        <!--begin::Modal content-->
+        <div class="modal-content">
+            <!--begin::Modal header-->
+            <div class="modal-header" id="kt_modal_add_student_user_header">
+                <!--begin::Modal title-->
+                <h2 class="fw-bold">Add Student as User</h2>
+                <!--end::Modal title-->
+
+                <!--begin::Close-->
+                <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-users-modal-action="close">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+                <!--end::Close-->
+            </div>
+            <!--end::Modal header-->
+
+            <!--begin::Modal body-->
+            <div class="modal-body scroll-y mx-5 mx-xl-15 my-7">
+                <!--begin::Form-->
+                <form id="kt_modal_add_student_user_form" class="form" action="<?php echo e(route('users.createFromStudent')); ?>" method="POST">
+                    <?php echo csrf_field(); ?>
+                    <!--begin::Scroll-->
+                    <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_student_user_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_student_user_header" data-kt-scroll-wrappers="#kt_modal_add_student_user_scroll" data-kt-scroll-offset="300px">
+                        
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Select Student</label>
+                            <!--end::Label-->
+
+                            <!--begin::Input-->
+                            <select name="student_id" id="student_id" class="form-control form-control-solid mb-3 mb-lg-0" required>
+                           
+                                <?php $__currentLoopData = $students; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $student): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($student->id); ?>"><?php echo e($student->admissionNo); ?> - <?php echo e($student->firstname); ?> <?php echo e($student->lastname); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                              
+                            <!--end::Input-->
+                            
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Email</label>
+                            <!--end::Label-->
+
+                            <!--begin::Input-->
+                            <input type="email" name="email" id="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="example@domain.com" required />
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-5">Role</label>
+                            <!--end::Label-->
+
+                            <!--begin::Roles-->
+                            <div class="fv-row mb-7">
+                                <select name="roles[]" id="student_role" class="form-control form-control-solid mb-3 mb-lg-0" required>
+                                    <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role => $name): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($name); ?>" <?php echo e($name == 'Student' ? 'selected' : ''); ?>><?php echo e($name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                            </div>
+                            <!--end::Roles-->
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Password</label>
+                            <!--end::Label-->
+
+                            <!--begin::Input-->
+                            <input type="password" name="password" id="password" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Password" required />
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+
+                        <!--begin::Input group-->
+                        <div class="fv-row mb-7">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">Confirm Password</label>
+                            <!--end::Label-->
+
+                            <!--begin::Input-->
+                            <input type="password" name="confirm-password" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Confirm Password" required />
+                            <!--end::Input-->
+                        </div>
+                        <!--end::Input group-->
+                    </div>
+                    <!--end::Scroll-->
+
+                    <!--begin::Actions-->
+                    <div class="text-center pt-15">
+                        <button type="reset" class="btn btn-light me-3" data-kt-users-modal-action="cancel">
+                            Discard
+                        </button>
+
+                        <button type="submit" class="btn btn-primary" data-kt-users-modal-action="submit">
+                            <span class="indicator-label">
+                                Submit
+                            </span>
+                            <span class="indicator-progress">
+                                Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <!--end::Actions-->
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Modal body-->
+        </div>
+        <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+</div>
+<!--end::Modal - Add Student as User-->
+
+
  </div>
     <!--end::Card toolbar-->
 </div>
@@ -498,5 +636,26 @@ use Spatie\Permission\Models\Role;
 </div>
 <!--end::Content-->
 <?php $__env->stopSection(); ?>
-
+<script>
+// Add this script to your view or JS file
+$(document).ready(function() {
+    $('#kt_modal_add_student_user').on('shown.bs.modal', function () {
+        $.ajax({
+            url: "<?php echo e(route('get.students')); ?>",
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                let studentSelect = $('#student_id');
+                studentSelect.empty();
+                studentSelect.append('<option value="">Select a student</option>');
+                
+                $.each(data, function(key, value) {
+                    studentSelect.append('<option value="' + value.id + '">' + 
+                        value.admissionNo + ' - ' + value.firstname + ' ' + value.lastname + '</option>');
+                });
+            }
+        });
+    });
+});
+</script>
 <?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\viteschool\resources\views/users/index.blade.php ENDPATH**/ ?>

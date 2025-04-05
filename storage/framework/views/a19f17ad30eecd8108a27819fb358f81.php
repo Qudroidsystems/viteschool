@@ -232,7 +232,7 @@
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-5">
 
-                                            <a href="<?php echo e(route('student.overview',$sc->id)); ?>"  class="sel-subjectclass btn btn-light btn-active-primary" >Full Details</a>
+                                            <a href="<?php echo e(route('student.edit',$sc->id)); ?>"  class="sel-subjectclass btn btn-light btn-active-primary" >Update Details</a>
                                         </div>
                                         <!--end::Menu item-->
                                     <?php endif; ?>

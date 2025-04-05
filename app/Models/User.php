@@ -29,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'student_id', // Add this field to link users to students
     ];
 
     /**

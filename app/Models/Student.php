@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Schoolterm;
+use App\Models\Schoolsession;
+
 
 class Student extends Model
 {
@@ -33,4 +36,19 @@ class Student extends Model
         'statusId',
 
     ];
+
+    public function class()
+    {
+        return $this->belongsTo(SchoolClass::class, 'class_id'); // Assuming SchoolClass is the model
+    }
+
+    public function term()
+    {
+        return $this->belongsTo(SchoolTerm::class, 'term_id');
+    }
+
+    public function session()
+    {
+        return $this->belongsTo(Schoolsession::class, 'session_id');
+    }
 }

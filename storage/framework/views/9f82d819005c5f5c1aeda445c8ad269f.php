@@ -586,7 +586,7 @@
                     <select  class="form-control form-control-lg form-control-solid" id="state" data-rel="chosen" name="state">
                         <option value="" selected>Select State </option>
                     </select>
-                    </select>
+
                 </div>
                 <!--end::Col-->
             </div>
