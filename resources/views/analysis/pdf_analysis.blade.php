@@ -81,7 +81,7 @@
                 <th rowspan="2">Student Name</th>
                 <th rowspan="2">Gender</th>
                 @foreach($student_bill_info as $bill)
-                    <th colspan="2">{{ $bill->title }}<br>(&#8358;{{ number_format($bill->amount, 2) }})</th>
+                    <th colspan="2">{{ $bill->title }}<br>(₦{{ number_format($bill->amount, 2) }})</th>
                 @endforeach
                 <th rowspan="2">Total Paid</th>
                 <th rowspan="2">Balance</th>
@@ -114,22 +114,22 @@
                         @endphp
                         <td class="cell-amount">
                             @if($amountPaid > 0)
-                                &#8358;{{ number_format($amountPaid, 2) }}
+                                ₦{{ number_format($amountPaid, 2) }}
                             @else
                                 -
                             @endif
                         </td>
                         <td class="cell-amount">
                             @if($balance > 0)
-                                &#8358;{{ number_format($balance, 2) }}
+                                ₦{{ number_format($balance, 2) }}
                             @else
                                 -
                             @endif
                         </td>
                     @endforeach
                     
-                    <td class="cell-amount">&#8358;{{ number_format($studentTotals[$std->stid]['totalPaid'], 2) }}</td>
-                    <td class="cell-amount">&#8358;{{ number_format($studentTotals[$std->stid]['totalBalance'], 2) }}</td>
+                    <td class="cell-amount">₦{{ number_format($studentTotals[$std->stid]['totalPaid'], 2) }}</td>
+                    <td class="cell-amount">₦{{ number_format($studentTotals[$std->stid]['totalBalance'], 2) }}</td>
                     <td class="payment-status-{{ $studentTotals[$std->stid]['status'] }}">
                         {{ ucfirst($studentTotals[$std->stid]['status']) }}
                     </td>
@@ -146,8 +146,8 @@
                         $denominatorAmount = ($student->count() * $bill->amount);
                         $collectionPercentage = $denominatorAmount > 0 ? ($billTotalPaid / $denominatorAmount) * 100 : 0;
                     @endphp
-                    <th class="cell-amount">&#8358;{{ number_format($billTotalPaid, 2) }}</th>
-                    <th class="cell-amount">&#8358;{{ number_format($billTotalOwed, 2) }}</th>
+                    <th class="cell-amount">₦{{ number_format($billTotalPaid, 2) }}</th>
+                    <th class="cell-amount">₦{{ number_format($billTotalOwed, 2) }}</th>
                 @endforeach
                 @php
                     $overallTotalPaid = array_sum(array_column($studentTotals, 'totalPaid'));
@@ -155,8 +155,8 @@
                     $overallBalance = $overallTotalBill - $overallTotalPaid;
                     $overallPercentage = $overallTotalBill > 0 ? ($overallTotalPaid / $overallTotalBill) * 100 : 0;
                 @endphp
-                <th class="cell-amount">&#8358;{{ number_format($overallTotalPaid, 2) }}</th>
-                <th class="cell-amount">&#8358;{{ number_format($overallBalance, 2) }}</th>
+                <th class="cell-amount">₦{{ number_format($overallTotalPaid, 2) }}</th>
+                <th class="cell-amount">₦{{ number_format($overallBalance, 2) }}</th>
                 <th>{{ number_format($overallPercentage, 1) }}%</th>
             </tr>
         </tfoot>
@@ -185,19 +185,19 @@
                     @endphp
                     <tr>
                         <td>{{ $bill->title }}</td>
-                        <td class="cell-amount">&#8358;{{ number_format($bill->amount, 2) }}</td>
-                        <td class="cell-amount">&#8358;{{ number_format($totalExpected, 2) }}</td>
-                        <td class="cell-amount">&#8358;{{ number_format($billTotalPaid, 2) }}</td>
-                        <td class="cell-amount">&#8358;{{ number_format($billTotalOwed, 2) }}</td>
+                        <td class="cell-amount">₦{{ number_format($bill->amount, 2) }}</td>
+                        <td class="cell-amount">₦{{ number_format($totalExpected, 2) }}</td>
+                        <td class="cell-amount">₦{{ number_format($billTotalPaid, 2) }}</td>
+                        <td class="cell-amount">₦{{ number_format($billTotalOwed, 2) }}</td>
                         <td>{{ number_format($collectionPercentage, 1) }}%</td>
                     </tr>
                 @endforeach
                 <tr class="text-bold">
                     <td>TOTAL</td>
-                    <td class="cell-amount">&#8358;{{ number_format($student_bill_info->sum('amount'), 2) }}</td>
-                    <td class="cell-amount">&#8358;{{ number_format($overallTotalBill, 2) }}</td>
-                    <td class="cell-amount">&#8358;{{ number_format($overallTotalPaid, 2) }}</td>
-                    <td class="cell-amount">&#8358;{{ number_format($overallBalance, 2) }}</td>
+                    <td class="cell-amount">₦{{ number_format($student_bill_info->sum('amount'), 2) }}</td>
+                    <td class="cell-amount">₦{{ number_format($overallTotalBill, 2) }}</td>
+                    <td class="cell-amount">₦{{ number_format($overallTotalPaid, 2) }}</td>
+                    <td class="cell-amount">₦{{经典number_format($overallBalance, 2) }}</td>
                     <td>{{ number_format($overallPercentage, 1) }}%</td>
                 </tr>
             </tbody>
