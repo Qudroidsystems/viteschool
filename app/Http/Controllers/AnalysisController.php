@@ -108,6 +108,141 @@ class AnalysisController extends Controller
 
 
 
+    // public function exportPDF($class_id, $termid_id, $session_id)
+    // {
+    //     // Fetch students with their basic information
+    //     $students = Studentclass::where('schoolclassid', $class_id)
+    //         ->where('termid', $termid_id)
+    //         ->where('sessionid', $session_id)
+    //         ->leftJoin('studentRegistration', 'studentRegistration.id', '=', 'studentclass.studentId')
+    //         ->leftJoin('studentpicture', 'studentpicture.studentid', '=', 'studentRegistration.id')
+    //         ->get(['studentRegistration.admissionNo as admissionno',
+    //             'studentRegistration.firstname as firstname',
+    //             'studentRegistration.lastname as lastname', 'studentRegistration.id as stid',
+    //             'studentRegistration.othername as othername', 'studentRegistration.gender as gender',
+    //             'studentpicture.picture as picture']);
+
+    //     // Get all bill information for this class, term and session
+    //     $student_bill_info = SchoolBillTermSession::where('school_bill_class_term_session.class_id', $class_id)
+    //         ->where('school_bill_class_term_session.termid_id', $termid_id)
+    //         ->where('school_bill_class_term_session.session_id', $session_id)
+    //         ->leftjoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
+    //         ->get(['school_bill_class_term_session.id as id', 'school_bill.id as schoolbillid', 'school_bill.title as title',
+    //             'school_bill_class_term_session.class_id as class_id', 'school_bill_class_term_session.termid_id as term_id',
+    //             'school_bill_class_term_session.session_id as session_id',
+    //             'school_bill.description as description', 'school_bill.bill_amount as amount']);
+
+    //     // Get payment records for all students
+    //     $studentpaymentbill = StudentBillPayment::where('student_bill_payment.class_id', $class_id)
+    //         ->where('student_bill_payment.termid_id', $termid_id)
+    //         ->where('student_bill_payment.session_id', $session_id)
+    //         ->leftjoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
+    //         ->leftjoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
+    //         ->leftjoin('studentRegistration', 'studentRegistration.id', '=', 'student_bill_payment.student_id')
+    //         ->leftjoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
+    //         ->get(['student_bill_payment.id as paymentid', 
+    //             'student_bill_payment.student_id as stid',
+    //             'student_bill_payment.school_bill_id as schoolbillid',
+    //             'student_bill_payment.status as paymentStatus', 
+    //             'student_bill_payment.payment_method as paymentMethod', 
+    //             'users.name as recievedBy', 
+    //             'student_bill_payment.created_at as recievedDate', 
+    //             'school_bill.title as title', 
+    //             'school_bill.description as description', 
+    //             'school_bill.bill_amount as billAmount',
+    //             'student_bill_payment_record.amount_paid as totalAmountPaid', 
+    //             'student_bill_payment_record.last_payment as lastPayment', 
+    //             'student_bill_payment_record.amount_owed as balance']);
+
+    //     // Get payment book records
+    //     $studentpaymentbillbook = StudentBillPaymentBook::where('student_bill_payment_book.class_id', $class_id)
+    //         ->where('student_bill_payment_book.term_id', $termid_id)
+    //         ->where('student_bill_payment_book.session_id', $session_id)
+    //         ->get();
+
+    //     // Get class, term, and session information
+    //     $schoolclass = Schoolclass::where('schoolclass.id', $class_id)
+    //         ->leftjoin('schoolarm', 'schoolarm.id', '=', 'schoolclass.arm')
+    //         ->get(['schoolclass.schoolclass as schoolclass', 'schoolarm.arm as schoolarm']);
+
+    //     $schoolterm = Schoolterm::where('id', $termid_id)->get(['schoolterm.term as schoolterm']);
+    //     $schoolsession = Schoolsession::where('id', $session_id)->get(['schoolsession.session as schoolsession']);
+
+    //     // Calculate total bills and payments per student
+    //     $studentTotals = [];
+    //     foreach ($students as $student) {
+    //         $totalBilled = 0;
+    //         $totalPaid = 0;
+    //         $totalBalance = 0;
+            
+    //         foreach ($student_bill_info as $bill) {
+    //             $totalBilled += $bill->amount;
+                
+    //             // Find payment for this student and bill
+    //             $payment = $studentpaymentbill
+    //                 ->where('stid', $student->stid)
+    //                 ->where('schoolbillid', $bill->schoolbillid)
+    //                 ->first();
+                
+    //             if ($payment) {
+    //                 $totalPaid += $payment->totalAmountPaid ?? 0;
+    //                 $totalBalance += $payment->balance ?? 0;
+    //             } else {
+    //                 $totalBalance += $bill->amount;
+    //             }
+    //         }
+            
+    //         $studentTotals[$student->stid] = [
+    //             'totalBilled' => $totalBilled,
+    //             'totalPaid' => $totalPaid,
+    //             'totalBalance' => $totalBalance,
+    //             'status' => $totalPaid > 0 ? ($totalBalance > 0 ? 'partial' : 'paid') : 'unpaid'
+    //         ];
+    //     }
+
+    //     // Generate PDF view
+    //     $pdf = PDF::loadView('analysis.pdf_analysis', [
+    //         'student' => $students,
+    //         'student_bill_info' => $student_bill_info,
+    //         'studentpaymentbill' => $studentpaymentbill,
+    //         'studentpaymentbillbook' => $studentpaymentbillbook,
+    //         'schoolclass' => $schoolclass,
+    //         'schoolterm' => $schoolterm,
+    //         'schoolsession' => $schoolsession,
+    //         'studentTotals' => $studentTotals,
+    //         'totalBillsAmount' => $student_bill_info->sum('amount'),
+    //     ]);
+        
+    //     // Set to A3 landscape for more space
+    //     $pdf->setPaper('a3', 'landscape');
+        
+    //     // Set small margins to maximize content space
+    //     $pdf->setOptions([
+    //         'margin-top'    => 5,
+    //         'margin-right'  => 5,
+    //         'margin-bottom' => 5,
+    //         'margin-left'   => 5,
+    //         'encoding'      => 'UTF-8',  // Ensure proper encoding for Naira symbol
+    //     ]);
+        
+    //     // Generate filename - replace any invalid characters
+    //     $className = $schoolclass->first()->schoolclass . ' ' . $schoolclass->first()->schoolarm;
+    //     $termName = $schoolterm->first()->schoolterm;
+    //     $sessionName = $schoolsession->first()->schoolsession;
+
+    //     // Replace forward slashes and backslashes with underscores
+    //     $className = str_replace(['/', '\\'], '_', $className);
+    //     $termName = str_replace(['/', '\\'], '_', $termName);
+    //     $sessionName = str_replace(['/', '\\'], '_', $sessionName);
+
+    //     // Generate filename
+    //     $filename = "Payment_Analysis_" . str_replace(' ', '_', $className) . "_" . $termName . "_" . $sessionName . ".pdf";
+        
+    //     // Download the PDF
+    //     return $pdf->download($filename);
+    // }
+
+
     public function exportPDF($class_id, $termid_id, $session_id)
     {
         // Fetch students with their basic information
@@ -118,28 +253,34 @@ class AnalysisController extends Controller
             ->leftJoin('studentpicture', 'studentpicture.studentid', '=', 'studentRegistration.id')
             ->get(['studentRegistration.admissionNo as admissionno',
                 'studentRegistration.firstname as firstname',
-                'studentRegistration.lastname as lastname', 'studentRegistration.id as stid',
-                'studentRegistration.othername as othername', 'studentRegistration.gender as gender',
+                'studentRegistration.lastname as lastname', 
+                'studentRegistration.id as stid',
+                'studentRegistration.othername as othername', 
+                'studentRegistration.gender as gender',
                 'studentpicture.picture as picture']);
 
         // Get all bill information for this class, term and session
         $student_bill_info = SchoolBillTermSession::where('school_bill_class_term_session.class_id', $class_id)
             ->where('school_bill_class_term_session.termid_id', $termid_id)
             ->where('school_bill_class_term_session.session_id', $session_id)
-            ->leftjoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
-            ->get(['school_bill_class_term_session.id as id', 'school_bill.id as schoolbillid', 'school_bill.title as title',
-                'school_bill_class_term_session.class_id as class_id', 'school_bill_class_term_session.termid_id as term_id',
+            ->leftJoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
+            ->get(['school_bill_class_term_session.id as id', 
+                'school_bill.id as schoolbillid', 
+                'school_bill.title as title',
+                'school_bill_class_term_session.class_id as class_id', 
+                'school_bill_class_term_session.termid_id as term_id',
                 'school_bill_class_term_session.session_id as session_id',
-                'school_bill.description as description', 'school_bill.bill_amount as amount']);
+                'school_bill.description as description', 
+                'school_bill.bill_amount as amount']);
 
         // Get payment records for all students
         $studentpaymentbill = StudentBillPayment::where('student_bill_payment.class_id', $class_id)
             ->where('student_bill_payment.termid_id', $termid_id)
             ->where('student_bill_payment.session_id', $session_id)
-            ->leftjoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
-            ->leftjoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
-            ->leftjoin('studentRegistration', 'studentRegistration.id', '=', 'student_bill_payment.student_id')
-            ->leftjoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
+            ->leftJoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
+            ->leftJoin('school_bill', 'school_bill.id', '=', 'student_bill_payment.school_bill_id')
+            ->leftJoin('studentRegistration', 'studentRegistration.id', '=', 'student_bill_payment.student_id')
+            ->leftJoin('users', 'users.id', '=', 'student_bill_payment.generated_by')
             ->get(['student_bill_payment.id as paymentid', 
                 'student_bill_payment.student_id as stid',
                 'student_bill_payment.school_bill_id as schoolbillid',
@@ -162,7 +303,7 @@ class AnalysisController extends Controller
 
         // Get class, term, and session information
         $schoolclass = Schoolclass::where('schoolclass.id', $class_id)
-            ->leftjoin('schoolarm', 'schoolarm.id', '=', 'schoolclass.arm')
+            ->leftJoin('schoolarm', 'schoolarm.id', '=', 'schoolclass.arm')
             ->get(['schoolclass.schoolclass as schoolclass', 'schoolarm.arm as schoolarm']);
 
         $schoolterm = Schoolterm::where('id', $termid_id)->get(['schoolterm.term as schoolterm']);
@@ -201,7 +342,7 @@ class AnalysisController extends Controller
         }
 
         // Generate PDF view
-        $pdf = PDF::loadView('analysis.pdf_analysis', [
+        $pdf = Pdf::loadView('analysis.pdf_analysis', [
             'student' => $students,
             'student_bill_info' => $student_bill_info,
             'studentpaymentbill' => $studentpaymentbill,
@@ -212,19 +353,21 @@ class AnalysisController extends Controller
             'studentTotals' => $studentTotals,
             'totalBillsAmount' => $student_bill_info->sum('amount'),
         ]);
-        
+
         // Set to A3 landscape for more space
         $pdf->setPaper('a3', 'landscape');
         
-        // Set small margins to maximize content space
+        // Set small margins and font options
         $pdf->setOptions([
-            'margin-top'    => 5,
-            'margin-right'  => 5,
+            'defaultFont' => 'DejaVuSans', // Set DejaVuSans to support Naira symbol
+            'margin-top' => 5,
+            'margin-right' => 5,
             'margin-bottom' => 5,
-            'margin-left'   => 5,
-            'encoding'      => 'UTF-8',  // Ensure proper encoding for Naira symbol
+            'margin-left' => 5,
+            'encoding' => 'UTF-8', // Ensure UTF-8 encoding
+            'isPhpEnabled' => true, // Enable PHP evaluation in Blade
         ]);
-        
+
         // Generate filename - replace any invalid characters
         $className = $schoolclass->first()->schoolclass . ' ' . $schoolclass->first()->schoolarm;
         $termName = $schoolterm->first()->schoolterm;
@@ -242,6 +385,7 @@ class AnalysisController extends Controller
         return $pdf->download($filename);
     }
 
+    
     /**
      * Store a newly created resource in storage.
      */

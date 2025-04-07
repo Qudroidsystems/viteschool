@@ -5,8 +5,8 @@
     <title>Student Payment Analysis</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            font-size: 8px; /* Reduced from 10px for better fit */
+            font-family: DejaVuSans, Arial, sans-serif;
+            font-size: 8px;
         }
         .header {
             text-align: center;
@@ -15,7 +15,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 7px; /* Reduced from 9px for better fit */
+            font-size: 7px;
         }
         table, th, td {
             border: 1px solid #ddd;
@@ -24,10 +24,10 @@
             background-color: #f2f2f2;
             font-weight: bold;
             text-align: center;
-            padding: 2px; /* Reduced padding */
+            padding: 2px;
         }
         td {
-            padding: 2px; /* Reduced padding */
+            padding: 2px;
             text-align: center;
         }
         .student-row:nth-child(even) {
@@ -50,7 +50,7 @@
             bottom: 0;
             width: 100%;
             text-align: center;
-            font-size: 7px; /* Reduced from 9px */
+            font-size: 7px;
         }
         .summary-section {
             margin-top: 15px;
@@ -106,8 +106,8 @@
                     @foreach($student_bill_info as $bill)
                         @php
                             $billPayment = $studentpaymentbill->where('schoolbillid', $bill->schoolbillid)
-                                                           ->where('stid', $std->stid)
-                                                           ->first();
+                                                            ->where('stid', $std->stid)
+                                                            ->first();
                             $amountPaid = $billPayment ? ($billPayment->totalAmountPaid ?? 0) : 0;
                             $balance = $billPayment ? ($billPayment->balance ?? $bill->amount) : $bill->amount;
                             $status = $amountPaid > 0 ? ($balance > 0 ? 'partial' : 'paid') : 'unpaid';
