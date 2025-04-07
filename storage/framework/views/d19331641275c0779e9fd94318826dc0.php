@@ -91,7 +91,12 @@
                         </div>
                     <!--end::Toolbar-->
 
-
+                    <div class="d-flex justify-content-end mb-5">
+    <a href="<?php echo e(route('analysis.exportPDF', ['class_id' => request()->class_id, 'termid_id' => request()->termid_id, 'session_id' => request()->session_id])); ?>" 
+       class="btn btn-primary" target="_blank">
+        <i class="ki-duotone ki-file-down fs-2"></i> Export PDF (Landscape)
+    </a>
+</div>
 
         <!--begin::Card-->
     <div class="card">

@@ -144,7 +144,6 @@
                                                                     <!--end::Label-->
                                                                             <!--begin::Input row-->
                                                                             <div class="fv-row mb-7">
-
                                                                                     <!--begin::Input-->
                                                                                     <select name ="bill_id" id="bill_id" data-control="select2" data-placeholder="Select an option" data-hide-search="true" class="form-select form-select-solid form-select-lg fw-semibold fs-6 text-gray-700">
                                                                                         <option value="" selected>Select School Bill</option>

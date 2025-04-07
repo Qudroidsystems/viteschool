@@ -180,7 +180,8 @@ Route::group(['middleware' => ['auth']], function () {
     //analysis...
     Route::resource('analysis', AnalysisController::class);
     Route::post('analysisClassTermSession', [AnalysisController::class, 'analysisClassTermSession'])->name('analysis.analysisClassTermSession');
-
+    Route::get('analysis/export-pdf/{class_id}/{termid_id}/{session_id}', 'App\Http\Controllers\AnalysisController@exportPDF')->name('analysis.exportPDF');
+   
     //house routes
     Route::post('houseid', [SchoolHouseController::class, 'updatehouse'])->name('schoolhouse.updatehouse');
     Route::get('/houseid/{houseid}', [SchoolHouseController::class, 'deleteherouse'])->name('schoolhouse.deletehouse');
