@@ -197,7 +197,7 @@
                     <td class="cell-amount">₦{{ number_format($student_bill_info->sum('amount'), 2) }}</td>
                     <td class="cell-amount">₦{{ number_format($overallTotalBill, 2) }}</td>
                     <td class="cell-amount">₦{{ number_format($overallTotalPaid, 2) }}</td>
-                    <td class="cell-amount">₦{{经典number_format($overallBalance, 2) }}</td>
+                    <td class="cell-amount">₦{{ number_format($overallBalance, 2) }}</td>
                     <td>{{ number_format($overallPercentage, 1) }}%</td>
                 </tr>
             </tbody>
