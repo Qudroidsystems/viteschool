@@ -89,7 +89,7 @@
                     <th colspan="2">{{ $bill->title }}<br>({{ number_format($bill->amount, 2) }})</th>
                 @endforeach
                 <th rowspan="2">Total Paid</th>
-                <th rowspan="2">Balance</th>
+                <th rowspan="2">Outstanding</th>
                 <th rowspan="2">Status</th>
             </tr>
             <tr>
