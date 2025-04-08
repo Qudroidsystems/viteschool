@@ -399,7 +399,7 @@
                                         @if ((int)$paymentBook->school_bill_id === (int)$sc->schoolbillid)
 
                                             @php
-                                                $totalLastPayment = StudentBillPayment::where('student_id', $studentId)
+                                                $totalLastPayment = StudentBillPayment::where('student_bill_payment.student_id', $studentId)
                                                             ->where('student_bill_payment.class_id', $schoolclassId)
                                                             ->where('student_bill_payment.termid_id', $schooltermId)
                                                             ->where('student_bill_payment.session_id', $schoolsessionId)
