@@ -14,9 +14,10 @@
             margin-bottom: 20px;
         }
         .school-name {
-            font-size: 18px;
+            font-size: 30px;
             font-weight: bold;
             margin-bottom: 5px;
+            Color: green;
         }
         .report-title {
             font-size: 16px;
@@ -114,7 +115,7 @@
 </head>
 <body>
     <div class="header">
-        <div class="school-name">SCHOOL NAME</div>
+        <div class="school-name">TRINITY INTERNATIONAL COMPREHENSIVE SCHOOL ONDO</div>
         <div class="report-title">SCHOOL-WIDE PAYMENT ANALYSIS REPORT</div>
         <div class="term-session">{{ $schoolterm->schoolterm }} - {{ $schoolsession->schoolsession }}</div>
     </div>
@@ -128,11 +129,11 @@
             </div>
             <div class="stat-box">
                 <div>Total Expected</div>
-                <div style="font-size: 14px; font-weight: bold;">₦{{ number_format($schoolTotals['totalBilled'], 2) }}</div>
+                <div style="font-size: 14px; font-weight: bold;">{{ number_format($schoolTotals['totalBilled'], 2) }}</div>
             </div>
             <div class="stat-box">
                 <div>Total Collected</div>
-                <div style="font-size: 14px; font-weight: bold;">₦{{ number_format($schoolTotals['totalPaid'], 2) }}</div>
+                <div style="font-size: 14px; font-weight: bold;">{{ number_format($schoolTotals['totalPaid'], 2) }}</div>
             </div>
             <div class="stat-box">
                 <div>Collection Rate</div>
@@ -165,9 +166,9 @@
                 <tr>
                     <td>{{ $classData['className'] }}</td>
                     <td>{{ $classData['studentCount'] }}</td>
-                    <td class="align-right">₦{{ number_format($classData['totalBilled'], 2) }}</td>
-                    <td class="align-right">₦{{ number_format($classData['totalPaid'], 2) }}</td>
-                    <td class="align-right">₦{{ number_format($classData['totalBalance'], 2) }}</td>
+                    <td class="align-right">{{ number_format($classData['totalBilled'], 2) }}</td>
+                    <td class="align-right">{{ number_format($classData['totalPaid'], 2) }}</td>
+                    <td class="align-right">{{ number_format($classData['totalBalance'], 2) }}</td>
                     <td class="align-right">{{ number_format($classData['collectionPercentage'], 1) }}%</td>
                     <td class="paid align-right">{{ $classData['paidCount'] }}</td>
                     <td class="partial align-right">{{ $classData['partialCount'] }}</td>
@@ -177,9 +178,9 @@
                 <tr class="total-row">
                     <td>TOTAL</td>
                     <td>{{ $schoolTotals['totalStudents'] }}</td>
-                    <td class="align-right">₦{{ number_format($schoolTotals['totalBilled'], 2) }}</td>
-                    <td class="align-right">₦{{ number_format($schoolTotals['totalPaid'], 2) }}</td>
-                    <td class="align-right">₦{{ number_format($schoolTotals['totalBalance'], 2) }}</td>
+                    <td class="align-right">{{ number_format($schoolTotals['totalBilled'], 2) }}</td>
+                    <td class="align-right">{{ number_format($schoolTotals['totalPaid'], 2) }}</td>
+                    <td class="align-right">{{ number_format($schoolTotals['totalBalance'], 2) }}</td>
                     <td class="align-right">{{ number_format($overallPercentage, 1) }}%</td>
                     <td class="align-right">{{ $schoolTotals['paidCount'] }}</td>
                     <td class="align-right">{{ $schoolTotals['partialCount'] }}</td>
@@ -205,17 +206,17 @@
                 @foreach($billSummary as $bill)
                 <tr>
                     <td>{{ $bill['title'] }}</td>
-                    <td class="align-right">₦{{ number_format($bill['totalExpected'], 2) }}</td>
-                    <td class="align-right">₦{{ number_format($bill['totalCollected'], 2) }}</td>
-                    <td class="align-right">₦{{ number_format($bill['totalOutstanding'], 2) }}</td>
+                    <td class="align-right">{{ number_format($bill['totalExpected'], 2) }}</td>
+                    <td class="align-right">{{ number_format($bill['totalCollected'], 2) }}</td>
+                    <td class="align-right">{{ number_format($bill['totalOutstanding'], 2) }}</td>
                     <td class="align-right">{{ number_format($bill['percentage'], 1) }}%</td>
                 </tr>
                 @endforeach
                 <tr class="total-row">
                     <td>TOTAL</td>
-                    <td class="align-right">₦{{ number_format($schoolTotals['totalBilled'], 2) }}</td>
-                    <td class="align-right">₦{{ number_format($schoolTotals['totalPaid'], 2) }}</td>
-                    <td class="align-right">₦{{ number_format($schoolTotals['totalBalance'], 2) }}</td>
+                    <td class="align-right">{{ number_format($schoolTotals['totalBilled'], 2) }}</td>
+                    <td class="align-right">{{ number_format($schoolTotals['totalPaid'], 2) }}</td>
+                    <td class="align-right">{{ number_format($schoolTotals['totalBalance'], 2) }}</td>
                     <td class="align-right">{{ number_format($overallPercentage, 1) }}%</td>
                 </tr>
             </tbody>
