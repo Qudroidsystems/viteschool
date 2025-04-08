@@ -186,9 +186,19 @@ Route::group(['middleware' => ['auth']], function () {
     ->where('action', 'view|download');
     
     // School-wide payment analysis routes
-    Route::get('/school-wide-payment-analysis/{termid_id}/{session_id}/{action?}', 'App\Http\Controllers\AnalysisController@schoolWidePaymentAnalysis')
+    // Route::get('/school-wide-payment-analysis/{termid_id}/{session_id}/{action?}', 'App\Http\Controllers\AnalysisController@schoolWidePaymentAnalysis')
+    // ->name('school.wide.payment.analysis')
+    // ->where('action', 'view|download');
+
+    // School-wide payment analysis routes
+    Route::get('/school-wide-payment-analysis/{termid_id}/{session_id}/{action?}/{format?}', 
+    'App\Http\Controllers\AnalysisController@schoolWidePaymentAnalysis')
     ->name('school.wide.payment.analysis')
-    ->where('action', 'view|download');
+    ->where([
+        'action' => 'view|download',
+        'format' => 'pdf|word'
+    ]);
+    
     
     //house routes
     Route::post('houseid', [SchoolHouseController::class, 'updatehouse'])->name('schoolhouse.updatehouse');

@@ -1,309 +1,1024 @@
-<?php $__env->startSection('content'); ?>
 
-            <!--begin::Main-->
-            <div class="app-main flex-column flex-row-fluid" id="kt_app_main">
-                <!--begin::Content wrapper-->
-                <div class="d-flex flex-column flex-column-fluid">
-
-                <!--begin::Toolbar-->
-                <div id="kt_app_toolbar" class="app-toolbar  py-3 py-lg-6 ">
-
-                            <!--begin::Toolbar container-->
-                        <div id="kt_app_toolbar_container" class="app-container  container-xxl d-flex flex-stack ">
-
-                            <!--begin::Page title-->
-                            <div  class="page-title d-flex flex-column justify-content-center flex-wrap me-3 ">
-                                <!--begin::Title-->
-                                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">
-                                Student Management
-                                        </h1>
-                                <!--end::Title-->
+<!--begin::Sidebar-->
+<div id="kt_app_sidebar" class="app-sidebar  flex-column "
+     data-kt-drawer="true" data-kt-drawer-name="app-sidebar" data-kt-drawer-activate="{default: true, lg: false}" data-kt-drawer-overlay="true" data-kt-drawer-width="225px" data-kt-drawer-direction="start" data-kt-drawer-toggle="#kt_app_sidebar_mobile_toggle"
+     >
 
 
-                                    <!--begin::Breadcrumb-->
-                                    <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
-                                                        <!--begin::Item-->
-                                                        <li class="breadcrumb-item text-muted">
-                                                            <a href="<?php echo e(route('student.index')); ?>" class="text-muted text-hover-primary">Student Management </a>
-                                                                        </li>
-                                                            <!--end::Item-->
-                                                                <!--begin::Item-->
-                                                <li class="breadcrumb-item">
-                                                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
-                                                </li>
-                                                <!--end::Item-->
+<!--begin::Logo-->
+<div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
+    <!--begin::Logo image-->
+    <a href="../index.html">
+                    <img alt="Logo" src="<?php echo e(asset('html/assets/assets/media/logos/rsslogo.png')); ?>"
+                     class="h-65px app-sidebar-logo-default" style="margin-left: 70px"/>
+    </a>
+    <!--end::Logo image-->
 
-                                                        <!--begin::Item-->
-                                                                <li class="breadcrumb-item text-muted">Student Management</li>
-                                                            <!--end::Item-->
+            <!--begin::Sidebar toggle-->
+        <!--begin::Minimized sidebar setup:
+            if (isset($_COOKIE["sidebar_minimize_state"]) && $_COOKIE["sidebar_minimize_state"] === "on") {
+                1. "src/js/layout/sidebar.js" adds "sidebar_minimize_state" cookie value to save the sidebar minimize state.
+                2. Set data-kt-app-sidebar-minimize="on" attribute for body tag.
+                3. Set data-kt-toggle-state="active" attribute to the toggle element with "kt_app_sidebar_toggle" id.
+                4. Add "active" class to to sidebar toggle element with "kt_app_sidebar_toggle" id.
+            }
+        -->
+        <div
+            id="kt_app_sidebar_toggle"
+            class="app-sidebar-toggle btn btn-icon btn-shadow btn-sm btn-color-muted btn-active-color-primary body-bg h-30px w-30px position-absolute top-50 start-100 translate-middle rotate "
+            data-kt-toggle="true"
+            data-kt-toggle-state="active"
+            data-kt-toggle-target="body"
+            data-kt-toggle-name="app-sidebar-minimize"
+            >
 
-                                                </ul>
-                                    <!--end::Breadcrumb-->
-                                </div>
-                            <!--end::Page title-->
-                                <?php if($errors->any()): ?>
-                                <div class="alert alert-danger">
-                                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
-                                    <ul>
-                                        <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <li><?php echo e($error); ?></li>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </ul>
-                                </div>
-                                <?php endif; ?>
-
-                                <?php if(\Session::has('status')): ?>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <?php echo e(\Session::get('status')); ?>
-
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                                <?php endif; ?>
-                                <?php if(\Session::has('success')): ?>
-                                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <?php echo e(\Session::get('success')); ?>
-
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                                <?php endif; ?>
-
-                            </div>
-                            <!--end::Toolbar container-->
-                        </div>
-                    <!--end::Toolbar-->
-
-
-                    <div id="kt_app_content" class="app-content  flex-column-fluid " >
-                        <!--begin::Content container-->
-                        <div id="kt_app_content_container" class="app-container ">
-
-                   <!--begin::Toolbar-->
-                        <div class="d-flex flex-wrap flex-stack my-5">
-                            <!--begin::Heading-->
-                            <h2 class="fs-2 fw-semibold my-2">
-                                Student Management
-                                <span class="fs-6 text-gray-400 ms-1">Database</span>
-                            </h2>
-                            <!--end::Heading-->
-
-
-                        </div>
-                    <!--end::Toolbar-->
-
-
-
-        <!--begin::Card-->
-    <div class="card">
-            <!--begin::Card header-->
-            <div class="card-header border-0 pt-6">
-
-                  <!--begin::Card toolbar-->
-                    <div class="card-toolbar">
-                              <!--begin::Toolbar-->
-                                    <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
-                                                <!--begin::Add user-->
-                                                <a href="<?php echo e(route('student.create')); ?>" type="button" class="btn btn-primary">
-                                                    <i class="ki-duotone ki-plus fs-2"></i>     Add New Student
-                                                </a>
-                                                <!--end::Add user-->
-                                    </div>
-
-
-
-
-
-                                    </div>
-                                    <!--end::Card toolbar-->
-                                            <!--begin::Card toolbar-->
-                                            <div class="card-toolbar">
-                                                <!--begin::Search-->
-                                                <div class="d-flex align-items-center position-relative my-1"  data-kt-view-roles-table-toolbar="base">
-                                                    <i class="ki-duotone ki-magnifier fs-1 position-absolute ms-6"><span class="path1"></span><span class="path2"></span></i>                <input type="text" data-kt-roles-table-filter="search" class="form-control form-control-solid w-250px ps-15" placeholder="Search ..." />
-                                                </div>
-                                                <!--end::Search-->
-
-                                                <!--begin::Group actions-->
-                                                <div class="d-flex justify-content-end align-items-center d-none" data-kt-view-roles-table-toolbar="selected">
-                                                    <div class="fw-bold me-5">
-                                                        <span class="me-2" data-kt-view-roles-table-select="selected_count"></span> Selected
-                                                    </div>
-
-                                                    <button type="button" class="btn btn-danger" data-kt-view-roles-table-select="delete_selected">
-                                                        Delete Selected
-                                                    </button>
-                                                </div>
-                                                <!--end::Group actions-->
-                                            </div>
-                                            <!--end::Card toolbar-->
-            </div>
-            <!--end::Card header-->
-
-            <?php if(count($errors) > 0): ?>
-            <div class="row animated fadeInUp">
-                <?php if(count($errors) > 0): ?>
-            <div class="alert alert-warning fade in">
-            <a href="#" class="close" data-dismiss="alert">&times;</a>
-                <strong>Opps!</strong> Something went wrong, please check below errors.<br><br>
-                <ul>
-                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <li><?php echo e($error); ?></li>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </ul>
-            </div>
-            <?php endif; ?>
-            </div>
-            <?php endif; ?>
-            <!--begin::Card body-->
-            <div class="card-body py-4">
-
-             <!--begin::Table-->
-        <table class="table align-middle table-row-dashed fs-6 gy-5 mb-0" id="kt_roles_view_table">
-            <thead>
-                <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                    <th class="w-10px pe-2">
-                        <div class="form-check form-check-sm form-check-custom form-check-solid me-3">
-                            <input class="form-check-input" type="checkbox" data-kt-check="true" data-kt-check-target="#kt_roles_view_table .form-check-input" value="1" />
-                        </div>
-                    </th>
-                    <th class="min-w-125px">SN</th>
-                    <th class="min-w-125px">Admmssion NO</th>
-                    <th class="min-w-125px">Name</th>
-                    <th class="min-w-125px">House</th>
-                    <th class="min-w-125px">Date of Birth</th>
-                    <th class="min-w-125px">Age</th>
-                    <th class="min-w-125px">Gender</th>
-                    
-                    <th class="min-w-125px">Date Updated</th>
-                    <th class="min-w-100px">Actions</th>
-                    <th class="min-w-100px">More</th>
-                </tr>
-            </thead>
-            <tbody class="fw-semibold text-gray-600">
-                <?php
-                 $i = 0
-               ?>
-               <?php $__currentLoopData = $student; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sc): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
-                    <tr>
-                        <td>
-                            <div class="form-check form-check-sm form-check-custom form-check-solid">
-                                <input class="form-check-input" type="checkbox" value="1" />
-                            </div>
-                        </td>
-                        <td>  <input type="hidden" id="tid"  value="<?php echo e($sc->id); ?>" /><?php echo e(++$i); ?></td>
-                        <td ><?php echo e($sc->admissionNo); ?></td>
-                        <td class="d-flex align-items-center">
-                            <!--begin:: Avatar -->
-                                    <div class="symbol symbol-circle symbol-50px overflow-hidden me-3">
-                                        <a href="#">
-                                                        <div class="symbol-label">
-                                        <?php $image = "";?>
-                                        <?php
-                                        if ($sc->picture  == NULL || !isset($sc->picture ) || $sc->picture =="" ){
-                                                $image =  'unnamed.png';
-                                        }else {
-                                            $image =   $sc->picture;
-                                        }
-                                        ?>
-                                                    <img src="<?php echo e(Storage::url('images/studentavatar/'.$image)); ?>" alt="<?php echo e($sc->firstname); ?> <?php echo e($sc->lastname); ?>" class="w-100" />
-                                                </div>
-                                                                    </a>
-                                    </div>
-                                    <!--end::Avatar-->
-                                    <!--begin::User details-->
-                                    <div class="d-flex flex-column">
-                                        <a href="#" class="text-gray-800 text-hover-primary mb-1"><?php echo e($sc->firstname); ?> <?php echo e($sc->lastname); ?></a>
-
-                                    </div>
-                                    <!--begin::User details-->
-                        </td>
-                        <td ><?php echo e($sc->house); ?></td>
-                        <td ><?php echo e($sc->dateofbirth); ?> </td>
-                        <td ><?php echo e($sc->age); ?> </td>
-                        <td ><?php echo e($sc->gender); ?></td>
-                        <td ><?php echo e($sc->updated_at); ?> </td>
-                        <td >
-                            <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                Actions
-                                <i class="ki-duotone ki-down fs-5 ms-1"></i>                    </a>
-                            <!--begin::Menu-->
-                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('student-edit')): ?>
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-5">
-
-                                            <a href="<?php echo e(route('student.edit',$sc->id)); ?>"  class="sel-subjectclass btn btn-light btn-active-primary" >Update Details</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('student-delete')): ?>
-                                    <div class="menu-item px-3" >
-                                        
-                                        <a
-                                        href="javascript:void(0)"
-                                        id="show-user"
-                                        data-kt-roles-table-filter="delete_row"
-                                        data-url="<?php echo e(route('student.deletestudent', ['studentid'=>$sc->id])); ?>"
-                                        class="btn btn-danger btn-sm">Delete</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                    <?php endif; ?>
-
-                                </div>
-                                    <!--end::Menu-->
-                        </td>
-                        <td >
-                            <a href="#" class="btn btn-light btn-active-light-primary btn-flex btn-center btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                More...
-                                <i class="ki-duotone ki-down fs-5 ms-1"></i>                    </a>
-                            <!--begin::Menu-->
-                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('parent-edit')): ?>
-                                        <!--begin::Menu item-->
-                                        <div class="menu-item px-3">
-
-                                            <a href="<?php echo e(route('parent.edit',$sc->id)); ?>"  class="sel-subjectclass btn btn-light btn-active-primary" >Parent Bio Data</a>
-                                        </div>
-                                        <!--end::Menu item-->
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('student_picture-upload')): ?>
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-3">
-
-                                        <a href="<?php echo e(route('studentImageUpload.edit',$sc->id)); ?>"  class="sel-subjectclass btn btn-light btn-active-primary" >Student Picture</a>
-                                    </div>
-                                    <!--end::Menu item-->
-                                <?php endif; ?>
-                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('studenthouse-create')): ?>
-                                <!--begin::Menu item-->
-                                <div class="menu-item px-3">
-
-                                    <a href="<?php echo e(route('studenthouse.edit',$sc->id)); ?>"  class="sel-subjectclass btn btn-light btn-active-primary" >Student House</a>
-                                </div>
-                                <!--end::Menu item-->
-                               <?php endif; ?>
-
-
-                                </div>
-                                    <!--end::Menu-->
-                        </td>
-
-             </tr>
-             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                            </tbody>
-        </table>
-        <!--end::Table-->
-            </div>
-            <!--end::Card body-->
-      </div>
-            <!--end::Card-->
+            <i class="ki-duotone ki-double-left fs-2 rotate-180"><span class="path1"></span><span class="path2"></span></i>        </div>
+        <!--end::Sidebar toggle-->
     </div>
+<!--end::Logo-->
+<!--begin::sidebar menu-->
+<div class="app-sidebar-menu overflow-hidden flex-column-fluid">
+    <!--begin::Menu wrapper-->
+    <div
+        id="kt_app_sidebar_menu_wrapper"
+        class="app-sidebar-wrapper hover-scroll-overlay-y my-5"
 
-            <!--end::Content container-->
+        data-kt-scroll="true"
+        data-kt-scroll-activate="true"
+        data-kt-scroll-height="auto"
+        data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+        data-kt-scroll-wrappers="#kt_app_sidebar_menu"
+        data-kt-scroll-offset="5px"
+        data-kt-scroll-save-state="true"
+    >
+        <!-- begin::Menu-->
+        <div class="menu menu-column menu-rounded menu-sub-indention px-3"
+            id="#kt_app_sidebar_menu"
+            data-kt-menu="true"
+            data-kt-menu-expand="false">
+
+            <!--begin:Menu item-->
+            <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('dashboard')
+                ? ' here show menu-accordion' : ''); ?>" >
+                <!--begin:Menu link-->
+                <span class="menu-link" >
+                    <span  class="menu-icon" >
+                        <i class="ki-duotone ki-element-11 fs-2">
+                            <span class="path1">
+                                </span><span class="path2">
+                                </span><span class="path3">
+                                </span><span class="path4">
+                                </span></i></span>
+                                <span  class="menu-title" >
+                                    Dashboards
+                                </span>
+                                <span  class="menu-arrow" >
+                                    </span></span>
+                                    <!--end:Menu link-->
+                                    <!--begin:Menu sub-->
+                                    <div  class="menu-sub menu-sub-accordion" >
+                                        <!--begin:Menu item-->
+                                        <div  class="menu-item" >
+                                            <!--begin:Menu link-->
+                                            <a class="menu-link"  href="/dashboard" >
+                                                <span  class="menu-bullet" >
+                                                    <span class="bullet bullet-dot">
+                                                        </span>
+                                                    </span>
+                                                    <span  class="menu-title" >
+                                                      Dashboard
+                                                    </span>
+                                            </a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                    </div>
+                                  <!--end:Menu sub-->
+            </div>
+            <!--end:Menu item-->
+
+
+             <!--begin:Menu item-->
+             <div  class="menu-item pt-5" >
+                <!--begin:Menu content-->
+                <div  class="menu-content" >
+                    <span class="menu-heading fw-bold text-uppercase fs-7">
+                        USERS & PRIVILEGES
+                    </span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+               <!--begin:Menu item-->
+               <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('users*') ||
+               request()->is('roles*') ||
+               request()->is('permissions*')
+               ? ' here show menu-accordion' : ''); ?>" >
+                <!--begin:Menu link-->
+                <span class="menu-link" >
+                    <span  class="menu-icon" >
+                        <i class="ki-duotone ki-element-11 fs-2">
+                            <span class="path1">
+                                </span><span class="path2">
+                                </span><span class="path3">
+                                </span><span class="path4">
+                                </span></i></span>
+                                <span  class="menu-title" >
+                                   User Management
+                                </span>
+                                <span  class="menu-arrow" >
+                                    </span></span>
+                                    <!--end:Menu link-->
+                                    <!--begin:Menu sub-->
+                                 <div  class="menu-sub menu-sub-accordion" >
+                                        <!--begin:Menu item-->
+                                        <div  class="menu-item" >
+                                            <!--begin:Menu link-->
+                                            <a class="menu-link  <?php echo e(request()->is('users*')
+                                                ? ' active' : ''); ?>"  href="<?php echo e(route('users.index')); ?>" >
+                                                <span  class="menu-bullet" >
+                                                    <span class="bullet bullet-dot">
+                                                        </span>
+                                                    </span>
+                                                    <span  class="menu-title" >
+                                                        All Users List
+                                                    </span>
+                                            </a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('role-list')): ?>
+
+
+                                        <!--begin:Menu item-->
+                                        <div  class="menu-item" >
+                                            <!--begin:Menu link-->
+                                            <a class="menu-link <?php echo e(request()->is('roles*')
+                                                ? ' active' : ''); ?>"
+                                             href="<?php echo e(route('roles.index')); ?>" >
+                                                <span  class="menu-bullet" >
+                                                    <span class="bullet bullet-dot">
+                                                        </span>
+                                                    </span>
+                                                    <span  class="menu-title" >
+                                                        Roles List
+                                                    </span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                        </div>
+                                            <!--end:Menu item-->
+                                            <?php endif; ?>
+                                            <!--begin:Menu item-->
+                                         <div  class="menu-item" >
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link <?php echo e(request()->is('permissions*')
+                                                    ? ' active' : ''); ?>"
+                                                  href="<?php echo e(route('permissions.index')); ?>" >
+                                                    <span  class="menu-bullet" >
+                                                        <span class="bullet bullet-dot">
+                                                            </span></span>
+                                                            <span  class="menu-title" >
+                                                               Permissions List
+                                                            </span>
+                                                </a>
+                                               <!--end:Menu link-->
+                                        </div>
+                                            <!--end:Menu item-->
+                                </div>
+                                  <!--end:Menu sub-->
+            </div>
+            <!--end:Menu item-->
+
+
+
+
+              <!--begin:Menu item-->
+              <div  class="menu-item pt-5" >
+                <!--begin:Menu content-->
+                <div  class="menu-content" >
+                    <span class="menu-heading fw-bold text-uppercase fs-7">
+                       APPS MANAGEMENT
+                    </span>
+                    </div>
+                    <!--end:Menu content-->
+                </div>
+                <!--end:Menu item-->
+
+               <!--begin:Menu item-->
+               <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('overview*') ||
+                    request()->is('settings*')
+                    ? ' here show menu-accordion' : ''); ?>" >
+                <!--begin:Menu link-->
+                <span class="menu-link" >
+                    <span  class="menu-icon" >
+                        <i class="ki-duotone ki-element-11 fs-2">
+                            <span class="path1">
+                                </span><span class="path2">
+                                </span><span class="path3">
+                                </span><span class="path4">
+                                </span></i></span>
+                                <span  class="menu-title" >
+                                 My Account
+                                </span>
+                                <span  class="menu-arrow" >
+                                    </span></span>
+                                    <!--end:Menu link-->
+                                    <!--begin:Menu sub-->
+                                 <div  class="menu-sub menu-sub-accordion" >
+                                        <!--begin:Menu item-->
+                                        <div  class="menu-item" >
+                                            <!--begin:Menu link-->
+                                            <a class="menu-link  <?php echo e(request()->is('user.overview')
+                                                ? ' active' : ''); ?>"  href="<?php echo e(route('user.overview',Auth::user()->id)); ?>" >
+                                                <span  class="menu-bullet" >
+                                                    <span class="bullet bullet-dot">
+                                                        </span>
+                                                    </span>
+                                                    <span  class="menu-title" >
+                                                      Overview
+                                                    </span>
+                                            </a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                        <!--begin:Menu item-->
+                                        <div  class="menu-item" >
+                                            <!--begin:Menu link-->
+                                            <a class="menu-link <?php echo e(request()->is('settings*')
+                                                ? ' active' : ''); ?>"
+                                             href="<?php echo e(route('user.settings',Auth::user()->id)); ?>" >
+                                                <span  class="menu-bullet" >
+                                                    <span class="bullet bullet-dot">
+                                                        </span>
+                                                    </span>
+                                                    <span  class="menu-title" >
+                                                     Settings
+                                                    </span>
+                                                </a>
+
+
+                                                <a class="menu-link  <?php echo e(request()->is('student*')
+                                                    ? ' active' : ''); ?>"  href="<?php echo e(route('student.index')); ?>" >
+                                                    <span  class="menu-bullet" >
+                                                        <span class="bullet bullet-dot">
+                                                            </span>
+                                                        </span>
+                                                        <span  class="menu-title" >
+                                                            All Students
+                                                        </span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                        </div>
+                                            <!--end:Menu item-->
+
+                                </div>
+                                  <!--end:Menu sub-->
+            </div>
+            <!--end:Menu item-->
+
+
+
+
+
+
+            <!--begin:Menu item-->
+            <div  class="menu-item pt-5" >
+                <!--begin:Menu content-->
+                <div  class="menu-content" >
+                    <span class="menu-heading fw-bold text-uppercase fs-7">
+                        APPS
+                    </span>
+                    </div>
+                    <!--end:Menu content-->
+            </div>
+            <!--end:Menu item-->
+
+
+
+               <!--begin:Menu item-->
+                    <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('student*')
+                        ? ' here show menu-accordion' : ''); ?>" >
+                        <!--begin:Menu link-->
+                        <span class="menu-link" >
+                            <span  class="menu-icon" >
+                                <i class="ki-duotone ki-element-11 fs-2">
+                                    <span class="path1">
+                                        </span><span class="path2">
+                                        </span><span class="path3">
+                                        </span><span class="path4">
+                                        </span></i></span>
+                                        <span  class="menu-title" >
+                                        Students Management
+                                        </span>
+                                        <span  class="menu-arrow" >
+                                            </span></span>
+                                            <!--end:Menu link-->
+                                            <!--begin:Menu sub-->
+                                        <div  class="menu-sub menu-sub-accordion" >
+                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('student-list')): ?>
+                                                <!--begin:Menu item-->
+                                                <div  class="menu-item" >
+                                                    <!--begin:Menu link-->
+                                                    <a class="menu-link  <?php echo e(request()->is('student*')
+                                                        ? ' active' : ''); ?>"  href="<?php echo e(route('student.index')); ?>" >
+                                                        <span  class="menu-bullet" >
+                                                            <span class="bullet bullet-dot">
+                                                                </span>
+                                                            </span>
+                                                            <span  class="menu-title" >
+                                                                All Students
+                                                            </span>
+                                                    </a>
+                                                    <!--end:Menu link-->
+                                                </div>
+                                                <!--end:Menu item-->
+                                                <?php endif; ?>
+                                                
+
+                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('student_bulk-upload')): ?>
+                                                <!--begin:Menu item-->
+                                                <div  class="menu-item" >
+                                                    <!--begin:Menu link-->
+                                                    <a class="menu-link  <?php echo e(request()->is('student.*')
+                                                        ? ' active' : ''); ?>"  href="<?php echo e(route('student.batchindex')); ?>" >
+                                                        <span  class="menu-bullet" >
+                                                            <span class="bullet bullet-dot">
+                                                                </span>
+                                                            </span>
+                                                            <span  class="menu-title" >
+                                                             Batch Student Upload
+                                                            </span>
+                                                    </a>
+                                                    <!--end:Menu link-->
+                                                </div>
+                                                <!--end:Menu item-->
+                                                <?php endif; ?>
+
+
+                                        </div>
+                                        <!--end:Menu sub-->
+                    </div>
+                <!--end:Menu item-->
+
+
+                  <!--begin:Menu item-->
+                  <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('parent*')
+                    ? ' here show menu-accordion' : ''); ?>" >
+                    <!--begin:Menu link-->
+                    <span class="menu-link" >
+                        <span  class="menu-icon" >
+                            <i class="ki-duotone ki-element-11 fs-2">
+                                <span class="path1">
+                                    </span><span class="path2">
+                                    </span><span class="path3">
+                                    </span><span class="path4">
+                                    </span></i></span>
+                                    <span  class="menu-title" >
+                                      Parents
+                                    </span>
+                                    <span  class="menu-arrow" >
+                                        </span></span>
+                                        <!--end:Menu link-->
+                                        <!--begin:Menu sub-->
+                                    <div  class="menu-sub menu-sub-accordion" >
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('parent-list')): ?>
+                                            <!--begin:Menu item-->
+                                            <div  class="menu-item" >
+                                                <!--begin:Menu link-->
+                                                <a class="menu-link  <?php echo e(request()->is('parent*')
+                                                    ? ' active' : ''); ?>"  href="<?php echo e(route('parent.index')); ?>" >
+                                                    <span  class="menu-bullet" >
+                                                        <span class="bullet bullet-dot">
+                                                            </span>
+                                                        </span>
+                                                        <span  class="menu-title" >
+                                                            Parent Management
+                                                        </span>
+                                                </a>
+                                                <!--end:Menu link-->
+                                            </div>
+                                            <!--end:Menu item-->
+                                            <?php endif; ?>
+
+
+                                    </div>
+                                    <!--end:Menu sub-->
+                </div>
+            <!--end:Menu item-->
+
+
+ <!--begin:Menu item-->
+ <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('subjectoperation*')
+    ? ' here show menu-accordion' : ''); ?>" >
+    <!--begin:Menu link-->
+    <span class="menu-link" >
+        <span  class="menu-icon" >
+            <i class="ki-duotone ki-element-11 fs-2">
+                <span class="path1">
+                    </span><span class="path2">
+                    </span><span class="path3">
+                    </span><span class="path4">
+                    </span></i></span>
+                    <span  class="menu-title" >
+                      Subject Registration
+                    </span>
+                    <span  class="menu-arrow" >
+                        </span></span>
+                        <!--end:Menu link-->
+                        <!--begin:Menu sub-->
+                    <div  class="menu-sub menu-sub-accordion" >
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subject_operation-list')): ?>
+                            <!--begin:Menu item-->
+                            <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link  <?php echo e(request()->is('subjectoperation*')
+                                    ? ' active' : ''); ?>"  href="<?php echo e(route('subjectoperation.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span>
+                                        </span>
+                                        <span  class="menu-title" >
+                                         Student Subjects Reg.
+                                        </span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                        <?php endif; ?>
+                            <!--begin:Menu item-->
+                            
+                            <!--end:Menu item-->
+
+
+                    </div>
+                    <!--end:Menu sub-->
+   </div>
+   <!--end:Menu item-->
+
+
+
+
+
+
+ <!--begin:Menu item-->
+ <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('schoolpayment*') ||  request()->is('analysis*')
+    ? ' here show menu-accordion' : ''); ?>" >
+    <!--begin:Menu link-->
+    <span class="menu-link" >
+        <span  class="menu-icon" >
+            <i class="ki-duotone ki-element-11 fs-2">
+                <span class="path1">
+                    </span><span class="path2">
+                    </span><span class="path3">
+                    </span><span class="path4">
+                    </span></i></span>
+                    <span  class="menu-title" >
+                      School Payments
+                    </span>
+                    <span  class="menu-arrow" >
+                        </span></span>
+                        <!--end:Menu link-->
+                        <!--begin:Menu sub-->
+                    <div  class="menu-sub menu-sub-accordion" >
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subject_operation-list')): ?>
+                            <!--begin:Menu item-->
+                            <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link  <?php echo e(request()->is('schoolpayment*')
+                                    ? ' active' : ''); ?>"  href="<?php echo e(route('schoolpayment.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span>
+                                        </span>
+                                        <span  class="menu-title" >
+                                         Student Payment.
+                                        </span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                        <?php endif; ?>
+
+
+                        
+                        <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                            <!--begin:Menu link-->
+                            <a class="menu-link  <?php echo e(request()->is('analysis*')
+                                ? ' active' : ''); ?>"  href="<?php echo e(route('analysis.index')); ?>" >
+                                <span  class="menu-bullet" >
+                                    <span class="bullet bullet-dot">
+                                        </span>
+                                    </span>
+                                    <span  class="menu-title" >
+                                     Analysis Book.
+                                    </span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    
+
+                    </div>
+                    <!--end:Menu sub-->
+
+
+   </div>
+   <!--end:Menu item-->
+
+
+
+
+                        <!--begin:Menu item-->
+   <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('myclass*') ||
+    request()->is('mysubject*')
+    ? ' here show menu-accordion' : ''); ?>" >
+    <!--begin:Menu link-->
+    <span class="menu-link" >
+        <span  class="menu-icon" >
+            <i class="ki-duotone ki-element-11 fs-2">
+                <span class="path1">
+                    </span><span class="path2">
+                    </span><span class="path3">
+                    </span><span class="path4">
+                    </span></i></span>
+                    <span  class="menu-title" >
+                       My Classes & subjects
+                    </span>
+                    <span  class="menu-arrow" >
+                        </span></span>
+                        <!--end:Menu link-->
+                        <!--begin:Menu sub-->
+                    <div  class="menu-sub menu-sub-accordion" >
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('myclass-list')): ?>
+                            <!--begin:Menu item-->
+                            <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link  <?php echo e(request()->is('myclass*') || request()->is('viewstudent*')
+                                    ? ' active' : ''); ?>"  href="<?php echo e(route('myclass.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span>
+                                        </span>
+                                        <span  class="menu-title" >
+                                           My Classes
+                                        </span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                        <?php endif; ?>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('mysubject-list')): ?>
+                            <!--begin:Menu item-->
+                            <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link  <?php echo e(request()->is('mysubject*')
+                                    ? ' active' : ''); ?>"  href="<?php echo e(route('mysubject.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span>
+                                        </span>
+                                        <span  class="menu-title" >
+                                           My Subjects
+                                        </span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                        <?php endif; ?>
+
+
+                    </div>
+                    <!--end:Menu sub-->
+   </div>
+   <!--end:Menu item-->
+
+
+
+<!--begin:Menu item-->
+<div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('myresultroom*') ||
+    request()->is('studentresults*')
+    ? ' here show menu-accordion' : ''); ?>" >
+    <!--begin:Menu link-->
+    <span class="menu-link" >
+        <span  class="menu-icon" >
+            <i class="ki-duotone ki-element-11 fs-2">
+                <span class="path1">
+                    </span><span class="path2">
+                    </span><span class="path3">
+                    </span><span class="path4">
+                    </span></i></span>
+                    <span  class="menu-title" >
+                    Records and Results
+                    </span>
+                    <span  class="menu-arrow" >
+                        </span></span>
+                        <!--end:Menu link-->
+                        <!--begin:Menu sub-->
+                    <div  class="menu-sub menu-sub-accordion" >
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('myresultroom-list')): ?>
+                            <!--begin:Menu item-->
+                            <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link  <?php echo e(request()->is('myresultroom*')
+                                    ? ' active' : ''); ?>"  href="<?php echo e(route('myresultroom.term')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span>
+                                        </span>
+                                        <span  class="menu-title" >
+                                          My Record sheets
+                                        </span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                        <?php endif; ?>
+                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('studentresults-list')): ?>
+                            <!--begin:Menu item-->
+                            <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link  <?php echo e(request()->is('studentresults*')
+                                    ? ' active' : ''); ?>"  href="<?php echo e(route('studentresults.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span>
+                                        </span>
+                                        <span  class="menu-title" >
+                                          Students Results
+                                        </span>
+                                </a>
+                                <!--end:Menu link-->
+                            </div>
+                            <!--end:Menu item-->
+                        <?php endif; ?>
+
+                    </div>
+                    <!--end:Menu sub-->
+   </div>
+   <!--end:Menu item-->
+
+
+
+<!--begin:Menu item-->
+<div  class="menu-item pt-5" >
+    <!--begin:Menu content-->
+    <div  class="menu-content" >
+    <span class="menu-heading fw-bold text-uppercase fs-7">
+        SCHOOL BASIC SETTINGS
+    </span>
+    </div>
+    <!--end:Menu content-->
+    </div>
+    <!--end:Menu item-->
+
+    <!--begin:Menu item-->
+    <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('session*') ||
+    request()->is('term*')  ||
+    request()->is('schoolhouse*')
+    ? ' here show menu-accordion' : ''); ?>" >
+    <!--begin:Menu link-->
+    <span class="menu-link" >
+    <span  class="menu-icon" >
+        <i class="ki-duotone ki-element-11 fs-2">
+            <span class="path1">
+                </span><span class="path2">
+                </span><span class="path3">
+                </span><span class="path4">
+                </span></i></span>
+                <span  class="menu-title" >
+                   School Session & Term & House
+                </span>
+                <span  class="menu-arrow" >
+                    </span></span>
+                    <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                <div  class="menu-sub menu-sub-accordion" >
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('session-list')): ?>
+                        <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                            <!--begin:Menu link-->
+                            <a class="menu-link  <?php echo e(request()->is('session*')
+                                ? ' active' : ''); ?>"  href="<?php echo e(route('session.index')); ?>" >
+                                <span  class="menu-bullet" >
+                                    <span class="bullet bullet-dot">
+                                        </span>
+                                    </span>
+                                    <span  class="menu-title" >
+                                       School Session
+                                    </span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('term-list')): ?>
+                        <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                            <!--begin:Menu link-->
+                            <a class="menu-link  <?php echo e(request()->is('term*')
+                                ? ' active' : ''); ?>"  href="<?php echo e(route('term.index')); ?>" >
+                                <span  class="menu-bullet" >
+                                    <span class="bullet bullet-dot">
+                                        </span>
+                                    </span>
+                                    <span  class="menu-title" >
+                                    School Term
+                                    </span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('schoolhouse-list')): ?>
+                            <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link <?php echo e(request()->is('schoolhouse*')
+                                    ? ' active' : ''); ?>"
+                                href="<?php echo e(route('schoolhouse.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span></span>
+                                            <span  class="menu-title" >
+                                                School House
+                                            </span>
+                                </a>
+                                <!--end:Menu link-->
+                        </div>
+                            <!--end:Menu item-->
+                    <?php endif; ?>
+                </div>
+                <!--end:Menu sub-->
+    </div>
+    <!--end:Menu item-->
+
+    <!--begin:Menu item-->
+    <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('schoolarm*') ||
+    request()->is('schoolclass*')  ||
+    request()->is('classcategories*') ||
+    request()->is('classteacher*')
+    ? ' here show menu-accordion' : ''); ?>" >
+    <!--begin:Menu link-->
+    <span class="menu-link" >
+    <span  class="menu-icon" >
+        <i class="ki-duotone ki-element-11 fs-2">
+            <span class="path1">
+                </span><span class="path2">
+                </span><span class="path3">
+                </span><span class="path4">
+                </span></i></span>
+                <span  class="menu-title" >
+                  Class Settings
+                </span>
+                <span  class="menu-arrow" >
+                    </span></span>
+                    <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                <div  class="menu-sub menu-sub-accordion" >
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('school_arm-list')): ?>
+                        <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                            <!--begin:Menu link-->
+                            <a class="menu-link  <?php echo e(request()->is('schoolarm*')
+                                ? ' active' : ''); ?>"  href="<?php echo e(route('schoolarm.index')); ?>" >
+                                <span  class="menu-bullet" >
+                                    <span class="bullet bullet-dot">
+                                        </span>
+                                    </span>
+                                    <span  class="menu-title" >
+                                      Class Arm
+                                    </span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('classcategory-list')): ?>
+                    <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link <?php echo e(request()->is('classcategory*')
+                                    ? ' active' : ''); ?>"
+                                href="<?php echo e(route('classcategories.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span></span>
+                                            <span  class="menu-title" >
+                                                Class Category
+                                            </span>
+                                </a>
+                                <!--end:Menu link-->
+                        </div>
+                            <!--end:Menu item-->
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('school_class-list')): ?>
+                        <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                            <!--begin:Menu link-->
+                            <a class="menu-link  <?php echo e(request()->is('schoolclass*')
+                                ? ' active' : ''); ?>"  href="<?php echo e(route('schoolclass.index')); ?>" >
+                                <span  class="menu-bullet" >
+                                    <span class="bullet bullet-dot">
+                                        </span>
+                                    </span>
+                                    <span  class="menu-title" >
+                                  Class Name
+                                    </span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    <?php endif; ?>
+
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('class_teacher-list')): ?>
+                            <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link <?php echo e(request()->is('classteacher*')
+                                    ? ' active' : ''); ?>"
+                                href="<?php echo e(route('classteacher.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span></span>
+                                            <span  class="menu-title" >
+                                                Class Teacher
+                                            </span>
+                                </a>
+                                <!--end:Menu link-->
+                        </div>
+                            <!--end:Menu item-->
+                    <?php endif; ?>
+                </div>
+                <!--end:Menu sub-->
+    </div>
+    <!--end:Menu item-->
+
+    <!--begin:Menu item-->
+    <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('subject*') ||
+    request()->is('subjectteacher*')  ||
+    request()->is('subjectclass*')
+    ? ' here show menu-accordion' : ''); ?>" >
+    <!--begin:Menu link-->
+    <span class="menu-link" >
+    <span  class="menu-icon" >
+        <i class="ki-duotone ki-element-11 fs-2">
+            <span class="path1">
+                </span><span class="path2">
+                </span><span class="path3">
+                </span><span class="path4">
+                </span></i></span>
+                <span  class="menu-title" >
+                 Subject Settings
+                </span>
+                <span  class="menu-arrow" >
+                    </span></span>
+                    <!--end:Menu link-->
+                    <!--begin:Menu sub-->
+                <div  class="menu-sub menu-sub-accordion" >
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subject-list')): ?>
+                        <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                            <!--begin:Menu link-->
+                            <a class="menu-link  <?php echo e(request()->is('subject*')
+                                ? ' active' : ''); ?>"  href="<?php echo e(route('subject.index')); ?>" >
+                                <span  class="menu-bullet" >
+                                    <span class="bullet bullet-dot">
+                                        </span>
+                                    </span>
+                                    <span  class="menu-title" >
+                                      School Subject
+                                    </span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subject_teacher-list')): ?>
+                        <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                            <!--begin:Menu link-->
+                            <a class="menu-link  <?php echo e(request()->is('subjectteacher*')
+                                ? ' active' : ''); ?>"  href="<?php echo e(route('subjectteacher.index')); ?>" >
+                                <span  class="menu-bullet" >
+                                    <span class="bullet bullet-dot">
+                                        </span>
+                                    </span>
+                                    <span  class="menu-title" >
+                                  Subject Teacher
+                                    </span>
+                            </a>
+                            <!--end:Menu link-->
+                        </div>
+                        <!--end:Menu item-->
+                    <?php endif; ?>
+                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('subject_class-list')): ?>
+                            <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link <?php echo e(request()->is('subjectclass*')
+                                    ? ' active' : ''); ?>"
+                                href="<?php echo e(route('subjectclass.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span></span>
+                                            <span  class="menu-title" >
+                                               Subjects For Classes
+                                            </span>
+                                </a>
+                                <!--end:Menu link-->
+                        </div>
+                            <!--end:Menu item-->
+                    <?php endif; ?>
+
+
+
+                </div>
+                <!--end:Menu sub-->
+    </div>
+    <!--end:Menu item-->
+
+
+
+
+     <!--begin:Menu item-->
+     <div  data-kt-menu-trigger="click"  class="menu-item <?php echo e(request()->is('schoolbill*')||
+        request()->is('schoolbilltermsession*')
+        ? ' here show menu-accordion' : ''); ?>" >
+        <!--begin:Menu link-->
+        <span class="menu-link" >
+        <span  class="menu-icon" >
+            <i class="ki-duotone ki-element-11 fs-2">
+                <span class="path1">
+                    </span><span class="path2">
+                    </span><span class="path3">
+                    </span><span class="path4">
+                    </span></i></span>
+                    <span  class="menu-title" >
+                     School BIll Settings
+                    </span>
+                    <span  class="menu-arrow" >
+                        </span></span>
+                        <!--end:Menu link-->
+                        <!--begin:Menu sub-->
+                    <div  class="menu-sub menu-sub-accordion" >
+
+
+
+                        
+                        <!--begin:Menu item-->
+                            <div  class="menu-item" >
+                                    <!--begin:Menu link-->
+                                    <a class="menu-link <?php echo e(request()->is('schoolbill*')
+                                        ? ' active' : ''); ?>"
+                                    href="<?php echo e(route('schoolbill.index')); ?>" >
+                                        <span  class="menu-bullet" >
+                                            <span class="bullet bullet-dot">
+                                                </span></span>
+                                                <span  class="menu-title" >
+                                                School BIlls</span>
+                                    </a>
+                                    <!--end:Menu link-->
+                            </div>
+                                <!--end:Menu item-->
+                        
+
+                        
+                            <!--begin:Menu item-->
+                        <div  class="menu-item" >
+                                <!--begin:Menu link-->
+                                <a class="menu-link <?php echo e(request()->is('schoolbill_term_session*')
+                                    ? ' active' : ''); ?>"
+                                href="<?php echo e(route('schoolbilltermsession.index')); ?>" >
+                                    <span  class="menu-bullet" >
+                                        <span class="bullet bullet-dot">
+                                            </span></span>
+                                            <span  class="menu-title" >
+                                               School Bill for Class, Term & Session
+                                            </span>
+                                </a>
+                                <!--end:Menu link-->
+                        </div>
+                            <!--end:Menu item-->
+                    
+
+
+
+                    </div>
+                    <!--end:Menu sub-->
+        </div>
+        <!--end:Menu item-->
+
+
+
+
+                </div>
+                <!--end::Menu -->
+            </div>
+    <!--end::Menu wrapper-->
 </div>
-        <!--end::Content-->
+<!--end::sidebar menu-->
 
-
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\viteschool\resources\views/student/index.blade.php ENDPATH**/ ?>
+</div>
+<!--end::Sidebar-->
+<?php /**PATH C:\xampp\htdocs\viteschool\resources\views/student/index.blade.php ENDPATH**/ ?>
