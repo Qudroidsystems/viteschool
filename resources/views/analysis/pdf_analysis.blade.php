@@ -65,6 +65,11 @@
 </head>
 <body>
     <div class="header">
+          <!--begin::Heading-->
+          <h1 class="fs-2 fw-semibold my-2" style="color: rgb(29, 37, 195)">
+                             TRINITY COMPREHENSIVE INTERNATIONAL SCHOOL ONDO
+                            </h1>
+                            <!--end::Heading-->
         <h2>STUDENT PAYMENT ANALYSIS REPORT</h2>
         <h3>
             Class: {{ $schoolclass->first()->schoolclass ?? '' }} {{ $schoolclass->first()->schoolarm ?? '' }} | 

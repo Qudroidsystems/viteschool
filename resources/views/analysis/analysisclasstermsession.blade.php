@@ -80,11 +80,7 @@
 
                    <!--begin::Toolbar-->
                         <div class="d-flex flex-wrap flex-stack my-5">
-                             <!--begin::Heading-->
-                             <h1 class="fs-2 fw-semibold my-2" style="color: rgb(29, 37, 195)">
-                             TRINITY COMPREHENSIVE INTERNATIONAL SCHOOL ONDO
-                            </h1>
-                            <!--end::Heading-->
+                           
                             <!--begin::Heading-->
                             <h2 class="fs-2 fw-semibold my-2" style="color: rgb(29, 37, 195)">
                               ANALYSIS BOOK FOR CLASS {{ $schoolclass[0]->schoolclass }} {{ $schoolclass[0]->schoolarm }}, {{ $schoolterm[0]->schoolterm }} {{ $schoolsession[0]->schoolsession }} ACADEMIC SESSION
