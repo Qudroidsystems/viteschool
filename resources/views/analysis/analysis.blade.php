@@ -112,7 +112,7 @@
                                     <div class="d-flex justify-content-end" data-kt-user-table-toolbar="base">
                                                 <!--begin::Add user-->
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_add_user">
-                                                    <i class="ki-duotone ki-plus fs-2"></i>     Select Class, Term and Session
+                                                    <i class="ki-duotone ki-plus fs-2"></i>     Select Class, Term and Session to View a Specific Class
                                                 </button>
                                                 <!--end::Add user-->
                                     </div>
