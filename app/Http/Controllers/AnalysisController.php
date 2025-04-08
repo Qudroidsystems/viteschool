@@ -456,7 +456,7 @@ class AnalysisController extends Controller
             $schoolTotals['totalBilled'] += $totalClassBilled;
             
             // Get payment records for this class
-            $classPayments = StudentBillPayment::where('class_id', $class->class_id)
+            $classPayments = StudentBillPayment::where('student_bill_payment.class_id', $class->class_id)
                 ->where('termid_id', $termid_id)
                 ->where('session_id', $session_id)
                 ->leftJoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
