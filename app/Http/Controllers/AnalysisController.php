@@ -534,7 +534,9 @@ class AnalysisController extends Controller
             'schoolTotals' => $schoolTotals,
             'overallPercentage' => $overallPercentage,
             'schoolterm' => $schoolterm,
-            'schoolsession' => $schoolsession
+            'schoolsession' => $schoolsession,
+            'termid_id'=> $termid_id,
+            'session_id'=> $session_id,
         ]);
         
         // Set to A3 landscape for more space
