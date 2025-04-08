@@ -90,6 +90,16 @@
                     <!--end::Toolbar-->
 
 
+                    <div class="btn-group">
+    <a href="{{ route('school.wide.payment.analysis', ['termid_id' => 2, 'session_id' => 1, 'action' => 'view']) }}" 
+       class="btn btn-primary" target="_blank">
+        <i class="fas fa-eye"></i> View School-Wide Analysis
+    </a>
+    <a href="{{ route('school.wide.payment.analysis', ['termid_id' => 2, 'session_id' => 1, 'action' => 'download']) }}" 
+       class="btn btn-success">
+        <i class="fas fa-download"></i> Download School-Wide Analysis
+    </a>
+</div>
 
         <!--begin::Card-->
     <div class="card">

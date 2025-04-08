@@ -93,16 +93,16 @@
 
 
 
-        <<div class="btn-group">
-    <a href="{{ route('school.wide.payment.analysis', ['termid_id' => $termid_id, 'session_id' => $session_id, 'action' => 'view']) }}" 
-       class="btn btn-primary" target="_blank">
-        <i class="fas fa-eye"></i> View School-Wide Analysis
-    </a>
-    <a href="{{ route('school.wide.payment.analysis', ['termid_id' => $termid_id, 'session_id' => $session_id, 'action' => 'download']) }}" 
-       class="btn btn-success">
-        <i class="fas fa-download"></i> Download School-Wide Analysis
-    </a>
-</div>
+        <div class="d-flex justify-content-end mb-5">
+            <a href="{{ route('analysis.exportPDF', ['class_id' => request()->class_id, 'termid_id' => request()->termid_id, 'session_id' => request()->session_id, 'action' => 'view']) }}" 
+            class="btn btn-info me-2" target="_blank">
+                <i class="ki-duotone ki-file-search fs-2"></i> View PDF
+            </a>
+            <a href="{{ route('analysis.viewPDF', ['class_id' => request()->class_id, 'termid_id' => request()->termid_id, 'session_id' => request()->session_id, 'action' => 'download']) }}" 
+            class="btn btn-primary">
+                <i class="ki-duotone ki-file-down fs-2"></i> Download PDF
+            </a>
+        </div>
         <!--begin::Card-->
     <div class="card">
 

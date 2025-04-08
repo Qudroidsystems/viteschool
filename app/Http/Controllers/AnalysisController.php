@@ -393,7 +393,7 @@ class AnalysisController extends Controller
     }
 
 
-    public function schoolWidePaymentAnalysis($termid_id, $session_id, $action = 'view')
+    public function schoolWidePaymentAnalysis($termid_id = 2, $session_id = 1, $action = 'view')
     {
         // Get all classes in the school
         $schoolClasses = Schoolclass::leftJoin('schoolarm', 'schoolarm.id', '=', 'schoolclass.arm')
