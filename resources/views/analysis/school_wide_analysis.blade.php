@@ -150,7 +150,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>Class</th>
+                    <th>
+                         <a href="{{ route('analysis.exportPDF', ['class_id' => $classData['class_id'], 'termid_id' => $termid_id, 'session_id' => $session_id, 'action' => 'view']) }}" 
+                            class="btn btn-info me-2" target="_blank">
+                                <i class="ki-duotone ki-file-search fs-2"></i>  {{ $classData['className'] }}
+                        </a>
+                    </th>
                     <th>Students</th>
                     <th>Total Expected</th>
                     <th>Total Collected</th>
