@@ -181,6 +181,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('analysis', AnalysisController::class);
     Route::post('analysisClassTermSession', [AnalysisController::class, 'analysisClassTermSession'])->name('analysis.analysisClassTermSession');
     Route::get('analysis/export-pdf/{class_id}/{termid_id}/{session_id}', 'App\Http\Controllers\AnalysisController@exportPDF')->name('analysis.exportPDF');
+    Route::get('/analysis/pdf/{class_id}/{termid_id}/{session_id}/{action?}', [AnalysisController::class, 'exportPDF'])
+    ->name('analysis.viewPDF')
+    ->where('action', 'view|download');
    
     //house routes
     Route::post('houseid', [SchoolHouseController::class, 'updatehouse'])->name('schoolhouse.updatehouse');

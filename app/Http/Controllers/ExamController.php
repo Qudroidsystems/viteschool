@@ -7,7 +7,7 @@ use App\Models\Exam;
 
 use App\Models\Schoolterm;
 use App\Models\Schoolsession;
-use App\Models\Subjectteacher;
+use App\Models\SubjectTeacher;
 use App\Models\ClassTeacher;
 use App\Models\Staffclasssetting;
 use Illuminate\Support\Facades\Auth;
@@ -28,7 +28,7 @@ class ExamController extends Controller
             $exams = Exam::all();
       
     
-            $mysubjects = Subjectteacher::where('staffid',$user->id)
+            $mysubjects = SubjectTeacher::where('staffid',$user->id)
             ->leftJoin('users', 'users.id','=','subjectteacher.staffid')
             ->leftJoin('subjectclass', 'subjectclass.subjectteacherid','=','subjectteacher.id')
             ->leftJoin('schoolclass', 'schoolclass.id','=','subjectclass.schoolclassid')

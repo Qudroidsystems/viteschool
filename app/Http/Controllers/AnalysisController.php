@@ -381,8 +381,15 @@ class AnalysisController extends Controller
         // Generate filename
         $filename = "Payment_Analysis_" . str_replace(' ', '_', $className) . "_" . $termName . "_" . $sessionName . ".pdf";
         
-        // Download the PDF
-        return $pdf->download($filename);
+        // // Download the PDF
+        // return $pdf->download($filename);
+
+         // Determine action - view in browser or download
+        if ($action === 'download') {
+            return $pdf->download($filename);
+        } else {
+            return $pdf->stream($filename);
+        }
     }
 
     
