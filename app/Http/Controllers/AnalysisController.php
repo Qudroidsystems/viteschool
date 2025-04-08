@@ -392,7 +392,180 @@ class AnalysisController extends Controller
         }
     }
 
-    
+
+    public function schoolWidePaymentAnalysis($termid_id, $session_id, $action = 'view')
+    {
+        // Get all classes in the school
+        $schoolClasses = Schoolclass::leftJoin('schoolarm', 'schoolarm.id', '=', 'schoolclass.arm')
+            ->get(['schoolclass.id as class_id', 'schoolclass.schoolclass as schoolclass', 'schoolarm.arm as schoolarm']);
+        
+        // Get term and session information
+        $schoolterm = Schoolterm::where('id', $termid_id)->first(['schoolterm.term as schoolterm']);
+        $schoolsession = Schoolsession::where('id', $session_id)->first(['schoolsession.session as schoolsession']);
+        
+        // Initialize arrays to store school-wide data
+        $allClassesData = [];
+        $schoolTotals = [
+            'totalStudents' => 0,
+            'totalBilled' => 0,
+            'totalPaid' => 0,
+            'totalBalance' => 0,
+            'paidCount' => 0,
+            'partialCount' => 0,
+            'unpaidCount' => 0
+        ];
+        
+        // Get all bills for this term and session
+        $allBills = SchoolBillTermSession::where('termid_id', $termid_id)
+            ->where('session_id', $session_id)
+            ->leftJoin('school_bill', 'school_bill.id', '=', 'school_bill_class_term_session.bill_id')
+            ->get(['school_bill.id as schoolbillid', 'school_bill.title as title', 
+                'school_bill.bill_amount as amount', 'school_bill_class_term_session.class_id as class_id']);
+        
+        // Group bills by ID for summary purposes
+        $billSummary = [];
+        foreach ($allBills as $bill) {
+            if (!isset($billSummary[$bill->schoolbillid])) {
+                $billSummary[$bill->schoolbillid] = [
+                    'id' => $bill->schoolbillid,
+                    'title' => $bill->title,
+                    'totalExpected' => 0,
+                    'totalCollected' => 0,
+                    'totalOutstanding' => 0,
+                    'percentage' => 0
+                ];
+            }
+        }
+
+        // Process each class
+        foreach ($schoolClasses as $class) {
+            // Fetch students for this class
+            $students = Studentclass::where('schoolclassid', $class->class_id)
+                ->where('termid', $termid_id)
+                ->where('sessionid', $session_id)
+                ->leftJoin('studentRegistration', 'studentRegistration.id', '=', 'studentclass.studentId')
+                ->get(['studentRegistration.id as stid', 'studentRegistration.admissionNo as admissionno',
+                    'studentRegistration.firstname as firstname', 'studentRegistration.lastname as lastname']);
+            
+            $studentCount = $students->count();
+            $schoolTotals['totalStudents'] += $studentCount;
+            
+            // Get bills for this class
+            $classBills = $allBills->where('class_id', $class->class_id);
+            $totalClassBilled = $classBills->sum('amount') * $studentCount;
+            $schoolTotals['totalBilled'] += $totalClassBilled;
+            
+            // Get payment records for this class
+            $classPayments = StudentBillPayment::where('class_id', $class->class_id)
+                ->where('termid_id', $termid_id)
+                ->where('session_id', $session_id)
+                ->leftJoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
+                ->get(['student_bill_payment.school_bill_id as schoolbillid', 
+                    'student_bill_payment_record.amount_paid as totalAmountPaid',
+                    'student_bill_payment.student_id as stid']);
+            
+            $totalClassPaid = $classPayments->sum('totalAmountPaid') ?? 0;
+            $totalClassBalance = $totalClassBilled - $totalClassPaid;
+            $schoolTotals['totalPaid'] += $totalClassPaid;
+            $schoolTotals['totalBalance'] += $totalClassBalance;
+            
+            // Update bill summary
+            foreach ($classBills as $bill) {
+                $billStudentCount = $studentCount;
+                $billExpected = $bill->amount * $billStudentCount;
+                $billPaid = $classPayments->where('schoolbillid', $bill->schoolbillid)->sum('totalAmountPaid') ?? 0;
+                
+                $billSummary[$bill->schoolbillid]['totalExpected'] += $billExpected;
+                $billSummary[$bill->schoolbillid]['totalCollected'] += $billPaid;
+                $billSummary[$bill->schoolbillid]['totalOutstanding'] += ($billExpected - $billPaid);
+            }
+            
+            // Calculate payment status for each student
+            $paidCount = 0;
+            $partialCount = 0;
+            $unpaidCount = 0;
+            
+            foreach ($students as $student) {
+                $studentBilled = $classBills->sum('amount');
+                $studentPaid = $classPayments->where('stid', $student->stid)->sum('totalAmountPaid') ?? 0;
+                
+                if ($studentPaid >= $studentBilled) {
+                    $paidCount++;
+                } elseif ($studentPaid > 0) {
+                    $partialCount++;
+                } else {
+                    $unpaidCount++;
+                }
+            }
+            
+            $schoolTotals['paidCount'] += $paidCount;
+            $schoolTotals['partialCount'] += $partialCount;
+            $schoolTotals['unpaidCount'] += $unpaidCount;
+            
+            // Store class data
+            $allClassesData[] = [
+                'class_id' => $class->class_id,
+                'className' => $class->schoolclass . ' ' . $class->schoolarm,
+                'studentCount' => $studentCount,
+                'totalBilled' => $totalClassBilled,
+                'totalPaid' => $totalClassPaid,
+                'totalBalance' => $totalClassBalance,
+                'collectionPercentage' => $totalClassBilled > 0 ? ($totalClassPaid / $totalClassBilled) * 100 : 0,
+                'paidCount' => $paidCount,
+                'partialCount' => $partialCount,
+                'unpaidCount' => $unpaidCount
+            ];
+        }
+        
+        // Calculate percentages for bill summary
+        foreach ($billSummary as $billId => $bill) {
+            $billSummary[$billId]['percentage'] = $bill['totalExpected'] > 0 ? 
+                ($bill['totalCollected'] / $bill['totalExpected']) * 100 : 0;
+        }
+        
+        // Overall payment percentage
+        $overallPercentage = $schoolTotals['totalBilled'] > 0 ? 
+            ($schoolTotals['totalPaid'] / $schoolTotals['totalBilled']) * 100 : 0;
+        
+        // Generate PDF
+        $pdf = Pdf::loadView('analysis.school_wide_analysis', [
+            'allClassesData' => $allClassesData,
+            'billSummary' => $billSummary,
+            'schoolTotals' => $schoolTotals,
+            'overallPercentage' => $overallPercentage,
+            'schoolterm' => $schoolterm,
+            'schoolsession' => $schoolsession
+        ]);
+        
+        // Set to A3 landscape for more space
+        $pdf->setPaper('a3', 'landscape');
+        
+        // Set small margins and font options
+        $pdf->setOptions([
+            'defaultFont' => 'DejaVuSans', // Set DejaVuSans to support Naira symbol
+            'margin-top' => 5,
+            'margin-right' => 5,
+            'margin-bottom' => 5,
+            'margin-left' => 5,
+            'encoding' => 'UTF-8', // Ensure UTF-8 encoding
+            'isPhpEnabled' => true, // Enable PHP evaluation in Blade
+        ]);
+        
+        // Generate filename - replace any invalid characters
+        $termName = str_replace(['/', '\\'], '_', $schoolterm->schoolterm);
+        $sessionName = str_replace(['/', '\\'], '_', $schoolsession->schoolsession);
+        
+        // Generate filename
+        $filename = "School_Wide_Payment_Analysis_" . $termName . "_" . $sessionName . ".pdf";
+        
+        // Determine action - view in browser or download
+        if ($action === 'download') {
+            return $pdf->download($filename);
+        } else {
+            return $pdf->stream($filename);
+        }
+    }
+        
     /**
      * Store a newly created resource in storage.
      */
