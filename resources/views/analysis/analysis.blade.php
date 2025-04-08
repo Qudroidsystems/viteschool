@@ -99,20 +99,16 @@
        class="btn btn-success">
         <i class="fas fa-download"></i> Download School-Wide Analysis
     </a>
-    <!-- Or dropdown -->
-<div class="btn-group">
-    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown">
-        <i class="fas fa-download"></i> Download Analysis
-    </button>
-    <div class="dropdown-menu">
-        <a class="dropdown-item" href="{{ route('school.wide.payment.analysis', ['termid_id' => 2, 'session_id' => 1, 'action' => 'download', 'format' => 'pdf']) }}">
-            Download as PDF
-        </a>
-        <a class="dropdown-item" href="{{ route('school.wide.payment.analysis', ['termid_id' => 2, 'session_id' => 1, 'action' => 'download', 'format' => 'word']) }}">
-            Download as Word
-        </a>
-    </div>
-</div>
+    <!-- Single buttons -->
+<a href="{{ route('school.wide.payment.analysis', ['termid_id' => 2, 'session_id' => 1, 'action' => 'download', 'format' => 'pdf']) }}" 
+   class="btn btn-success">
+    <i class="fas fa-download"></i> Download PDF
+</a>
+
+<a href="{{ route('school.wide.payment.analysis', ['termid_id' => 2, 'session_id' => 1, 'action' => 'download', 'format' => 'word']) }}" 
+   class="btn btn-success">
+    <i class="fas fa-download"></i> Download Word
+</a>
 </div>
 
         <!--begin::Card-->
