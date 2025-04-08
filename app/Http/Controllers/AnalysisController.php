@@ -243,7 +243,7 @@ class AnalysisController extends Controller
     // }
 
 
-    public function exportPDF($class_id, $termid_id, $session_id)
+    public function exportPDF($class_id, $termid_id, $session_id,$action = 'view')
     {
         // Fetch students with their basic information
         $students = Studentclass::where('schoolclassid', $class_id)
