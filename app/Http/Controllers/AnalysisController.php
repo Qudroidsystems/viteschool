@@ -457,8 +457,8 @@ class AnalysisController extends Controller
             
             // Get payment records for this class
             $classPayments = StudentBillPayment::where('student_bill_payment.class_id', $class->class_id)
-                ->where('termid_id', $termid_id)
-                ->where('session_id', $session_id)
+                ->where('student_bill_payment.termid_id', $termid_id)
+                ->where('student_bill_payment.session_id', $session_id)
                 ->leftJoin('student_bill_payment_record', 'student_bill_payment_record.student_bill_payment_id', '=', 'student_bill_payment.id')
                 ->get(['student_bill_payment.school_bill_id as schoolbillid', 
                     'student_bill_payment_record.amount_paid as totalAmountPaid',
