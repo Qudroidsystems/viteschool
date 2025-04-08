@@ -50,7 +50,7 @@
             bottom: 0;
             width: 100%;
             text-align: center;
-            font-size: 7px;
+            font-size: 15px;
         }
         .summary-section {
             margin-top: 15px;
