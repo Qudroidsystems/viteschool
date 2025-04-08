@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Barryvdh\DomPDF\Facade as PDF;
+//use Barryvdh\DomPDF\Facade as PDF;
+use PDF; // Add at the top with other use statements
+use Illuminate\Support\Facades\View;
 use App\Models\SchoolBillTermSession;
 use App\Models\Schoolclass;
 use App\Models\Schoolsession;
