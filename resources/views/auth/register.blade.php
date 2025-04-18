@@ -6,7 +6,7 @@
 <!-- Mirrored from preview.keenthemes.com/metronic8/demo1/authentication/layouts/creative/sign-in.html')}} by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 12 Jun 2023 04:07:02 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
-      <title>Login | Adrahstudios</title>
+      <title>Register | Vite-eSchool</title>
         <meta charset="utf-8"/>
 
         <meta name="viewport" content="width=device-width, initial-scale=1"/>

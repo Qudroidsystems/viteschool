@@ -2,7 +2,7 @@
 <html lang="en" >
   <!--begin::Head-->
   <head>
-    <title>Scroll | Dashboard</title>
+    <title>ViteeSchool</title>
     <meta charset="utf-8"/>
     <meta name="description" content=" "/>
     <meta name="keywords" content=""/>
